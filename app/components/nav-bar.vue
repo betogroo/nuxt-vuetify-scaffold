@@ -7,14 +7,14 @@
     {
       label: 'Settings',
       icon: iconOutline.settings,
-      click: () => {
+      action: () => {
         return navigateTo('/settings')
       },
     },
     {
       label: 'Sign out',
       icon: iconOutline.signOut,
-      click: async () => {
+      action: async () => {
         await handleLogout()
         return navigateTo('/login')
       },
@@ -46,57 +46,10 @@
 
         <div class="mx-1">|</div>
       </template>
-      <v-menu>
-        <template #activator="{ props }">
-          <v-btn
-            flat
-            :ripple="false"
-            size="small"
-            slim
-            variant="plain"
-            v-bind="props"
-          >
-            <v-avatar
-              class="pa-0"
-              :ripple="false"
-              size="x-small"
-            >
-              <v-img src="https://avatars.githubusercontent.com/u/739984?v=4" />
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-list
-          density="compact"
-          :lines="false"
-          nav
-          ><v-list-item
-            density="compact"
-            prepend-avatar="https://avatars.githubusercontent.com/u/739984?v=4"
-            @click="
-              () => {
-                console.log('Vai para o profile')
-              }
-            "
-          >
-            {{ user?.email }}</v-list-item
-          >
-          <v-divider class="mb-2" />
-          <v-list-item
-            v-for="(item, i) in items"
-            :key="i"
-            color="primary"
-            nav
-            :value="item"
-            @click="item.click"
-          >
-            <template #prepend>
-              <v-icon :icon="item.icon" />
-            </template>
-
-            <v-list-item-title>{{ item.label }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <AppDropdown
+        :email="user?.email"
+        :items="items"
+      />
     </template>
   </v-app-bar>
 </template>
