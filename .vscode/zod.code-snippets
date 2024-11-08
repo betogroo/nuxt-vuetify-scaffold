@@ -1,0 +1,13 @@
+{
+  "Zod Object Schema": {
+    "scope": "javascript,typescript",
+    "prefix": "zod-object",
+    "body": [
+      "export const $1Schema = z.object({",
+      "\t\t$2",
+      "})"
+    ],
+    "description": "Bootstrap the code needed for a Vue.js Pinia Options Store file",
+  },
+ 
+}

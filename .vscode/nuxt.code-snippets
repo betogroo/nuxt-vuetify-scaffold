@@ -1,0 +1,13 @@
+ //NUXT
+ {"Define Page Meta": {
+    "scope": "javascript, typescript",
+    "prefix": "n3-define-page-meta",
+    "body": [
+      "definePageMeta({",
+       "\tshowInNavBar: $2,",
+       "\trequiresAuth: true,",
+       "\ttitle: '$1',",
+      "})"
+    ]
+  }
+}
