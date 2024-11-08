@@ -1,77 +1,102 @@
 <script setup lang="ts">
-  import type { DropdownItem } from '#ui/types'
-
   const { user } = useUserStatus()
   const { handleLogout } = useAuth()
   const { navBarItems } = useNavigation()
 
-  const items: DropdownItem[][] = [
-    [
-      {
-        label: user.value?.email || '',
-        avatar: {
-          src: 'https://avatars.githubusercontent.com/u/739984?v=4',
-        },
-        slot: 'account',
-        click: () => console.log('Link to profile in the future'),
+  const items = [
+    {
+      label: 'Settings',
+      icon: iconOutline.settings,
+      click: () => {
+        return navigateTo('/settings')
       },
-    ],
-    [
-      {
-        label: 'Settings',
-        icon: iconOutline.settings,
-        click: () => {
-          return navigateTo('/settings')
-        },
+    },
+    {
+      label: 'Sign out',
+      icon: iconOutline.signOut,
+      click: async () => {
+        await handleLogout()
+        return navigateTo('/login')
       },
-      {
-        label: 'Sign out',
-        icon: iconOutline.signOut,
-        click: async () => {
-          await handleLogout()
-          return navigateTo('/login')
-        },
-      },
-    ],
+    },
   ]
 </script>
 
 <template>
-  <nav
-    class="fixed w-full flex flex-col justify-center bg-cyan-600 shadow-md z-50 h-8"
+  <v-app-bar
+    color="primary"
+    density="compact"
   >
-    <div class="flex justify-end items-center space-x-2 px-3">
+    <template #append>
       <template
         v-for="item in navBarItems"
         :key="item.path"
       >
-        <ULink
-          active-class="font-semibold"
-          class="hover:underline"
+        <v-btn
+          class="pa-0 text-none"
+          flat
+          :ripple="false"
+          selected-class="font-weight-bold"
+          size="small"
+          slim
+          :text="item.meta.title || 'Sem Título'"
           :to="item.path"
-          >{{ item.meta.title || 'Sem Título' }}</ULink
-        >
-
-        <div>|</div>
-      </template>
-
-      <ULink
-        v-if="!user"
-        class="hover:underline"
-        to="/login"
-        >Login</ULink
-      >
-      <UDropdown
-        v-else
-        :items="items"
-        :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
-      >
-        <UAvatar
-          alt="Avatar"
-          size="xs"
-          src="https://avatars.githubusercontent.com/u/739984?v=4"
+          variant="plain"
         />
-      </UDropdown>
-    </div>
-  </nav>
+
+        <div class="mx-1">|</div>
+      </template>
+      <v-menu>
+        <template #activator="{ props }">
+          <v-btn
+            flat
+            :ripple="false"
+            size="small"
+            slim
+            variant="plain"
+            v-bind="props"
+          >
+            <v-avatar
+              class="pa-0"
+              :ripple="false"
+              size="x-small"
+            >
+              <v-img src="https://avatars.githubusercontent.com/u/739984?v=4" />
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-list
+          density="compact"
+          :lines="false"
+          nav
+          ><v-list-item
+            density="compact"
+            prepend-avatar="https://avatars.githubusercontent.com/u/739984?v=4"
+            @click="
+              () => {
+                console.log('Vai para o profile')
+              }
+            "
+          >
+            {{ user?.email }}</v-list-item
+          >
+          <v-divider class="mb-2" />
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            color="primary"
+            nav
+            :value="item"
+            @click="item.click"
+          >
+            <template #prepend>
+              <v-icon :icon="item.icon" />
+            </template>
+
+            <v-list-item-title>{{ item.label }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </template>
+  </v-app-bar>
 </template>

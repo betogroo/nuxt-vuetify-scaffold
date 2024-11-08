@@ -22,6 +22,10 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
   "cSpell.language": "en,pt,pt_BR",
   "cSpell.words": ["composables", "heroicons", "pinia", "supabase", "Supabase"]
 }

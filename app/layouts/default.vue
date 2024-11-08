@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <header>
+  <v-app>
     <NavBar />
-  </header>
-  <main class="pt-8">
-    <slot />
-  </main>
+    <v-main>
+      <slot />
+    </v-main>
+  </v-app>
 </template>
