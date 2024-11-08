@@ -4,21 +4,32 @@
   const { navBarItems } = useNavigation()
 
   const items = [
-    {
-      label: 'Settings',
-      icon: iconOutline.settings,
-      action: () => {
-        return navigateTo('/settings')
+    [
+      {
+        label: user.value?.email,
+        avatar: 'https://avatars.githubusercontent.com/u/739984?v=4',
+        action: () => {
+          console.log('Vai para Profile')
+        },
       },
-    },
-    {
-      label: 'Sign out',
-      icon: iconOutline.signOut,
-      action: async () => {
-        await handleLogout()
-        return navigateTo('/login')
+    ],
+    [
+      {
+        label: 'Settings',
+        icon: iconOutline.settings,
+        action: () => {
+          return navigateTo('/settings')
+        },
       },
-    },
+      {
+        label: 'Sign out',
+        icon: iconOutline.signOut,
+        action: async () => {
+          await handleLogout()
+          return navigateTo('/login')
+        },
+      },
+    ],
   ]
 </script>
 

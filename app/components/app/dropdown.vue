@@ -4,7 +4,7 @@
 
   interface Props {
     email?: string
-    items: DropdownItem[]
+    items: DropdownItem[][]
   }
 </script>
 
@@ -32,32 +32,32 @@
       density="compact"
       :lines="false"
       nav
-      ><v-list-item
-        density="compact"
-        prepend-avatar="https://avatars.githubusercontent.com/u/739984?v=4"
-        @click="
-          () => {
-            console.log('Vai para o profile')
-          }
-        "
-      >
-        {{ email }}</v-list-item
-      >
-      <v-divider class="mb-2" />
-      <v-list-item
-        v-for="(item, i) in items"
+    >
+      <div
+        v-for="(subItems, i) in items"
         :key="i"
-        color="primary"
-        nav
-        :value="item"
-        @click="item.action"
       >
-        <template #prepend>
-          <v-icon :icon="item.icon" />
-        </template>
-
-        <v-list-item-title>{{ item.label }}</v-list-item-title>
-      </v-list-item>
+        <div
+          v-for="item in subItems"
+          :key="item.label"
+        >
+          <v-list-item
+            :key="i"
+            color="primary"
+            nav
+            :prepend-avatar="item.avatar ? item.avatar : ''"
+            :prepend-icon="item.icon ? item.icon : ''"
+            :value="item"
+            @click="item.action"
+          >
+            <v-list-item-title>{{ item.label }}</v-list-item-title>
+          </v-list-item>
+        </div>
+        <v-divider
+          v-if="i === 0"
+          class="mb-2"
+        />
+      </div>
     </v-list>
   </v-menu>
 </template>
