@@ -25,7 +25,6 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.1",
     "@nuxt/eslint": "^0.5.0",
-    "@nuxt/ui": "^2.18.4",
     "@pinia/nuxt": "^0.5.3",
     "@types/uuid": "^10.0.0",
     "supabase-to-zod": "^1.0.7",

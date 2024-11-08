@@ -4,7 +4,7 @@ import { fakerPT_BR as faker } from '@faker-js/faker'
 import type { ViewUser, PendingState, SelectOption } from '~/types'
 
 const useHelpers = () => {
-  const toast = useToast()
+  //const toast = useToast()
   type CustomError = {
     type: 'validation' | 'database' | 'unknown'
     message: string
@@ -82,12 +82,13 @@ const useHelpers = () => {
     const color = type === 'success' ? 'green' : 'red'
     const icon =
       type === 'success' ? iconOutline.checkCircle : iconOutline.exclamation
-    toast.add({
+    /* toast.add({
       color,
       title,
       icon,
       timeout,
-    })
+    }) */
+    console.log(timeout, icon, color)
   }
 
   const isPending = ref<PendingState>({

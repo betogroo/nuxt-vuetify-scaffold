@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { AddUser } from '~/types'
-  const { handleError, genFakeUsers, showToast } = useHelpers()
+  const { handleError, genFakeUsers } = useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -24,31 +24,31 @@
     await testProfile()
   })
 
-  const toast = useToast()
+  //const toast = useToast()
 
   const addData = async (user: AddUser) => {
     try {
       await addUser(user)
-      showToast('success', 'Cadastrado com sucesso')
+      //showToast('success', 'Cadastrado com sucesso')
       console.log('Usuário Cadastrado - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
-      showToast('error', error.message)
+      //showToast('error', error.message)
       console.error(error)
     }
   }
   const deleteData = async (id: string) => {
     try {
       await deleteUser(id)
-      showToast('success', 'Excluído com sucesso')
+      //showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
-      showToast('error', error.message)
+      //showToast('error', error.message)
       console.error(error)
     }
   }

@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     redirect: true,
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@nuxtjs/supabase'],
+  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxtjs/supabase'],
 
   css: ['~/assets/css/main.css'],
   app: {
