@@ -17,7 +17,12 @@ export default defineNuxtConfig({
     redirect: true,
   },
 
-  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxtjs/supabase'],
+  modules: [
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    '@nuxtjs/supabase',
+    'vuetify-nuxt-module',
+  ],
 
   css: ['~/assets/css/main.css'],
   app: {
