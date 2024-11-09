@@ -13,7 +13,10 @@
 </script>
 
 <template>
-  <v-card variant="outlined">
+  <v-card
+    class="pa-2 ma-2"
+    variant="outlined"
+  >
     <v-card-title class="text-h5">{{ title }}</v-card-title>
     <slot />
   </v-card>

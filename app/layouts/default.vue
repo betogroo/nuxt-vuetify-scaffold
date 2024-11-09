@@ -4,7 +4,9 @@
   <v-app>
     <NavBar />
     <v-main>
-      <slot />
+      <v-container>
+        <slot />
+      </v-container>
     </v-main>
   </v-app>
 </template>

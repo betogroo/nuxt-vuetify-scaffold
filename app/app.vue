@@ -3,7 +3,7 @@
     <NuxtPage />
   </NuxtLayout>
   <UModals />
-  <UNotifications />
+  <AppNotification />
 </template>
 <style>
   .page-enter-active,

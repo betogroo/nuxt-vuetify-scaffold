@@ -5,6 +5,7 @@ import type { ViewUser, PendingState, SelectOption } from '~/types'
 
 const useHelpers = () => {
   //const toast = useToast()
+  const { notification } = useNotificationStore()
   type CustomError = {
     type: 'validation' | 'database' | 'unknown'
     message: string
@@ -76,18 +77,13 @@ const useHelpers = () => {
 
   const showToast = (
     type: 'success' | 'error',
-    title: string,
+    message: string,
     timeout = 1500,
   ): void => {
     const color = type === 'success' ? 'green' : 'red'
     const icon =
       type === 'success' ? iconOutline.checkCircle : iconOutline.exclamation
-    /* toast.add({
-      color,
-      title,
-      icon,
-      timeout,
-    }) */
+    notification.add(message, type)
     console.log(timeout, icon, color)
   }
 

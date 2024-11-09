@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { useCounterStore } from '~/store/useCounterStore'
-
   definePageMeta({
     showInNavBar: true,
     requiresAuth: true,

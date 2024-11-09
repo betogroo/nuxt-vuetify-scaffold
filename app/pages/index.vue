@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { AddUser } from '~/types'
-  const { handleError, genFakeUsers } = useHelpers()
+  const { handleError, genFakeUsers, showToast } = useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -55,7 +55,7 @@
 </script>
 
 <template>
-  <UContainer>
+  <div>
     <section>
       <AppCard title="Home">
         <p>
@@ -173,11 +173,22 @@
           <code class="text-green-700">UNotifications</code> juntamente com o
           composable <code class="text-green-700">useToast()</code>
         </p>
-        <UButton
-          :color="formModal ? 'red' : 'primary'"
-          label="Testar Toast"
-          @click="toast.add({ title: 'Testando UNotification' })"
-        />
+        <div class="d-flex justify-space-around">
+          <v-btn
+            color="success"
+            text="Notification Success"
+            @click="
+              showToast('success', 'Tudo certo com a ação.') //toast.add({ title: 'Testando UNotification' })
+            "
+          />
+          <v-btn
+            color="error"
+            text="Notification Error"
+            @click="
+              showToast('error', 'Algo deu errado.') //toast.add({ title: 'Testando UNotification' })
+            "
+          />
+        </div>
       </AppCard>
     </section>
     <section>
@@ -185,7 +196,7 @@
         {{ profile }}
       </AppCard>
     </section>
-  </UContainer>
+  </div>
 </template>
 <style type="css" scoped>
   /* Defina as classes de transição */

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-  import { AppModal } from '#components'
-
-  import { useCounterStore } from '~/store/useCounterStore'
   definePageMeta({
     showInNavBar: true,
     requiresAuth: false,
@@ -10,18 +7,14 @@
   })
 
   const store = useCounterStore()
-  const modal = useModal()
 
   const openModal = () => {
-    modal.open(AppModal, {
-      title: 'Modal useModal()',
-      onClose: modal.close,
-    })
+    console.log('Make a open modal composable')
   }
 </script>
 
 <template>
-  <UContainer>
+  <div>
     <section>
       <AppCard title="About">
         <p>
@@ -54,10 +47,10 @@
     </section>
     <section>
       <h1 class="page-title">Teste Modal</h1>
-      <UButton
-        label="Abrir Modal"
+      <v-btn
+        text="Abrir Modal"
         @click="openModal"
       />
     </section>
-  </UContainer>
+  </div>
 </template>
