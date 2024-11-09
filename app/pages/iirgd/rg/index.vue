@@ -63,7 +63,7 @@
 </script>
 
 <template>
-  <UContainer>
+  <v-container>
     <section>
       <h1 class="text-4xl">RGs</h1>
       <div
@@ -87,7 +87,7 @@
         @on-submit="submitDocumentDemand"
       />
     </AppModal>
-    <UButton
+    <v-btn
       :icon="iconOutline.plus"
       @click="openModal"
     />
@@ -97,5 +97,5 @@
       :rows="tableDemandView"
       title="Documentos Cadastrados"
     />
-  </UContainer>
+  </v-container>
 </template>

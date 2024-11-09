@@ -44,56 +44,55 @@
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <UFormGroup
-      :error="documentNumberError"
+  <v-form
+    class="pa-2 ma-2"
+    @submit.prevent="onSubmit"
+  >
+    <v-text-field
+      v-model="documentNumber"
+      density="compact"
+      :error-messages="documentNumberError"
       label="Número do RG"
-      required
-    >
-      <UInput v-model="documentNumber" />
-    </UFormGroup>
-    <UFormGroup
-      :error="nameError"
+      variant="outlined"
+    />
+    <v-text-field
+      v-model="name"
+      density="compact"
+      :error-messages="nameError"
       label="Nome (Como escrito no documento)"
-      required
-    >
-      <UInput v-model="name" />
-    </UFormGroup>
-    <UFormGroup
-      :error="siteError"
-      label="Posto de Identificação"
-      required
-    >
-      <USelect
-        v-model="site"
-        option-attribute="name"
-        :options="demandSites"
-        placeholder="Escolha"
-      />
-    </UFormGroup>
-    <UFormGroup
-      :error="typeError"
-      label="Tipo do Documento"
-      required
-    >
-      <USelect
-        v-model="type"
-        option-attribute="name"
-        :options="demandTypes"
-        placeholder="Escolha"
-      />
-    </UFormGroup>
-    <UFormGroup
-      :error="noteError"
+      variant="outlined"
+    />
+    <v-select
+      v-model="site"
+      density="compact"
+      :error-messages="siteError"
+      item-title="name"
+      :items="demandSites"
+      label="Escolha o posto de identificação"
+      variant="outlined"
+    />
+    <v-select
+      v-model="type"
+      density="compact"
+      :error-messages="typeError"
+      item-title="name"
+      :items="demandTypes"
+      label="Escolha o tipo do documento"
+      variant="outlined"
+    />
+    <v-textarea
+      v-model="note"
+      :error-messages="noteError"
       label="Observações"
-    >
-      <UTextarea v-model="note" />
-    </UFormGroup>
-    <UButton
+      variant="outlined"
+    />
+
+    <v-btn
+      color="success"
       :disabled="!meta.valid"
       :loading="isPending"
       type="submit"
-      >Enviar</UButton
+      >Enviar</v-btn
     >
-  </form>
+  </v-form>
 </template>

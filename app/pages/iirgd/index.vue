@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <UContainer>
+  <v-container>
     <section>
       <h1 class="text-4xl">Dashboard</h1>
       <div
@@ -23,5 +23,5 @@
         <AppCard title="Antecedentes">Aqui</AppCard>
       </div>
     </section>
-  </UContainer>
+  </v-container>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  const imgSrc = new URL('~/assets/img/404.png', import.meta.url).href
   definePageMeta({
     showInNavBar: false,
     requiresAuth: false,
@@ -8,16 +9,27 @@
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center h-screen">
-    <h1 class="text-9xl font-semibold">404</h1>
-    <h6 class="text-4xl">Oops! Algo deu errado</h6>
-    <UButton
-      class="mt-6"
-      color="black"
-      :leading-icon="iconOutline.return"
-      to="/"
-      variant="outline"
-      >Voltar</UButton
-    >
-  </div>
+  <v-empty-state
+    :image="imgSrc"
+    size="300"
+    text-width="350"
+  >
+    <template #media>
+      <v-img class="mb-8" />
+    </template>
+
+    <template #title>
+      <div class="text-h6 text-high-emphasis">Oooops! Algo deu errado</div>
+    </template>
+
+    <template #text>
+      <div class="text-body-1 text-justify">
+        A chave se quebrou e a página não foi encontrada.
+        <app-link
+          label=" clique para retornar"
+          to="/"
+        />
+      </div>
+    </template>
+  </v-empty-state>
 </template>
