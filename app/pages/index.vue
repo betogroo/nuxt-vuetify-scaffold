@@ -69,11 +69,11 @@
       <AppCard title="Pinia">
         <p>
           Na página
-          <ULink
+          <AppLink
             class="hover:underline font-semibold"
+            label="/counter"
             to="/modules/counter"
-            >/contador</ULink
-          >
+          />
           há um pequeno app para contar, onde clicando no + uma unidade é
           adicionada, e clicando no - uma unidade é subtraída.
         </p>
