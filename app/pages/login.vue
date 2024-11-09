@@ -23,22 +23,23 @@
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center h-screen w-screen overflow-hidden"
-  >
-    <AppCard
-      class="w-72 lg:w-96"
-      ring="green"
-      title="Login"
-    >
-      <FormCredencial
-        :is-pending="isPending.isLoading && isPending.action === 'handleLogin'"
-        type="login"
-        @on-submit="login"
-      />
-      <div>
-        Ainda não é cadastrado? <ULink to="/signup">Clique aqui!</ULink>
-      </div>
-    </AppCard>
-  </div>
+  <AppCard title="Login">
+    <FormCredencial
+      :is-pending="isPending.isLoading && isPending.action === 'handleLogin'"
+      type="login"
+      @on-submit="login"
+    />
+    <div class="d-flex align-center justify-center mx-1">
+      <div>Ainda não é cadastrado?</div>
+      <v-btn
+        class="text-none"
+        :ripple="false"
+        size="small"
+        slim
+        to="/signup"
+        variant="plain"
+        >Clique aqui!</v-btn
+      >
+    </div>
+  </AppCard>
 </template>

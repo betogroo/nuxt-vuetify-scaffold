@@ -28,40 +28,39 @@
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center h-screen w-screen overflow-hidden"
-  >
-    <AppCard
-      class="w-72 lg:w-96"
-      ring="green"
-      title="Cadastro"
-    >
-      <div v-if="!success">
-        <FormCredencial
-          :is-pending="
-            isPending.isLoading && isPending.action === 'handleSignUp'
-          "
-          type="signup"
-          @on-submit="signup"
-        />
-        <div>Já é cadastrado? <ULink to="/login">Faça Login</ULink></div>
-      </div>
-      <div v-else>
-        <p>
-          Um link para confirmação de cadastro foi enviado para o email
-          {{ success }}
-        </p>
-        <p>Aguarde alguns instantes, por favor.</p>
-        <UButton
-          :disabled="remainingTime > 0"
-          :loading="
-            isPending.isLoading &&
-            isPending.action === 'resendEmailConfirmation'
-          "
-          @click="resendEmailConfirmation(success)"
-          >Reenviar</UButton
+  <AppCard title="Cadastro">
+    <div v-if="!success">
+      <FormCredencial
+        :is-pending="isPending.isLoading && isPending.action === 'handleSignUp'"
+        type="signup"
+        @on-submit="signup"
+      />
+      <div class="d-flex align-center justify-center mx-1">
+        <div>Já é cadastrado?</div>
+        <v-btn
+          class="text-none"
+          :ripple="false"
+          slim
+          to="/login"
+          variant="plain"
+          >Faça Login</v-btn
         >
       </div>
-    </AppCard>
-  </div>
+    </div>
+    <div v-else>
+      <p>
+        Um link para confirmação de cadastro foi enviado para o email
+        {{ success }}
+      </p>
+      <p>Aguarde alguns instantes, por favor.</p>
+      <v-btn
+        :disabled="remainingTime > 0"
+        :loading="
+          isPending.isLoading && isPending.action === 'resendEmailConfirmation'
+        "
+        @click="resendEmailConfirmation(success)"
+        >Reenviar</v-btn
+      >
+    </div>
+  </AppCard>
 </template>

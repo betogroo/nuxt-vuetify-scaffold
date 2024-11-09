@@ -43,57 +43,52 @@
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <UFormGroup
-      :error="emailError"
-      label="Email"
-      required
-      size="2xs"
-    >
-      <UInput
-        v-model="email"
-        :icon="iconOutline.email"
-        placeholder="email.exemplo.com.br"
-        size="md"
-      />
-    </UFormGroup>
-    <UFormGroup
-      :error="passwordError"
-      label="Senha"
-      required
-      size="2xs"
-    >
-      <UInput
+  <v-form
+    class="pa-2"
+    @submit.prevent="onSubmit"
+  >
+    <v-text-field
+      v-model="email"
+      clearable
+      density="compact"
+      :error-messages="emailError"
+      label="email@exemplo.com.br"
+      :prepend-inner-icon="iconOutline.email"
+      variant="outlined" />
+    <div class="my-1">
+      <v-text-field
         v-model="password"
-        :icon="iconOutline.password"
-        placeholder="Digite sua senha"
-        size="md"
+        clearable
+        density="compact"
+        :error-messages="passwordError"
+        label="Digite sua senha"
+        :prepend-inner-icon="iconOutline.password"
         type="password"
+        variant="outlined"
       />
-    </UFormGroup>
-    <UFormGroup
-      v-if="type === 'signup'"
-      :error="passwordConfirmError"
-      label="Confirme a senha"
-      required
-      size="2xs"
-    >
-      <UInput
-        v-model="passwordConfirm"
-        :icon="iconOutline.password"
-        placeholder="Digite sua senha"
-        size="md"
-        type="password"
-      />
-    </UFormGroup>
-    <div class="flex justify-end">
-      <UButton
-        :disabled="!meta.valid"
-        :icon="iconOutline.user"
-        :label="label"
-        :loading="isPending"
-        type="submit"
-      />
-    </div>
-  </form>
+      <div class="my-1">
+        <v-text-field
+          v-if="type === 'signup'"
+          v-model="passwordConfirm"
+          clearable
+          density="compact"
+          :error-messages="passwordConfirmError"
+          label="Confirme a senha"
+          :prepend-inner-icon="iconOutline.password"
+          type="password"
+          variant="outlined"
+        />
+
+        <div class="d-flex justify-end">
+          <v-btn
+            block
+            color="success"
+            :disabled="!meta.valid"
+            :loading="isPending"
+            :text="label"
+            type="submit"
+          />
+        </div>
+      </div></div
+  ></v-form>
 </template>
