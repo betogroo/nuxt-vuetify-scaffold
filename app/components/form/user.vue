@@ -36,34 +36,44 @@
 </script>
 
 <template>
-  <form @submit.prevent="addData">
-    <UFormGroup
-      :error="nameError"
+  <v-form
+    class="pa-2"
+    @submit.prevent="addData"
+  >
+    <v-text-field
+      v-model="name"
+      class="pa-2"
+      density="compact"
+      :error-messages="nameError"
       label="Nome"
-    >
-      <UInput v-model="name" />
-    </UFormGroup>
-
-    <UFormGroup
-      :error="emailError"
+      variant="outlined"
+    />
+    <v-text-field
+      v-model="email"
+      class="pa-2"
+      density="compact"
+      :error-messages="emailError"
       label="Email"
-    >
-      <UInput v-model="email" />
-    </UFormGroup>
+      variant="outlined"
+    />
 
-    <div class="flex justify-end space-x-4">
-      <UButton
+    <div
+      class="d-flex justify-end"
+      style="gap: 8px"
+    >
+      <v-btn
+        color="success"
         :disabled="!meta.valid"
-        label="Enviar"
         :loading="isPending"
+        text="Enviar"
         type="submit"
       />
-      <UButton
+      <v-btn
         color="red"
-        label="Limpar"
-        variant="outline"
+        text="Limpar"
+        variant="outlined"
         @click="resetForm()"
       />
     </div>
-  </form>
+  </v-form>
 </template>

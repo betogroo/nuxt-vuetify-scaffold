@@ -8,36 +8,21 @@
 </script>
 
 <template>
-  <UModal
-    v-model="isOpen"
-    width="25"
-  >
-    <UCard
-      :ui="{
-        strategy: 'override',
-        header: {
-          padding: 'py-2 px-2',
-        },
-        divide: 'divide-none',
-        footer: {
-          padding: 'pa-0 ma-0',
-        },
-      }"
-    >
-      <template #header>
-        <div class="flex justify-between items-center">
-          <h1 class="text-2xl font-semibold">{{ title }}</h1>
-          <UButton
+  <v-dialog v-model="isOpen">
+    <v-card class="pa-0 ma-0">
+      <template #title>
+        <div class="d-flex justify-space-between align-center pa-0 ma-0">
+          <h1 class="text-h6">{{ title }}</h1>
+          <v-btn
             color="black"
             :icon="iconOutline.close"
-            size="xs"
-            variant="ghost"
+            size="x-small"
+            variant="text"
             @click="isOpen = false"
           />
         </div>
       </template>
       <slot />
-      <template #footer />
-    </UCard>
-  </UModal>
+    </v-card>
+  </v-dialog>
 </template>

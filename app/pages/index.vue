@@ -90,20 +90,20 @@
           simula um formulário de cadastro, e as funções necessárias para o
           cadastro estarão em <code>/index.vue</code>, ou em um composable desde
           que seja importada. O formulário está com validação, utilizando o
-          <code class="text-green-700"> vee-validate + zod </code>, e não
+          <code class="text-green-darken-3"> vee-validate + zod </code>, e não
           permite o cadastro enquanto não cumprir todas as regras de validação.
           A final, o modal é fechado.
         </p>
         <p>
           Na página
-          <ULink
+          <AppLink
             class="hover:underline font-semibold"
+            label="/about"
             to="/about"
-            >/about</ULink
-          >
+          />
           o mesmo modal é chamado, porém, sem a função que simula o formulário,
           apenas para mostrar o comportamento padrão do componente, utilizando o
-          composable <code class="text-green-700">useModal()</code>
+          composable <code class="text-green-darken-3">useModal()</code>
         </p>
         <AppModal
           v-model="formModal"
@@ -114,10 +114,10 @@
             @on-submit="addData"
           />
         </AppModal>
-        <UButton
+        <v-btn
           :color="formModal ? 'red' : 'primary'"
-          label="Abrir Modal"
           :loading="formModal"
+          text="Abrir Modal"
           @click="openModal"
         />
       </AppCard>
@@ -170,8 +170,8 @@
         <p>
           Clique no Botão abaixo para simular uma notificação utilizando o
           componente
-          <code class="text-green-700">UNotifications</code> juntamente com o
-          composable <code class="text-green-700">useToast()</code>
+          <code class="text-green-darken-3">UNotifications</code> juntamente com
+          o composable <code class="text-green-darken-3">useToast()</code>
         </p>
         <div class="d-flex justify-space-around">
           <v-btn
