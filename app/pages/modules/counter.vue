@@ -6,51 +6,49 @@
     order: 2,
   })
 
-  const store = useCounterStore()
-  const { displayNumber, isDisabled } = storeToRefs(store)
-  const { increaseValue, decreaseValue } = store
+  const { counter } = useCounterStore()
 </script>
 
 <template>
-  <UContainer
-    class="sm:w-1/2 bg-gray-50 flex flex-col border-2 border-black border-dashed rounded-xl mt-2"
+  <v-container
+    class="bg-blue-grey-lighten-4 d-flex flex-column border-dashed rounded-xl mt-2"
   >
-    <div class="mx-auto text-8xl">{{ displayNumber }}</div>
-    <div class="flex justify-center space-x-5 m-6">
-      <UButton
-        :color="isDisabled ? 'gray' : 'red'"
-        :disabled="isDisabled"
-        :icon="iconOutline.minus"
-        size="xl"
-        square
-        variant="solid"
-        @click="decreaseValue"
-      />
-      <UButton
+    <div class="text-h2 mx-auto">{{ counter.display }}</div>
+    <div
+      class="d-flex justify-center ma-2"
+      style="gap: 8px"
+    >
+      <v-btn
+        color="red"
+        :disabled="counter.isDisabled"
+        icon
+        variant="outlined"
+        @click="counter.decrease"
+        ><v-icon>{{ iconOutline.minus }}</v-icon>
+      </v-btn>
+      <v-btn
+        color="success"
         :icon="iconOutline.plus"
-        size="xl"
-        square
-        variant="outline"
-        @click="increaseValue"
+        variant="outlined"
+        @click="counter.increase"
       />
     </div>
     <div class="flex flex-col w-full px-2">
-      <UButton
+      <v-btn
         block
         color="red"
-        :disabled="isDisabled"
-        @click="store.$reset"
-        >Reset</UButton
+        :disabled="counter.isDisabled"
+        @click="counter.$reset"
+        >Reset</v-btn
       >
       <div class="text-justify mt-4">
         Vá para
-        <ULink
-          class="font-semibold hover:underline mb-4"
+        <app-link
+          label="/about"
           to="/about"
-          >About</ULink
-        >
+        />
         para testar o funcionamento do Pinia
       </div>
     </div>
-  </UContainer>
+  </v-container>
 </template>

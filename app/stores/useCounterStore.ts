@@ -1,18 +1,26 @@
 export const useCounterStore = defineStore('useCounterStore', () => {
-  const displayNumber = ref<number>(0)
+  const display = ref<number>(0)
 
-  const increaseValue = () => {
-    displayNumber.value++
+  const increase = () => {
+    display.value++
   }
-  const decreaseValue = () => {
-    displayNumber.value--
+  const decrease = () => {
+    display.value--
   }
 
   const $reset = () => {
-    displayNumber.value = 0
+    display.value = 0
   }
 
-  const isDisabled = computed(() => (displayNumber.value < 1 ? true : false))
+  const isDisabled = computed(() => (display.value < 1 ? true : false))
 
-  return { displayNumber, increaseValue, decreaseValue, $reset, isDisabled }
+  const counter = {
+    increase,
+    decrease,
+    $reset,
+    isDisabled,
+    display,
+  }
+
+  return { counter }
 })

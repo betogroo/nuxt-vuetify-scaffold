@@ -2,7 +2,6 @@
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <UModals />
   <AppNotification />
 </template>
 <style>

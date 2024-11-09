@@ -6,7 +6,7 @@
     order: 1,
   })
 
-  const store = useCounterStore()
+  const { counter } = useCounterStore()
 
   const openModal = () => {
     console.log('Make a open modal composable')
@@ -30,17 +30,16 @@
         <p>
           Caso possa ver o número
           <span
-            v-if="store.displayNumber > 0"
+            v-if="counter.display > 0"
             class="text-2xl font-semibold"
-            >{{ store.displayNumber }}</span
+            >{{ counter.display }}</span
           >
           significa que o Pinia está funcionando, já que manteve o valor mesmo
           trocando de página. Retorne para o
-          <ULink
-            class="hover:underline font-semibold"
+          <app-link
+            label="/counter"
             to="modules/counter"
-            >/contador</ULink
-          >
+          />
           e confirme se éo mesmo número.
         </p>
       </AppCard>

@@ -2,7 +2,7 @@ export const iconOutline = {
   email: 'mdi-email-outline',
   password: 'mdi-lock-outline',
   user: 'mdi-account-outline',
-  plus: 'mdi-plus-outline',
+  plus: 'mdi-plus',
   minus: 'mdi-minus',
   settings: 'mdi-cog-outline',
   signOut: 'mdi-logout',
