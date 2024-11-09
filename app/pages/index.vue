@@ -29,7 +29,7 @@
   const addData = async (user: AddUser) => {
     try {
       await addUser(user)
-      //showToast('success', 'Cadastrado com sucesso')
+      showToast('success', 'Cadastrado com sucesso')
       console.log('Usuário Cadastrado - Index.vue')
       closeModal()
     } catch (err) {
@@ -42,7 +42,7 @@
   const deleteData = async (id: string) => {
     try {
       await deleteUser(id)
-      //showToast('success', 'Excluído com sucesso')
+      showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       closeModal()
     } catch (err) {
@@ -137,10 +137,10 @@
               :key="user.email"
             >
               <li>
-                <USkeleton class="bg-red-200 h-4 w-[350px] my-2" />
+                <v-skeleton-loader type="list-item" />
               </li>
               <li>
-                <USkeleton class="bg-red-200 h-4 w-[250px] my-2" />
+                <v-skeleton-loader type="list-item" />
               </li>
             </template>
           </template>

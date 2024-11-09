@@ -4,14 +4,13 @@ import { addUserSchema, viewUserSchema } from '~/schemas'
 const fakeUsers = ref<ViewUser[]>([])
 
 const useRegistration = () => {
-  const { isPending, setPendingState, showToast } = useHelpers()
+  const { isPending, setPendingState } = useHelpers()
   const { getRandomUUID } = useHelpers()
   const addUser = async (data: AddUser) => {
     await setPendingState(async () => {
       const parsedFormData = addUserSchema.parse(data)
       const parsedFakedUser = createFakeUser(parsedFormData)
       fakeUsers.value = [...fakeUsers.value, parsedFakedUser]
-      showToast('success', 'Usuário inserido com sucesso.')
       console.log(parsedFormData, 'enviado ao db:', fakeUsers.value)
     }, 'addUser')
   }
