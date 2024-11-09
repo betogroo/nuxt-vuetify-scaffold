@@ -78,13 +78,9 @@ const useHelpers = () => {
   const showToast = (
     type: 'success' | 'error',
     message: string,
-    timeout = 1500,
+    timeout = 2000,
   ): void => {
-    const color = type === 'success' ? 'green' : 'red'
-    const icon =
-      type === 'success' ? iconOutline.checkCircle : iconOutline.exclamation
-    notification.add(message, type)
-    console.log(timeout, icon, color)
+    notification.add(message, type, timeout)
   }
 
   const isPending = ref<PendingState>({

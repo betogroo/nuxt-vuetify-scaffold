@@ -176,16 +176,16 @@
         <div class="d-flex justify-space-around">
           <v-btn
             color="success"
-            text="Notification Success"
+            text="Notification Success (2s)"
             @click="
-              showToast('success', 'Tudo certo com a ação.') //toast.add({ title: 'Testando UNotification' })
+              showToast('success', 'Tudo certo com a ação. 2 segundos') //toast.add({ title: 'Testando UNotification' })
             "
           />
           <v-btn
             color="error"
-            text="Notification Error"
+            text="Notification Error (4s)"
             @click="
-              showToast('error', 'Algo deu errado.') //toast.add({ title: 'Testando UNotification' })
+              showToast('error', 'Algo deu errado. 4 segundos', 4000) //toast.add({ title: 'Testando UNotification' })
             "
           />
         </div>

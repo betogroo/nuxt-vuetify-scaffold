@@ -7,7 +7,7 @@
     v-model="notification.isActive"
     :color="notification.type"
     location="bottom right"
-    :timeout="2000"
+    :timeout="notification.timeout"
   >
     <v-icon>{{
       notification.type === 'success'
