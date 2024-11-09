@@ -8,7 +8,10 @@
 </script>
 
 <template>
-  <v-dialog v-model="isOpen">
+  <v-dialog
+    v-model="isOpen"
+    max-width="640px"
+  >
     <v-card class="pa-0 ma-0">
       <template #title>
         <div class="d-flex justify-space-between align-center pa-0 ma-0">
