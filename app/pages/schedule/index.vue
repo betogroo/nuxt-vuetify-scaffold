@@ -11,7 +11,7 @@
 <template>
   <v-container>
     <section>
-      <h1 class="text-4xl mb-4">Dashboard</h1>
+      <h1 class="mb-4">Dashboard</h1>
       <v-row>
         <v-col
           cols="12"

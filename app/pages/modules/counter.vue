@@ -33,7 +33,7 @@
         @click="counter.increase"
       />
     </div>
-    <div class="flex flex-col w-full px-2">
+    <div class="d-flex flex-column px-2">
       <v-btn
         block
         color="red"

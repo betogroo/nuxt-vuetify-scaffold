@@ -97,7 +97,6 @@
         <p>
           Na página
           <AppLink
-            class="hover:underline font-semibold"
             label="/about"
             to="/about"
           />
@@ -137,10 +136,7 @@
               :key="user.email"
             >
               <li>
-                <v-skeleton-loader type="list-item" />
-              </li>
-              <li>
-                <v-skeleton-loader type="list-item" />
+                <v-skeleton-loader type="list-item-two-line" />
               </li>
             </template>
           </template>

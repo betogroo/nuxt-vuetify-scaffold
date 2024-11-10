@@ -59,7 +59,7 @@
 <template>
   <AppCard :title="title">
     <div
-      class="d-flex justify-end space-x-2"
+      class="d-flex justify-end"
       style="gap: 8px"
     >
       <div class="d-flex bg-red-darken-3">aqui vai o dropdown de filtro</div>

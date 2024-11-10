@@ -31,7 +31,7 @@
           Caso possa ver o número
           <span
             v-if="counter.display > 0"
-            class="text-2xl font-semibold"
+            class="text-h6 font-weight-bold"
             >{{ counter.display }}</span
           >
           significa que o Pinia está funcionando, já que manteve o valor mesmo
