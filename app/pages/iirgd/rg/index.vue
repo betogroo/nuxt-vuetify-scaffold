@@ -65,37 +65,65 @@
 <template>
   <v-container>
     <section>
-      <h1 class="text-4xl">RGs</h1>
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10"
-      >
-        <AppCard title="Novos">1</AppCard>
-        <AppCard title="Consultados">2</AppCard>
-        <AppCard title="Liberados">3</AppCard>
-        <AppCard title="Emitidos">4</AppCard>
-        <AppCard title="Erro">5</AppCard>
-      </div>
+      <h1 class="text-4xl mb-4">RGs</h1>
+      <v-row>
+        <v-col
+          cols="12"
+          lg="3"
+          sm="6"
+        >
+          <AppCard title="Novos">1</AppCard>
+        </v-col>
+        <v-col
+          cols="12"
+          lg="3"
+          sm="6"
+        >
+          <AppCard title="Consultados">2</AppCard>
+        </v-col>
+        <v-col
+          cols="12"
+          lg="3"
+          sm="6"
+        >
+          <AppCard title="Liberados">3</AppCard>
+        </v-col>
+        <v-col
+          cols="12"
+          lg="3"
+          sm="6"
+        >
+          <AppCard title="Emitidos">4</AppCard>
+        </v-col>
+        <v-col
+          cols="12"
+          lg="3"
+          sm="6"
+        >
+          <AppCard title="Erro">5</AppCard>
+        </v-col>
+      </v-row>
     </section>
-    <AppModal
-      v-model="newRgModal"
-      title="Cadastrar Documento"
-    >
-      <FormDocumentDemand
-        :is-pending="
-          isPending.isLoading && isPending.action === 'addDocumentDemand'
-        "
-        @on-submit="submitDocumentDemand"
+    <section>
+      <AppModal
+        v-model="newRgModal"
+        title="Cadastrar Documento"
+      >
+        <FormDocumentDemand
+          :is-pending="
+            isPending.isLoading && isPending.action === 'addDocumentDemand'
+          "
+          @on-submit="submitDocumentDemand"
+        />
+      </AppModal>
+      <v-btn
+        :icon="iconOutline.plus"
+        @click="openModal"
       />
-    </AppModal>
-    <v-btn
-      :icon="iconOutline.plus"
-      @click="openModal"
-    />
-
-    <TableDocumentDemand
-      :columns="columns"
-      :rows="tableDemandView"
-      title="Documentos Cadastrados"
-    />
-  </v-container>
+      <TableDocumentDemand
+        :columns="columns"
+        :rows="tableDemandView"
+        title="Documentos Cadastrados"
+      /></section
+  ></v-container>
 </template>
