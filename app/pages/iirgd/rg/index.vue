@@ -38,23 +38,23 @@
   const columns = [
     {
       key: 'site',
-      label: 'Posto',
+      title: 'Posto',
     },
     {
       key: 'document_number',
-      label: 'RG',
+      title: 'RG',
     },
     {
       key: 'name',
-      label: 'Nome',
+      title: 'Nome',
     },
     {
       key: 'type',
-      label: 'Tipo',
+      title: 'Tipo',
     },
     {
       key: 'status',
-      label: 'Situação',
+      title: 'Situação',
     },
     {
       key: 'actions',

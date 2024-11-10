@@ -2,9 +2,9 @@
   //<script setup lang="ts">
   import type {
     TableColumn,
+    DemandStatus,
     DemandSite,
     DemandType,
-    DemandStatus,
     DocumentDemandRow,
   } from '~/types'
 
@@ -16,11 +16,12 @@
   interface Props {
     title: string
     columns: TableColumn[]
-    rows: Array<Record<string, unknown>>
+    rows: DocumentDemandRow[]
+    //rows: Array<Record<string, unknown>>
   }
-  const handleModal = () => {
+  /* const handleModal = () => {
     console.log('open modal')
-  }
+  } */
 
   const goToDemand = (id: number) => {
     push(`rg/${id}`)
@@ -31,28 +32,25 @@
       {
         label: 'Detalhes',
         icon: iconOutline.details,
-        click: () => goToDemand(row.id),
+        action: () => goToDemand(row.id),
       },
-    ],
-    [
+
       {
         label: 'Editar',
         icon: iconOutline.edit,
-        click: () => console.log('Edit', row.id),
+        action: () => console.log('Edit', row.id),
       },
-    ],
-    [
+
       {
         label: 'Arquivar',
         icon: iconOutline.archive,
-        click: () => console.log('Archive', row.id),
+        action: () => console.log('Archive', row.id),
       },
-    ],
-    [
+
       {
         label: 'Delete',
         icon: iconOutline.trash,
-        click: () => console.log('Delete', row.id),
+        action: () => console.log('Delete', row.id),
       },
     ],
   ]
@@ -60,44 +58,32 @@
 
 <template>
   <AppCard :title="title">
-    <div class="flex justify-end space-x-2">
-      <div class="flex gap-1.5 bg-red-300">aqui vai o dropdown de filtro</div>
-      <div class="flex gap-1.5 bg-blue-400">Aqui vai o dropdown do status</div>
-    </div>
-    <UTable
-      :columns="columns"
-      :rows="rows"
-      :ui="{ td: { padding: 'p-1', color: 'text-gray-800' } }"
+    <div
+      class="d-flex justify-end space-x-2"
+      style="gap: 8px"
     >
-      <template #empty-state>
-        <UButton
-          :icon="iconOutline.plus"
-          @click="handleModal"
+      <div class="d-flex bg-red-darken-3">aqui vai o dropdown de filtro</div>
+      <div class="d-flex bg-blue-darken-2">Aqui vai o dropdown do status</div>
+    </div>
+    <v-data-table
+      :headers="columns"
+      :items="rows"
+    >
+      <template #item.actions="{ item }: { item: DocumentDemandRow }">
+        <app-dropdown
+          :activator="{ type: 'icon', value: iconOutline['dots-horizontal'] }"
+          :items="dropdownItems(item)"
         />
       </template>
-      <template #site-data="{ getRowData }">
-        {{ getOptionName(getRowData() as DemandSite, demandSites) }}</template
-      >
-      <template #type-data="{ getRowData }">{{
-        getOptionName(getRowData() as DemandType, demandTypes)
-      }}</template>
-
-      <template #status-data="{ getRowData }">{{
-        getOptionName(getRowData() as DemandStatus, demandStatus)
-      }}</template>
-
-      <template #actions-data="{ row }">
-        <UDropdown
-          :items="dropdownItems(row)"
-          :ui="{ container: 'z-50' }"
-        >
-          <UButton
-            color="gray"
-            :icon="iconOutline.ellipsis"
-            variant="link"
-          />
-        </UDropdown>
+      <template #item.status="{ value }">
+        {{ getOptionName(value as DemandStatus, demandStatus) }}
       </template>
-    </UTable>
+      <template #item.site="{ value }">
+        {{ getOptionName(value as DemandSite, demandSites) }}
+      </template>
+      <template #item.type="{ value }">
+        {{ getOptionName(value as DemandType, demandTypes) }}
+      </template></v-data-table
+    >
   </AppCard>
 </template>

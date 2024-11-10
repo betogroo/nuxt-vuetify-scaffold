@@ -12,7 +12,7 @@ export const iconOutline = {
   archive: 'mdi-archive-outline',
   edit: 'mdi-pencil-outline',
   details: 'mdi-magnify',
-  ellipsis: 'mdi-ellipse-outline',
+  'dots-horizontal': 'mdi-dots-horizontal',
   checkCircle: 'mdi-check-circle-outline',
   exclamation: 'mdi-exclamation',
   return: 'mdi-arrow-left-top',
