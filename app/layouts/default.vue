@@ -4,7 +4,10 @@
   <v-app>
     <NavBar />
     <v-main>
-      <v-container>
+      <v-container
+        class="pa-0"
+        max-width="960"
+      >
         <slot />
       </v-container>
     </v-main>
