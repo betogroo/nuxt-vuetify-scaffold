@@ -1,10 +1,11 @@
 <script setup lang="ts">
-  import type { DropdownItem } from '~/types'
+  import type { DropdownItem, DropdownActivatorSchema } from '~/types'
+
   defineProps<Props>()
 
   interface Props {
-    email?: string
     items: DropdownItem[][]
+    activator: DropdownActivatorSchema
   }
 </script>
 
@@ -20,13 +21,18 @@
         v-bind="props"
       >
         <v-avatar
+          v-if="activator.type === 'avatar'"
           class="pa-0"
           :ripple="false"
           size="x-small"
         >
-          <v-img src="https://avatars.githubusercontent.com/u/739984?v=4" />
+          <v-img :src="activator.value" />
         </v-avatar>
-      </v-btn>
+        <v-icon
+          v-if="activator.type === 'icon'"
+          :icon="activator.value"
+          size="x-large"
+      /></v-btn>
     </template>
     <v-list
       density="compact"
@@ -37,6 +43,10 @@
         v-for="(subItems, i) in items"
         :key="i"
       >
+        <v-divider
+          v-if="i === 1 && items.length > 1"
+          class="mb-2"
+        />
         <div
           v-for="item in subItems"
           :key="item.label"
@@ -53,10 +63,6 @@
             <v-list-item-title>{{ item.label }}</v-list-item-title>
           </v-list-item>
         </div>
-        <v-divider
-          v-if="i === 0"
-          class="mb-2"
-        />
       </div>
     </v-list>
   </v-menu>

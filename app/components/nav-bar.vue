@@ -58,6 +58,10 @@
         <div class="mx-1">|</div>
       </template>
       <AppDropdown
+        :activator="{
+          type: 'avatar',
+          value: 'https://avatars.githubusercontent.com/u/739984?v=4',
+        }"
         :email="user?.email"
         :items="items"
       />

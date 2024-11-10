@@ -11,3 +11,8 @@ export const dropdownItemSchema = z.object({
     .optional(),
 })
 export const dropdownItemsSchema = z.array(dropdownItemSchema)
+
+export const dropdownActivatorSchema = z.object({
+  type: z.union([z.literal('icon'), z.literal('avatar')]),
+  value: z.string(),
+})
