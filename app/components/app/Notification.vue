@@ -9,7 +9,12 @@
     location="bottom right"
     :timeout="notification.timeout"
   >
-    <v-icon>{{
+    <template #actions
+      ><v-btn
+        :icon="iconOutline.close"
+        @click="notification.isActive = false"
+    /></template>
+    <v-icon size="x-large">{{
       notification.type === 'success'
         ? iconOutline.checkCircle
         : iconOutline.exclamation
