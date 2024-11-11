@@ -6,6 +6,7 @@
     DemandSite,
     DemandType,
     DocumentDemandRow,
+    DropdownItem,
   } from '~/types'
 
   defineProps<Props>()
@@ -27,7 +28,7 @@
     push(`rg/${id}`)
   }
 
-  const dropdownItems = (row: DocumentDemandRow) => [
+  const dropdownItems = (row: DocumentDemandRow): DropdownItem[][] => [
     [
       {
         label: 'Detalhes',
@@ -45,12 +46,14 @@
         label: 'Arquivar',
         icon: iconOutline.archive,
         action: () => console.log('Archive', row.id),
+        color: 'warning',
       },
 
       {
         label: 'Delete',
         icon: iconOutline.trash,
         action: () => console.log('Delete', row.id),
+        color: 'error',
       },
     ],
   ]
@@ -70,7 +73,7 @@
       :items="rows"
     >
       <template #item.actions="{ item }: { item: DocumentDemandRow }">
-        <app-dropdown
+        <AppDropdown
           :activator="{ type: 'icon', value: iconOutline['dots-horizontal'] }"
           :items="dropdownItems(item)"
         />

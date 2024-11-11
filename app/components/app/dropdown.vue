@@ -35,9 +35,10 @@
       /></v-btn>
     </template>
     <v-list
-      density="compact"
-      :lines="false"
+      class="pa-3"
+      min-width="180"
       nav
+      rounded="lg"
     >
       <div
         v-for="(subItems, i) in items"
@@ -45,23 +46,38 @@
       >
         <v-divider
           v-if="i === 1 && items.length > 1"
-          class="mb-2"
+          class="my-2"
         />
         <div
           v-for="item in subItems"
           :key="item.label"
         >
-          <v-list-item
-            :key="i"
-            color="primary"
-            nav
-            :prepend-avatar="item.avatar ? item.avatar : ''"
-            :prepend-icon="item.icon ? item.icon : ''"
-            :value="item"
-            @click="item.action"
+          <slot
+            :item="item"
+            name="items"
           >
-            <v-list-item-title>{{ item.label }}</v-list-item-title>
-          </v-list-item>
+            <v-list-item
+              :key="i"
+              :base-color="item.color ? item.color : ''"
+              nav
+              rounded="lg"
+              @click="item.action"
+            >
+              <template #prepend>
+                <div class="mr-4">
+                  <v-icon v-if="item.icon">{{ item.icon }}</v-icon>
+                  <v-avatar
+                    v-if="item.avatar"
+                    :image="item.avatar"
+                    size="small"
+                  />
+                </div>
+                <div class="text-body-1 font-weight-medium">
+                  {{ item.label }}
+                </div>
+              </template>
+            </v-list-item>
+          </slot>
         </div>
       </div>
     </v-list>

@@ -1,8 +1,14 @@
 import { z } from 'zod'
 
+export const actionColorSchema = z.union([
+  z.literal('error'),
+  z.literal('warning'),
+])
+
 export const dropdownItemSchema = z.object({
   label: z.string().trim().optional(),
   icon: z.string().optional(),
+  color: actionColorSchema.optional(),
   avatar: z.string().optional(),
   action: z
     .function()
