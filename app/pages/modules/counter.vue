@@ -19,19 +19,26 @@
       style="gap: 8px"
     >
       <v-btn
+        class="rounded-lg"
         color="red"
         :disabled="counter.isDisabled"
         icon
+        size="large"
+        tile
         variant="outlined"
         @click="counter.decrease"
-        ><v-icon>{{ iconOutline.minus }}</v-icon>
-      </v-btn>
+        ><v-icon size="x-large">{{ iconOutline.minus }}</v-icon></v-btn
+      >
       <v-btn
+        class="rounded-lg"
         color="success"
-        :icon="iconOutline.plus"
+        icon
+        size="large"
+        tile
         variant="outlined"
         @click="counter.increase"
-      />
+        ><v-icon size="x-large">{{ iconOutline.plus }}</v-icon></v-btn
+      >
     </div>
     <div class="d-flex flex-column px-2">
       <v-btn
