@@ -2,11 +2,9 @@
   interface Props {
     title: string
     subtitle?: string
-    ring?: string
     loading?: boolean
   }
   withDefaults(defineProps<Props>(), {
-    ring: 'green',
     subtitle: '',
     loading: false,
   })
