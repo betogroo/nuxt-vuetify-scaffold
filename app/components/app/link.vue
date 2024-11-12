@@ -1,6 +1,6 @@
 <script setup lang="ts">
   interface Props {
-    label: string
+    label?: string
     to: string
   }
   defineProps<Props>()
@@ -13,6 +13,6 @@
     slim
     :to="to"
     variant="plain"
-    >{{ label }}</v-btn
+    ><slot>{{ label }}</slot></v-btn
   >
 </template>
