@@ -1,24 +1,45 @@
 <script setup lang="ts">
   const { notification } = useNotificationStore()
+  const { isActive, message, timeout, type } = toRefs(notification)
+  const { checkCircle, exclamation, close } = iconOutline
+
+  const feedbackIcon = computed(() =>
+    type.value === 'success' ? checkCircle : exclamation,
+  )
 </script>
 
 <template>
   <v-snackbar
-    v-model="notification.isActive"
-    :color="notification.type"
+    v-model="isActive"
+    color="white"
     location="bottom right"
-    :timeout="notification.timeout"
+    :timeout="timeout"
+    :timer="type"
+    variant="flat"
   >
     <template #actions
       ><v-btn
-        :icon="iconOutline.close"
-        @click="notification.isActive = false"
+        :color="type"
+        flat
+        :icon="close"
+        @click="isActive = false"
     /></template>
-    <v-icon size="x-large">{{
-      notification.type === 'success'
-        ? iconOutline.checkCircle
-        : iconOutline.exclamation
-    }}</v-icon>
-    {{ notification.message }}</v-snackbar
-  >
+    <template #text
+      ><div
+        class="d-flex align-center"
+        :class="`text-${type}`"
+      >
+        <v-icon
+          class="mr-3"
+          size="x-large"
+          >{{ feedbackIcon }}</v-icon
+        >
+        <span
+          class="text-body-1 font-weight-medium"
+          :class="type"
+          >{{ message }}</span
+        >
+      </div>
+    </template>
+  </v-snackbar>
 </template>
