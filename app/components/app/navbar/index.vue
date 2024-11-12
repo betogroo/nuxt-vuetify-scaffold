@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import type { DropdownItem } from '~/types'
+
   const { user } = useUserStatus()
   const { handleLogout } = useAuth()
-  const { navBarItems } = useNavigation()
+  const { navbar } = useNavbar()
 
-  const items = [
+  const items: DropdownItem[][] = [
     [
       {
         label: user.value?.email,
@@ -39,32 +41,27 @@
     density="compact"
   >
     <template #append>
-      <template
-        v-for="item in navBarItems"
-        :key="item.path"
-      >
-        <v-btn
-          class="pa-0 text-none"
-          flat
-          :ripple="false"
-          selected-class="font-weight-bold"
-          size="small"
-          slim
-          :text="item.meta.title || 'Sem Título'"
-          :to="item.path"
-          variant="plain"
-        />
-
-        <div class="mx-1">|</div>
-      </template>
-      <AppDropdown
-        :activator="{
-          type: 'avatar',
-          value: 'https://avatars.githubusercontent.com/u/739984?v=4',
-        }"
-        :email="user?.email"
+      <!-- app bar menu -->
+      <slot
         :items="items"
-      />
+        name="menu"
+      >
+        <AppNavbarMenu :items="navbar.items" />
+      </slot>
+
+      <slot
+        name="user"
+        :user="user"
+      >
+        <AppDropdown
+          :activator="{
+            type: 'avatar',
+            value: 'https://avatars.githubusercontent.com/u/739984?v=4',
+          }"
+          :email="user?.email"
+          :items="items"
+        />
+      </slot>
     </template>
   </v-app-bar>
 </template>

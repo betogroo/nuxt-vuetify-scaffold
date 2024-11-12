@@ -1,8 +1,6 @@
-<script setup lang="ts"></script>
-
 <template>
   <v-app>
-    <NavBar />
+    <AppNavbar />
     <v-main>
       <v-container
         class="pa-0"

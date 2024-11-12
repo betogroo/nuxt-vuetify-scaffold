@@ -22,3 +22,10 @@ export const dropdownActivatorSchema = z.object({
   type: z.union([z.literal('icon'), z.literal('avatar')]),
   value: z.string(),
 })
+
+export const navbarItemSchema = z.object({
+  path: z.string(),
+  title: z.string(),
+})
+
+export const navbarItemsSchema = z.array(navbarItemSchema)
