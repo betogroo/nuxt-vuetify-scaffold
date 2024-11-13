@@ -43,13 +43,14 @@
     <template #append>
       <!-- app bar menu -->
       <slot
-        :items="items"
+        :items="navbar.items"
         name="menu"
       >
         <AppNavbarMenu :items="navbar.items" />
       </slot>
 
       <slot
+        :items="items"
         name="user"
         :user="user"
       >
