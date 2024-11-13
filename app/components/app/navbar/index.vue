@@ -54,7 +54,13 @@
         name="user"
         :user="user"
       >
+        <app-link
+          v-if="!user"
+          label="Login"
+          to="/login"
+        />
         <AppDropdown
+          v-else
           :activator="{
             type: 'avatar',
             value: 'https://avatars.githubusercontent.com/u/739984?v=4',
