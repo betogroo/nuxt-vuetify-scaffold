@@ -1,38 +1,5 @@
 <script setup lang="ts">
-  import type { DropdownItem } from '~/types'
-
-  const { user } = useUserStatus()
-  const { handleLogout } = useAuth()
   const { navbar } = useNavbar()
-
-  const items: DropdownItem[][] = [
-    [
-      {
-        label: user.value?.email,
-        avatar: 'https://avatars.githubusercontent.com/u/739984?v=4',
-        action: () => {
-          console.log('Vai para Profile')
-        },
-      },
-    ],
-    [
-      {
-        label: 'Settings',
-        icon: iconOutline.settings,
-        action: () => {
-          return navigateTo('/settings')
-        },
-      },
-      {
-        label: 'Sign out',
-        icon: iconOutline.signOut,
-        action: async () => {
-          await handleLogout()
-          return navigateTo('/login')
-        },
-      },
-    ],
-  ]
 </script>
 
 <template>
@@ -43,19 +10,19 @@
     <template #append>
       <!-- app bar menu -->
       <slot
-        :items="navbar.items"
+        :items="navbar.menu"
         name="menu"
       >
-        <AppNavbarMenu :items="navbar.items" />
+        <AppNavbarMenu :items="navbar.menu" />
       </slot>
 
       <slot
-        :items="items"
+        :items="navbar.dropdown"
         name="user"
-        :user="user"
+        :user="navbar.user"
       >
         <app-link
-          v-if="!user"
+          v-if="!navbar.user"
           label="Login"
           to="/login"
         />
@@ -65,8 +32,8 @@
             type: 'avatar',
             value: 'https://avatars.githubusercontent.com/u/739984?v=4',
           }"
-          :email="user?.email"
-          :items="items"
+          :email="navbar.user.email"
+          :items="navbar.dropdown"
         />
       </slot>
     </template>
