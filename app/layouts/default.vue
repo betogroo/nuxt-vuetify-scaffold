@@ -4,7 +4,7 @@
     <v-main>
       <v-container
         class="pa-0"
-        max-width="960"
+        max-width="1080"
       >
         <slot />
       </v-container>
