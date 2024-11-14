@@ -6,13 +6,12 @@
     DemandSite,
     DemandType,
     DocumentDemandRow,
-    DropdownItem,
   } from '~/types'
 
   defineProps<Props>()
 
   const { getOptionName } = useHelpers()
-  const { push } = useRouter()
+  const { dropdownItems } = useDocumentDemand()
 
   interface Props {
     title: string
@@ -23,40 +22,6 @@
   /* const handleModal = () => {
     console.log('open modal')
   } */
-
-  const goToDemand = (id: number) => {
-    push(`rg/${id}`)
-  }
-
-  const dropdownItems = (row: DocumentDemandRow): DropdownItem[][] => [
-    [
-      {
-        label: 'Detalhes',
-        icon: iconOutline.details,
-        action: () => goToDemand(row.id),
-      },
-
-      {
-        label: 'Editar',
-        icon: iconOutline.edit,
-        action: () => console.log('Edit', row.id),
-      },
-
-      {
-        label: 'Arquivar',
-        icon: iconOutline.archive,
-        action: () => console.log('Archive', row.id),
-        color: 'warning',
-      },
-
-      {
-        label: 'Delete',
-        icon: iconOutline.trash,
-        action: () => console.log('Delete', row.id),
-        color: 'error',
-      },
-    ],
-  ]
 </script>
 
 <template>
@@ -69,6 +34,7 @@
       <div class="d-flex bg-blue-darken-2">Aqui vai o dropdown do status</div>
     </div>
     <v-data-table
+      density="compact"
       :headers="columns"
       :items="rows"
     >
@@ -86,7 +52,7 @@
       </template>
       <template #item.type="{ value }">
         {{ getOptionName(value as DemandType, demandTypes) }}
-      </template></v-data-table
-    >
-  </AppCard>
+      </template>
+    </v-data-table></AppCard
+  >
 </template>

@@ -1,13 +1,18 @@
 import { z } from 'zod'
 
 import type { Database } from '~/types/supabase'
-import type { DocumentDemandInsert, DocumentDemandRow } from '~/types'
+import type {
+  DocumentDemandInsert,
+  DocumentDemandRow,
+  DropdownItem,
+} from '~/types'
 import { documentDemandInsertSchema, documentDemandRowSchema } from '~/schemas'
 const demands = ref<DocumentDemandRow[]>([])
 const documentsDemandRowSchema = z.array(documentDemandRowSchema)
 const useDocumentDemand = () => {
   const supabase = useSupabaseClient<Database>()
   const { isPending, setPendingState } = useHelpers()
+  const { push } = useRouter()
 
   const tableDemandView = computed(() => {
     const mappedDemands = demands.value.map((item) => {
@@ -111,11 +116,42 @@ const useDocumentDemand = () => {
     }, 'addDocumentDemand')
   }
 
+  const dropdownItems = (row: DocumentDemandRow): DropdownItem[][] => [
+    [
+      {
+        label: 'Detalhes',
+        icon: iconOutline.details,
+        action: () => push(`rg/${row.id}`),
+      },
+
+      {
+        label: 'Editar',
+        icon: iconOutline.edit,
+        action: () => console.log('Edit', row.id),
+      },
+
+      {
+        label: 'Arquivar',
+        icon: iconOutline.archive,
+        action: () => console.log('Archive', row.id),
+        color: 'warning',
+      },
+
+      {
+        label: 'Delete',
+        icon: iconOutline.trash,
+        action: () => console.log('Delete', row.id),
+        color: 'error',
+      },
+    ],
+  ]
+
   return {
     addDocumentDemand,
+    dropdownItems,
     fetchDocumentDemands,
-    isPending,
     demands,
+    isPending,
     tableDemandView,
   }
 }

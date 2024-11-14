@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { DocumentDemandInsert } from '~/types'
+  import type { DocumentDemandInsert, TableColumn } from '~/types'
   const { handleError, showToast } = useHelpers()
   const {
     fetchDocumentDemands,
@@ -35,7 +35,7 @@
     }
   }
 
-  const columns = [
+  const columns: TableColumn[] = [
     {
       key: 'site',
       title: 'Posto',
@@ -44,6 +44,7 @@
       key: 'document_number',
       title: 'RG',
     },
+
     {
       key: 'name',
       title: 'Nome',
@@ -56,6 +57,7 @@
       key: 'status',
       title: 'Situação',
     },
+
     {
       key: 'actions',
     },
