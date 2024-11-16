@@ -1,10 +1,11 @@
-import { z } from 'zod'
+import type { z } from 'zod'
 
-import {
+import type {
   teacherInsertSchema,
-  type teacherRowSchema,
-  type teacherUpdateSchema,
+  teacherRowSchema,
+  teacherUpdateSchema,
 } from '~/schemas'
 
 export type TeacherInsert = z.infer<typeof teacherInsertSchema>
 export type TeacherRow = z.infer<typeof teacherRowSchema>
+export type TeacherUpdate = z.infer<typeof teacherUpdateSchema>
