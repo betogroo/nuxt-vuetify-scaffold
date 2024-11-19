@@ -2,7 +2,7 @@ import { teacherInsertSchema, teacherRowsSchema } from '~/schemas'
 import type { TeacherInsert, TeacherRow } from '~/types'
 
 const useTeacher = () => {
-  const { isPending, addInsert: addTeacher } = useInsert<
+  const { isPending, addInsert: addTeacher } = useGenericInsert<
     TeacherInsert,
     TeacherRow
   >('teachers', teacherInsertSchema)
