@@ -116,11 +116,13 @@ const useDocumentDemand = () => {
     }, 'addDocumentDemand')
   } */
 
-  const { isPending: documentDemandPending, addData: addDocumentDemand } =
-    useGenericInsert<DocumentDemandInsert, DocumentDemandRow>(
-      'document_demand',
-      documentDemandInsertSchema,
-    )
+  const {
+    insertPending: documentDemandPending,
+    insertData: insertDocumentDemand,
+  } = useGenericInsert<DocumentDemandInsert, DocumentDemandRow>(
+    'document_demand',
+    documentDemandInsertSchema,
+  )
 
   const dropdownItems = (row: DocumentDemandRow): DropdownItem[][] => [
     [
@@ -153,7 +155,7 @@ const useDocumentDemand = () => {
   ]
 
   return {
-    addDocumentDemand,
+    insertDocumentDemand,
     dropdownItems,
     fetchDocumentDemands,
     demands,

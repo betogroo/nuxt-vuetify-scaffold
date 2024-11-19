@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import type { TeacherInsert } from '~/types'
-  const { addTeacher, isPending, fetch, teachers } = useTeacher()
+  const { insertTeacher, insertPending, fetch, teachers } = useTeacher()
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (teacher: TeacherInsert) => {
     try {
-      const newTeacher = await addTeacher(teacher)
+      const newTeacher = await insertTeacher(teacher)
       if (!newTeacher) throw new Error('Erro ao Adicionar Professor')
       showToast(
         'success',
@@ -27,7 +27,9 @@
   <div>
     <div>Professores</div>
     <FormTeacher
-      :is-pending="isPending.isLoading && isPending.action === 'add-teachers'"
+      :is-pending="
+        insertPending.isLoading && insertPending.action === 'add-teachers'
+      "
       @on-submit="handleSubmit"
     />
     <section>
