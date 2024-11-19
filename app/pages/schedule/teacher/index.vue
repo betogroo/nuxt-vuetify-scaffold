@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { TeacherInsert } from '~/types'
-  const { addTeacher, isPending, fetch, fetchedData: teachers } = useTeacher()
+  const { addTeacher, isPending, fetch, teachers } = useTeacher()
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (teacher: TeacherInsert) => {
