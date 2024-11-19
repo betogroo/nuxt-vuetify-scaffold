@@ -1,4 +1,4 @@
-import { teacherInsertSchema } from '~/schemas'
+import { teacherInsertSchema, teacherRowsSchema } from '~/schemas'
 import type { TeacherInsert, TeacherRow } from '~/types'
 
 const useTeacher = () => {
@@ -6,7 +6,14 @@ const useTeacher = () => {
     TeacherInsert,
     TeacherRow
   >('teachers', teacherInsertSchema)
-  return { isPending, addTeacher }
+
+  const {
+    isPending: dataPending,
+    fetch,
+    fetchedData,
+  } = useGenericFetch<TeacherRow>('teachers', teacherRowsSchema)
+
+  return { isPending, addTeacher, dataPending, fetch, fetchedData }
 }
 
 export default useTeacher
