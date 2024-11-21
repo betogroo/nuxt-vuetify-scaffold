@@ -33,10 +33,12 @@
       @on-submit="handleSubmit"
     />
     <section>
-      <v-list>
+      <v-list nav>
         <v-list-item
           v-for="teacher in teachers"
           :key="teacher.id"
+          nav
+          :to="{ name: 'schedule-teacher-id', params: { id: teacher.id } }"
         >
           {{ teacher.name }}
         </v-list-item>
