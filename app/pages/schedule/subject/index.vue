@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { SubjectInsert } from '~/types'
-  const { insertSubject, insertPending } = useSubject()
+  const { insertSubject, insertPending, fetch, subjects } = useSubject()
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (subject: SubjectInsert) => {
@@ -15,6 +15,10 @@
       console.error(error)
     }
   }
+
+  onMounted(async () => {
+    await fetch()
+  })
 </script>
 
 <template>
@@ -26,5 +30,13 @@
       "
       @on-submit="handleSubmit"
     />
+    <v-list>
+      <v-list-item
+        v-for="item in subjects"
+        :key="item.id"
+      >
+        {{ item.name }}
+      </v-list-item>
+    </v-list>
   </div>
 </template>
