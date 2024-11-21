@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { ClassInsert } from '~/types'
-  const { insertClass, insertPending } = useClass()
+  const { insertClass, insertPending, classes, fetch } = useClass()
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (data: ClassInsert) => {
@@ -15,16 +15,30 @@
       console.error(error)
     }
   }
+
+  onMounted(async () => {
+    await fetch()
+  })
 </script>
 
 <template>
   <div>
-    <div>Matérias</div>
+    <div>Turmas</div>
     <FormClass
       :is-pending="
         insertPending.isLoading && insertPending.action === 'add-classes'
       "
       @on-submit="handleSubmit"
     />
+    <section>
+      <v-list>
+        <v-list-item
+          v-for="item in classes"
+          :key="item.id"
+        >
+          {{ item.name }}
+        </v-list-item>
+      </v-list>
+    </section>
   </div>
 </template>
