@@ -48,6 +48,14 @@
       :items="rows"
       items-per-page="20"
     >
+      <template #item.time="{ item }">
+        {{
+          `${item.name} - ${item.start_time.substring(
+            0,
+            5,
+          )} às ${item.end_time.substring(0, 5)}`
+        }}
+      </template>
       <template #item.availability_id="{ item }">
         <v-btn
           :disabled="item.is_break"
