@@ -1,18 +1,33 @@
 <script setup lang="ts">
+  import type { TableColumn } from '~/types'
+
   const { params } = useRoute()
   const { validateWithSchema, schemaError } = useSchema()
   const { getById, getDataPending, teacher } = useTeacher()
+  const { getTimeSlotsWithTeacherAvailability, teacherAvailability } =
+    useTeacherAvailability()
   const { handleError } = useHelpers()
-
+  const parsedId = validateWithSchema(params.id!, uuidSchema)
   onMounted(async () => {
     try {
-      const parsedId = validateWithSchema(params.id!, uuidSchema)
       await getById(parsedId)
+      await getTimeSlotsWithTeacherAvailability(parsedId, 1)
     } catch (error) {
       const err = handleError(error)
       console.log(err)
     }
   })
+
+  const columns: TableColumn[] = [
+    {
+      key: 'time',
+      title: 'Horário', // fazser merge notemplate
+    },
+    {
+      key: 'availability_id',
+      title: 'Disponibilidade',
+    },
+  ]
 </script>
 
 <template>
@@ -21,6 +36,13 @@
       <teacher-details
         :is-pending="getDataPending.isLoading"
         :teacher="teacher"
+      />
+
+      <table-time-slot
+        :columns="columns"
+        :rows="teacherAvailability"
+        :teacher-id="parsedId"
+        title="Disponibilidades"
       />
     </template>
     <div v-else>

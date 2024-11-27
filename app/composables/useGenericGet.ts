@@ -25,7 +25,24 @@ const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
     }, `get-${tableName}`)
   }
 
-  return { getDataPending, getById, data }
+  const getWithFilters = async (
+    filters: Record<string, string | number> = {},
+  ) => {
+    return setPendingState(async () => {
+      let query = supabase.from(tableName).select('*')
+      for (const [key, value] of Object.entries(filters)) {
+        query = query.eq(key, value)
+      }
+      const { data: newData, error } = await query.returns<RowType>()
+      if (error) throw error
+      if (newData) {
+        const parsedData = validateWithSchema(newData, schema)
+        data.value = parsedData
+      }
+    }, `get-${tableName}`)
+  }
+
+  return { getDataPending, getById, getWithFilters, data }
 }
 
 export default useGenericGet
