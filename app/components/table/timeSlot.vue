@@ -60,7 +60,7 @@
         <v-btn
           :disabled="item.is_break"
           :icon="
-            item.availability_id
+            item.availability_id && item.is_available
               ? iconOutline.checkCircle
               : iconOutline.close_outline
           "
