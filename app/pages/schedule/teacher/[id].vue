@@ -24,7 +24,7 @@
       title: 'Horário', // fazser merge notemplate
     },
     {
-      key: 'availability_id',
+      key: 'availability',
       title: 'Disponibilidade',
     },
   ]

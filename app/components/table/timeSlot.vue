@@ -56,7 +56,7 @@
           )} às ${item.end_time.substring(0, 5)}`
         }}
       </template>
-      <template #item.availability_id="{ item }">
+      <template #item.availability="{ item }">
         <v-btn
           :disabled="item.is_break"
           :icon="
