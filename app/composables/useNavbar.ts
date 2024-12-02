@@ -26,18 +26,14 @@ const useNavbar = () => {
       {
         label: user.value?.email,
         avatar: 'https://avatars.githubusercontent.com/u/739984?v=4',
-        action: () => {
-          return navigateTo('/profile')
-        },
+        action: () => navigateTo('/profile'),
       },
     ],
     [
       {
         label: 'Settings',
         icon: iconOutline.settings,
-        action: () => {
-          return navigateTo('/settings')
-        },
+        action: () => navigateTo('/settings'),
       },
       {
         label: 'Sign out',
