@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { TeacherInsert } from '~/types'
-  const { insertTeacher, insertPending, fetch, teachers } = useTeacher()
+  const { insertTeacher, insertPending, fetchTeacher, teachers } = useTeacher()
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (teacher: TeacherInsert) => {
@@ -19,7 +19,7 @@
     }
   }
   onMounted(async () => {
-    await fetch({ column: 'name' })
+    await fetchTeacher({ column: 'name' })
   })
 </script>
 
