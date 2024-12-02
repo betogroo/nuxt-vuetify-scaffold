@@ -1,22 +1,20 @@
 <script setup lang="ts">
-  //<script setup lang="ts">
-  import type { TableColumn, TimeSlotWithTeacherAvailabilityRow } from '~/types'
-  const props = defineProps<Props>()
-
-  const { toggleAvailability } = useTeacherAvailability()
+  import type {
+    PendingState,
+    TableColumn,
+    TimeSlotWithTeacherAvailabilityRow,
+  } from '~/types'
+  defineProps<Props>()
+  const $emit = defineEmits<{
+    handleAvailability: [item: TimeSlotWithTeacherAvailabilityRow]
+  }>()
 
   interface Props {
     title: string
     columns: TableColumn[]
     rows: TimeSlotWithTeacherAvailabilityRow[]
     teacherId: string
-    //rows: Array<Record<string, unknown>>
-  }
-
-  const handleAvailability = async (
-    item: TimeSlotWithTeacherAvailabilityRow,
-  ) => {
-    await toggleAvailability(item, props.teacherId)
+    rowPending: PendingState
   }
 </script>
 
@@ -47,8 +45,13 @@
               ? iconOutline.checkCircle
               : iconOutline.close_outline
           "
+          :loading="
+            rowPending.isLoading &&
+            rowPending.action === 'teacher_availability' &&
+            rowPending.itemId === item.id
+          "
           variant="text"
-          @click="handleAvailability(item)"
+          @click="$emit('handleAvailability', item)"
         />
       </template> </v-data-table
   ></AppCard>
