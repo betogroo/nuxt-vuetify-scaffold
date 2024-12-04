@@ -1,11 +1,13 @@
 import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
+
 import type {
   ViewUser,
   PendingState,
   PendingOptions,
   SelectOption,
+  PostgrestError,
 } from '~/types'
 
 const useHelpers = () => {
@@ -34,7 +36,56 @@ const useHelpers = () => {
     return Array.from({ length: fakeUsersAmount }, () => genFakeUser())
   }
 
+  const isPostgrestError = (error: unknown): error is PostgrestError => {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      'message' in error &&
+      'details' in error &&
+      'hint' in error
+    )
+  }
   const handleError = (err: unknown): CustomError => {
+    // Mensagens padrão
+    const validationErrorMessage = 'Erro de validação nos dados fornecidos.'
+    const databaseErrorMessage = 'Erro de banco de dados.'
+    const unexpectedErrorMessage = 'Erro inesperado.'
+    const unknownErrorMessage = 'Um erro desconhecido ocorreu.'
+
+    if (err instanceof ZodError) {
+      // Erros de validação do Zod
+      const messages = err.errors.map(
+        (e) => `${e.path.join('.')}: ${e.message}`,
+      )
+      return {
+        type: 'validation',
+        message: validationErrorMessage,
+        details: messages,
+      }
+    } else if (isPostgrestError(err)) {
+      // Erros do Supabase
+      return {
+        type: 'database',
+        message: `${databaseErrorMessage} ${err.message}`,
+        details: [err.hint || 'Sem detalhes adicionais.'],
+      }
+    } else if (err instanceof Error) {
+      // Outros erros que são instâncias de Error
+      return {
+        type: 'unknown',
+        message: `${unexpectedErrorMessage} ${err.message}`,
+      }
+    } else {
+      // Erros não identificados
+      return {
+        type: 'unknown',
+        message: unknownErrorMessage,
+        details: [JSON.stringify(err, null, 2) || 'Sem detalhes adicionais.'],
+      }
+    }
+  }
+
+  /* const handleError = (err: unknown): CustomError => {
     if (err instanceof ZodError) {
       // Erros de validação do Zod
       const messages = err.errors.map(
@@ -45,13 +96,13 @@ const useHelpers = () => {
         message: 'Erro de validação nos dados fornecidos.',
         details: messages,
       }
-      /*  } else if (err instanceof PostgrestError) {
+    } else if (isPostgrestError(err)) {
       // Erros do Supabase
       return {
         type: 'database',
         message: `Erro de banco de dados: ${err.message}`,
         details: [err.hint || ''],
-      } */
+      }
     } else if (err instanceof Error) {
       // Outros erros que são instâncias de Error
       return {
@@ -65,7 +116,7 @@ const useHelpers = () => {
         message: 'Um erro desconhecido ocorreu.',
       }
     }
-  }
+  } */
 
   const delay = (time = 800, msg: boolean | string = false): Promise<void> => {
     if (msg) console.log(`${msg} - ${time}ms delay`)
