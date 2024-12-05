@@ -124,20 +124,46 @@ export const documentStatusHistoryRelationshipsSchema = z.tuple([
   }),
 ])
 
+export const profileTypesRowSchema = z.object({
+  created_at: z.string(),
+  description: z.string().nullable(),
+  id: z.number(),
+  name: z.string(),
+})
+
+export const profileTypesInsertSchema = z.object({
+  created_at: z.string().optional(),
+  description: z.string().optional().nullable(),
+  id: z.number().optional(),
+  name: z.string(),
+})
+
+export const profileTypesUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  description: z.string().optional().nullable(),
+  id: z.number().optional(),
+  name: z.string().optional(),
+})
+
+export const profileTypesRelationshipsSchema = z.tuple([])
+
 export const profilesRowSchema = z.object({
   id: z.string(),
+  name: z.string().nullable(),
   updated_at: z.string().nullable(),
   username: z.string().nullable(),
 })
 
 export const profilesInsertSchema = z.object({
   id: z.string(),
+  name: z.string().optional().nullable(),
   updated_at: z.string().optional().nullable(),
   username: z.string().optional().nullable(),
 })
 
 export const profilesUpdateSchema = z.object({
   id: z.string().optional(),
+  name: z.string().optional().nullable(),
   updated_at: z.string().optional().nullable(),
   username: z.string().optional().nullable(),
 })
@@ -268,19 +294,19 @@ export const teacherAvailabilityRelationshipsSchema = z.tuple([
 export const teachersRowSchema = z.object({
   created_at: z.string(),
   id: z.string(),
-  name: z.string(),
+  name: z.string().nullable(),
 })
 
 export const teachersInsertSchema = z.object({
   created_at: z.string().optional(),
   id: z.string().optional(),
-  name: z.string(),
+  name: z.string().optional().nullable(),
 })
 
 export const teachersUpdateSchema = z.object({
   created_at: z.string().optional(),
   id: z.string().optional(),
-  name: z.string().optional(),
+  name: z.string().optional().nullable(),
 })
 
 export const teachersRelationshipsSchema = z.tuple([])
