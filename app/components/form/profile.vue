@@ -91,7 +91,6 @@
       <v-btn
         class="mr-1"
         color="error"
-        :loading="isPending"
         variant="tonal"
         @click.prevent="$emit('on-cancel')"
         >Cancelar</v-btn
