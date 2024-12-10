@@ -14,11 +14,12 @@
     'on-submit': [values: ProfileUpdate]
     'on-cancel': []
   }>()
-  const { isPending } = toRefs(props)
 
-  const { values, handleSubmit, meta } = useForm<ProfileUpdate>({
+  const { isPending, initialValues } = toRefs(props)
+
+  const { values, handleSubmit, meta, isFieldDirty } = useForm<ProfileUpdate>({
     validationSchema: validateProfile,
-    initialValues: props.initialValues,
+    initialValues: initialValues.value,
   })
 
   const { value: name, errorMessage: nameError } =
@@ -29,7 +30,25 @@
     useField<ProfileUpdate['username']>('username')
 
   const onSubmit = handleSubmit(async () => {
-    $emit('on-submit', values)
+    const dirtyFields: ProfileUpdate = {
+      id: values.id,
+    }
+    Object.entries(values).forEach(([key, value]) => {
+      if (key === 'id') return
+      //  ### opção 1 retorna o objeto onde os itens sujos são undefined
+      /* dirtyFields[key as keyof ProfileUpdate] = isFieldDirty(
+        key as keyof ProfileUpdate,
+      )
+        ? value ?? undefined
+        : undefined */
+
+      //  ### opção 2 retorna o objeto, eliminando os itens não sujos
+      if (isFieldDirty(key as keyof ProfileUpdate)) {
+        dirtyFields[key as keyof ProfileUpdate] = value ?? undefined
+      }
+    })
+
+    $emit('on-submit', dirtyFields)
   })
 </script>
 
@@ -64,7 +83,7 @@
         class="mr-1"
         color="success"
         dense
-        :disabled="!meta.valid"
+        :disabled="!meta.valid || !meta.dirty"
         :loading="isPending"
         type="submit"
         >Enviar</v-btn
@@ -72,8 +91,6 @@
       <v-btn
         class="mr-1"
         color="error"
-        :disabled="!meta.valid"
-        :loading="isPending"
         variant="tonal"
         @click.prevent="$emit('on-cancel')"
         >Cancelar</v-btn
