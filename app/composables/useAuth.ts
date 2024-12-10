@@ -28,6 +28,16 @@ const useAuth = () => {
     }, 'testProfile')
   }
 
+  const updateEmail = async (email: string) => {
+    await setPendingState(async () => {
+      const { data, error } = await supabase.auth.updateUser({
+        email,
+      })
+      if (error) throw error
+      console.log(data, error)
+    }, 'updateEmail')
+  }
+
   const handleLogin = async (credencial: UserLogin) => {
     await setPendingState(async () => {
       const parsedData = userLoginSchema.parse(credencial)
@@ -83,6 +93,7 @@ const useAuth = () => {
     handleSignUp,
     remainingTime,
     resendEmailConfirmation,
+    updateEmail,
     testProfile,
     profile,
   }
