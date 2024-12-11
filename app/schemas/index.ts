@@ -1,5 +1,6 @@
 export * from './userSchema'
 export * from './documentDemandSchema'
+export * from './purchasingDemandSchema'
 export * from './helpersSchema'
 export * from './appSchema'
 export * from './teacherSchema'
