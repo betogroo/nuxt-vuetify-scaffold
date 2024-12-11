@@ -124,6 +124,49 @@ export const documentStatusHistoryRelationshipsSchema = z.tuple([
   }),
 ])
 
+export const expenseCategoryRowSchema = z.object({
+  created_at: z.string(),
+  id: z.number(),
+  name: z.string(),
+})
+
+export const expenseCategoryInsertSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.number(),
+  name: z.string(),
+})
+
+export const expenseCategoryUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.number().optional(),
+  name: z.string().optional(),
+})
+
+export const expenseCategoryRelationshipsSchema = z.tuple([])
+
+export const productPackagingUnitRowSchema = z.object({
+  created_at: z.string(),
+  id: z.number(),
+  name: z.string(),
+  name_bec: z.string(),
+})
+
+export const productPackagingUnitInsertSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.number().optional(),
+  name: z.string(),
+  name_bec: z.string(),
+})
+
+export const productPackagingUnitUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.number().optional(),
+  name: z.string().optional(),
+  name_bec: z.string().optional(),
+})
+
+export const productPackagingUnitRelationshipsSchema = z.tuple([])
+
 export const profileTypesRowSchema = z.object({
   created_at: z.string(),
   description: z.string().nullable(),
@@ -169,6 +212,37 @@ export const profilesUpdateSchema = z.object({
 })
 
 export const profilesRelationshipsSchema = z.tuple([])
+
+export const ptresNumberSchema = z.union([
+  z.literal('180205'),
+  z.literal('180211'),
+])
+
+export const purchasingDemandsInsertSchema = z.object({
+  contracting_agent_id: z.string(),
+  created_at: z.string().optional(),
+  description: z.string(),
+  id: z.number().optional(),
+  ptres_number: ptresNumberSchema,
+})
+
+export const purchasingDemandsUpdateSchema = z.object({
+  contracting_agent_id: z.string().optional(),
+  created_at: z.string().optional(),
+  description: z.string().optional(),
+  id: z.number().optional(),
+  ptres_number: ptresNumberSchema.optional(),
+})
+
+export const purchasingDemandsRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal('purchasing_demands_contracting_agent_id_fkey'),
+    columns: z.tuple([z.literal('contracting_agent_id')]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal('profiles'),
+    referencedColumns: z.tuple([z.literal('id')]),
+  }),
+])
 
 export const schedulesRowSchema = z.object({
   class_id: z.string().nullable(),
@@ -246,6 +320,38 @@ export const subjectsUpdateSchema = z.object({
 })
 
 export const subjectsRelationshipsSchema = z.tuple([])
+
+export const suportTeamRowSchema = z.object({
+  process_id: z.number(),
+  profile_id: z.string(),
+})
+
+export const suportTeamInsertSchema = z.object({
+  process_id: z.number(),
+  profile_id: z.string(),
+})
+
+export const suportTeamUpdateSchema = z.object({
+  process_id: z.number().optional(),
+  profile_id: z.string().optional(),
+})
+
+export const suportTeamRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal('suport_team_process_id_fkey'),
+    columns: z.tuple([z.literal('process_id')]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal('purchasing_demands'),
+    referencedColumns: z.tuple([z.literal('id')]),
+  }),
+  z.object({
+    foreignKeyName: z.literal('suport_team_profile_id_fkey'),
+    columns: z.tuple([z.literal('profile_id')]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal('profiles'),
+    referencedColumns: z.tuple([z.literal('id')]),
+  }),
+])
 
 export const teacherAvailabilityRowSchema = z.object({
   created_at: z.string(),
@@ -351,4 +457,12 @@ export const documentDemandRowSchema = z.object({
   type: demandTypeSchema.nullable(),
   updated_at: z.string().nullable(),
   user_id: z.string(),
+})
+
+export const purchasingDemandsRowSchema = z.object({
+  contracting_agent_id: z.string(),
+  created_at: z.string(),
+  description: z.string(),
+  id: z.number(),
+  ptres_number: ptresNumberSchema,
 })
