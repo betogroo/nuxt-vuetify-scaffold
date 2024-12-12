@@ -17,4 +17,6 @@ export const profileUpdateSchema = z.object({
   email: z.string().email().optional(),
 })
 
+export const profileRowsSchema = z.array(profileRowSchema)
+
 export const validateProfile = toTypedSchema(profileUpdateSchema)
