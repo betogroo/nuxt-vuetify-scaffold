@@ -186,6 +186,7 @@ export type Database = {
         Row: {
           contracting_agent_id: string
           created_at: string
+          created_by: string | null
           description: string
           id: number
           ptres_number: Database["public"]["Enums"]["ptres_number"]
@@ -193,6 +194,7 @@ export type Database = {
         Insert: {
           contracting_agent_id: string
           created_at?: string
+          created_by?: string | null
           description: string
           id?: number
           ptres_number: Database["public"]["Enums"]["ptres_number"]
@@ -200,6 +202,7 @@ export type Database = {
         Update: {
           contracting_agent_id?: string
           created_at?: string
+          created_by?: string | null
           description?: string
           id?: number
           ptres_number?: Database["public"]["Enums"]["ptres_number"]

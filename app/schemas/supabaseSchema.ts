@@ -221,6 +221,7 @@ export const ptresNumberSchema = z.union([
 export const purchasingDemandsInsertSchema = z.object({
   contracting_agent_id: z.string(),
   created_at: z.string().optional(),
+  created_by: z.string().optional().nullable(),
   description: z.string(),
   id: z.number().optional(),
   ptres_number: ptresNumberSchema,
@@ -229,6 +230,7 @@ export const purchasingDemandsInsertSchema = z.object({
 export const purchasingDemandsUpdateSchema = z.object({
   contracting_agent_id: z.string().optional(),
   created_at: z.string().optional(),
+  created_by: z.string().optional().nullable(),
   description: z.string().optional(),
   id: z.number().optional(),
   ptres_number: ptresNumberSchema.optional(),
@@ -462,6 +464,7 @@ export const documentDemandRowSchema = z.object({
 export const purchasingDemandsRowSchema = z.object({
   contracting_agent_id: z.string(),
   created_at: z.string(),
+  created_by: z.string().nullable(),
   description: z.string(),
   id: z.number(),
   ptres_number: ptresNumberSchema,
