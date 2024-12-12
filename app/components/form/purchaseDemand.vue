@@ -15,10 +15,17 @@
 
   const { isPending } = toRefs(props)
   const { fetchProfiles, profiles } = useProfile()
-
-  const { values, handleSubmit, meta } = useForm<PurchasingDemandInsert>({
-    validationSchema: validatePurchasingDemand,
+  const initialValues = ref<PurchasingDemandInsert>({
+    contracting_agent_id: undefined,
+    description: '',
+    ptres_number: undefined,
   })
+
+  const { values, handleSubmit, meta, handleReset } =
+    useForm<PurchasingDemandInsert>({
+      validationSchema: validatePurchasingDemand,
+      initialValues: initialValues.value,
+    })
 
   const { value: description, errorMessage: descriptionError } =
     useField<PurchasingDemandInsert['description']>('description')
@@ -30,7 +37,13 @@
     )
 
   const onSubmit = handleSubmit(async () => {
-    $emit('on-submit', values)
+    try {
+      console.log(values)
+      $emit('on-submit', values)
+      handleReset()
+    } catch (error) {
+      console.log(error)
+    }
   })
 
   await fetchProfiles()

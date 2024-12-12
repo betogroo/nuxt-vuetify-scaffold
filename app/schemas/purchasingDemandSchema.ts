@@ -1,10 +1,9 @@
 import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 
-export const ptresNumberSchema = z.union([
-  z.literal('180205'),
-  z.literal('180211'),
-])
+export const ptresNumberSchema = z
+  .union([z.literal('180205'), z.literal('180211')])
+  .optional()
 
 export const purchasingDemandsRowSchema = z.object({
   id: z.number(),
@@ -19,9 +18,9 @@ export const purchasingDemandsInsertSchema = z.object({
   id: z.number().optional(),
   created_at: z.string().optional(),
   created_by: z.string().optional().nullable(),
-  contracting_agent_id: z.string().uuid(),
-  ptres_number: ptresNumberSchema,
-  description: z.string(),
+  contracting_agent_id: z.string().uuid().optional(),
+  ptres_number: ptresNumberSchema.nullable(),
+  description: z.string().min(1, MANDATORY_FIELD),
 })
 
 export const purchasingDemandsUpdateSchema = z.object({
