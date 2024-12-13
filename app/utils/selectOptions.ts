@@ -3,6 +3,7 @@ import type {
   DemandSite,
   DemandStatus,
   DemandType,
+  Ptres,
 } from '~/types'
 
 export const demandSites: SelectOption<DemandSite>[] = [
@@ -69,3 +70,5 @@ export const demandTypes: SelectOption<DemandType>[] = [
     value: '2ve',
   },
 ]
+
+export const ptresNumbers: Ptres[] = ['180205', '180211']

@@ -101,6 +101,45 @@ export type Database = {
           },
         ]
       }
+      expense_category: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      product_packaging_unit: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          name_bec: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          name_bec: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          name_bec?: string
+        }
+        Relationships: []
+      }
       profile_types: {
         Row: {
           created_at: string
@@ -142,6 +181,41 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      purchasing_demands: {
+        Row: {
+          contracting_agent_id: string
+          created_at: string
+          created_by: string | null
+          description: string
+          id: number
+          ptres_number: Database["public"]["Enums"]["ptres_number"]
+        }
+        Insert: {
+          contracting_agent_id: string
+          created_at?: string
+          created_by?: string | null
+          description: string
+          id?: number
+          ptres_number: Database["public"]["Enums"]["ptres_number"]
+        }
+        Update: {
+          contracting_agent_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          id?: number
+          ptres_number?: Database["public"]["Enums"]["ptres_number"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchasing_demands_contracting_agent_id_fkey"
+            columns: ["contracting_agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       schedules: {
         Row: {
@@ -215,6 +289,36 @@ export type Database = {
           name?: string
         }
         Relationships: []
+      }
+      suport_team: {
+        Row: {
+          process_id: number
+          profile_id: string
+        }
+        Insert: {
+          process_id: number
+          profile_id: string
+        }
+        Update: {
+          process_id?: number
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suport_team_process_id_fkey"
+            columns: ["process_id"]
+            isOneToOne: false
+            referencedRelation: "purchasing_demands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "suport_team_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       teacher_availability: {
         Row: {
@@ -314,6 +418,7 @@ export type Database = {
       demand_site: "1062-9" | "1342-5"
       demand_status: "new" | "consulted" | "released" | "issued" | "error"
       demand_type: "1cin" | "2cin" | "1v" | "2v" | "2t" | "1ve" | "2ve"
+      ptres_number: "180205" | "180211"
     }
     CompositeTypes: {
       [_ in never]: never

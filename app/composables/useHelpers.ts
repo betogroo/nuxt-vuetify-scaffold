@@ -147,7 +147,7 @@ const useHelpers = () => {
     itemId: null,
     isLoading: false,
   })
-  const error = ref()
+
   const setPendingState = async <T>(
     fn: () => Promise<T>,
     action: string,
@@ -160,9 +160,8 @@ const useHelpers = () => {
     try {
       return await fn() // Executa a função passada como argumento (a operação principal)
     } catch (err) {
-      error.value = err
-      console.log(err)
-      throw err // Propaga o erro, se houver
+      const error = handleError(err)
+      throw error // Propaga o erro, se houver
     } finally {
       isPending.value = { action: null, itemId: null, isLoading: false }
     }

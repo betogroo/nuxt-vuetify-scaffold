@@ -1,4 +1,8 @@
-import { profileRowSchema, profileUpdateSchema } from '~/schemas'
+import {
+  profileRowSchema,
+  profileRowsSchema,
+  profileUpdateSchema,
+} from '~/schemas'
 import type { Profile, ProfileUpdate } from '~/types'
 const { validateWithSchema } = useSchema()
 
@@ -10,6 +14,12 @@ const useProfile = () => {
     'profiles',
     profileRowSchema,
   )
+
+  const {
+    data: profiles,
+    fetch,
+    fetchPending,
+  } = useGenericFetch<Profile>('profiles', profileRowsSchema)
 
   const { update, updatePending: updateProfilePending } =
     useGenericUpdate<ProfileUpdate>('profiles', profileUpdateSchema)
@@ -27,6 +37,15 @@ const useProfile = () => {
     }
   }
 
+  const fetchProfiles = async () => {
+    try {
+      await fetch()
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
   const updateProfile = async (data: ProfileUpdate) => {
     const { email, id, ...newData } = data
     if (email) {
@@ -40,7 +59,10 @@ const useProfile = () => {
 
   return {
     profile,
+    profiles,
+    pendingProfiles: fetchPending,
     getProfile,
+    fetchProfiles,
     updateProfile,
     updateEmailPending,
     updateProfilePending,
