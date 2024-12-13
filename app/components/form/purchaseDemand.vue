@@ -77,19 +77,21 @@
       label="Escolha o Agente de Contratação"
       variant="outlined"
     />
-    <v-btn
-      color="success"
-      :disabled="!meta.valid"
-      :loading="isPending"
-      type="submit"
-      >Enviar</v-btn
-    >
-    <v-btn
-      color="red"
-      :loading="isPending"
-      @click="handleReset"
-      >Limpar</v-btn
-    >
-    <div>{{ selectProfileData }}</div>
+    <div class="d-flex justify-space-around">
+      <v-btn
+        color="success"
+        :disabled="!meta.valid"
+        :loading="isPending"
+        type="submit"
+        >Enviar</v-btn
+      >
+      <v-btn
+        color="red"
+        :disabled="!meta.dirty"
+        :loading="isPending"
+        @click="handleReset"
+        >Limpar</v-btn
+      >
+    </div>
   </v-form>
 </template>
