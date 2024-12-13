@@ -1,9 +1,19 @@
 import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 
-export const ptresNumberSchema = z
+/* export const ptresNumberSchema = z
   .union([z.literal('180205'), z.literal('180211')])
-  .optional()
+  .optional() */
+export const ptresNumberSchema = z
+  .union([z.literal('180205'), z.literal('180211'), z.literal(undefined)])
+  .superRefine((val, ctx) => {
+    if (val === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Escolha um valor válido.',
+      })
+    }
+  })
 
 export const purchasingDemandsRowSchema = z.object({
   id: z.number(),
