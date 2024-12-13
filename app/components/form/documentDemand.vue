@@ -10,22 +10,20 @@
   })
 
   const $emit = defineEmits<{
-    'on-submit': [values: DocumentDemandInsert]
+    'on-submit': [values: DocumentDemandInsert, onSuccess: () => void]
   }>()
 
   const user = useSupabaseUser()
 
   const { isPending } = toRefs(props)
 
-  const { values, handleSubmit, meta } = useForm<DocumentDemandInsert>({
-    validationSchema: validateDocumentDemand,
-    initialValues: {
-      document_number: '',
-      name: '',
-      user_id: user.value?.id,
-      note: '',
-    },
-  })
+  const { values, handleSubmit, meta, handleReset } =
+    useForm<DocumentDemandInsert>({
+      validationSchema: validateDocumentDemand,
+      initialValues: {
+        user_id: user.value?.id,
+      },
+    })
 
   const { value: documentNumber, errorMessage: documentNumberError } =
     useField<DocumentDemandInsert['document_number']>('document_number')
@@ -39,7 +37,7 @@
     useField<DocumentDemandInsert['note']>('note')
 
   const onSubmit = handleSubmit(async () => {
-    $emit('on-submit', values)
+    $emit('on-submit', values, handleReset)
   })
 </script>
 
@@ -93,6 +91,11 @@
       :loading="isPending"
       type="submit"
       >Enviar</v-btn
+    >
+    <v-btn
+      color="red"
+      @click="handleReset"
+      >Limpar</v-btn
     >
   </v-form>
 </template>

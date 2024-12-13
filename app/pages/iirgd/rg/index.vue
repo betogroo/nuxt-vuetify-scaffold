@@ -18,14 +18,18 @@
   onMounted(async () => {
     await fetchDocumentDemands()
   })
-  const submitDocumentDemand = async (documentDemand: DocumentDemandInsert) => {
+  const submitDocumentDemand = async (
+    documentDemand: DocumentDemandInsert,
+    onSuccess: () => void,
+  ) => {
     try {
       const newDocumentDemand = await insertDocumentDemand(documentDemand)
-      if (!newDocumentDemand) throw new Error('aqui deu erro')
+      if (!newDocumentDemand) throw new Error('Erro ao cadastrar demanda')
       showToast(
         'success',
         `Documento ${newDocumentDemand?.document_number} cadastrado com sucesso`,
       )
+      onSuccess()
       closeModal()
     } catch (err) {
       const e = err as Error
@@ -116,7 +120,9 @@
             documentDemandPending.isLoading &&
             documentDemandPending.action === 'add-document_demand'
           "
-          @on-submit="submitDocumentDemand"
+          @on-submit="
+            (values, onSuccess) => submitDocumentDemand(values, onSuccess)
+          "
         />
       </AppModal>
       <v-btn
