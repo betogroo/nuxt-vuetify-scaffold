@@ -10,11 +10,11 @@
     isPending: false,
   })
   const $emit = defineEmits<{
-    'on-submit': [values: TeacherInsert]
+    'on-submit': [values: TeacherInsert, onSuccess: () => void]
   }>()
   const { isPending } = toRefs(props)
 
-  const { values, handleSubmit, meta } = useForm<TeacherInsert>({
+  const { values, handleSubmit, meta, handleReset } = useForm<TeacherInsert>({
     validationSchema: validateTeacher,
     initialValues: {
       name: '',
@@ -25,7 +25,7 @@
     useField<TeacherInsert['name']>('name')
 
   const onSubmit = handleSubmit(async () => {
-    $emit('on-submit', values)
+    $emit('on-submit', values, handleReset)
   })
 </script>
 

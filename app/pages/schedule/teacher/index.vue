@@ -3,7 +3,10 @@
   const { insertTeacher, insertPending, fetchTeacher, teachers } = useTeacher()
   const { showToast, handleError } = useHelpers()
 
-  const handleSubmit = async (teacher: TeacherInsert) => {
+  const handleSubmit = async (
+    teacher: TeacherInsert,
+    onSuccess: () => void,
+  ) => {
     try {
       const newTeacher = await insertTeacher(teacher)
       if (!newTeacher) throw new Error('Erro ao Adicionar Professor')
@@ -11,6 +14,7 @@
         'success',
         `Professor ${newTeacher.name} cadastrado com sucesso`,
       )
+      onSuccess()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
@@ -30,7 +34,7 @@
       :is-pending="
         insertPending.isLoading && insertPending.action === 'add-teachers'
       "
-      @on-submit="handleSubmit"
+      @on-submit="(values, onSuccess) => handleSubmit(values, onSuccess)"
     />
     <section>
       <v-list nav>
