@@ -10,17 +10,21 @@ const useGenericInsert = <InsertType, RowType>(
   const { isPending: insertPending, setPendingState } = useHelpers()
 
   const insert = async (data: InsertType) => {
-    return setPendingState(async () => {
-      const parsedData = schema.parse(data)
-      const { data: newInsert, error } = await supabase
-        .from(tableName)
-        .insert(parsedData)
-        .select()
-        .returns<RowType[]>()
-        .single()
-      if (error) throw error
-      return newInsert
-    }, `add-${tableName}`)
+    return setPendingState(
+      async () => {
+        const parsedData = schema.parse(data)
+        const { data: newInsert, error } = await supabase
+          .from(tableName)
+          .insert(parsedData)
+          .select()
+          .returns<RowType[]>()
+          .single()
+        if (error) throw error
+        return newInsert
+      },
+      `add-${tableName}`,
+      { delay: 2000 },
+    )
   }
   return { insertPending, insert }
 }

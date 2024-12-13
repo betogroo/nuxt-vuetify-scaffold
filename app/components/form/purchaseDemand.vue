@@ -10,7 +10,7 @@
     isPending: false,
   })
   const $emit = defineEmits<{
-    'on-submit': [values: PurchasingDemandInsert]
+    'on-submit': [values: PurchasingDemandInsert, onSuccess: () => void]
   }>()
 
   const { isPending } = toRefs(props)
@@ -38,10 +38,10 @@
 
   const onSubmit = handleSubmit(async () => {
     try {
-      $emit('on-submit', values)
-      handleReset()
+      $emit('on-submit', values, handleReset)
     } catch (error) {
       console.error(error)
+      throw error
     }
   })
 

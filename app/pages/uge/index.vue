@@ -11,10 +11,14 @@
     order: 2,
   })
 
-  const submitForm = async (data: PurchasingDemandInsert) => {
+  const submitForm = async (
+    data: PurchasingDemandInsert,
+    onSuccess: () => void,
+  ) => {
     try {
       await insertPurchasingDemand(data)
       showToast('success', 'Dados inseridos com sucesso')
+      onSuccess()
     } catch (error) {
       console.log(handleError(error))
       showToast('error', handleError(error).message)
@@ -26,7 +30,7 @@
   <div>
     <FormPurchaseDemand
       :is-pending="purchasingPending.isLoading"
-      @on-submit="submitForm"
+      @on-submit="(values, onSuccess) => submitForm(values, onSuccess)"
     />
   </div>
 </template>
