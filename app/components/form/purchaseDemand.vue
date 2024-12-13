@@ -15,16 +15,10 @@
 
   const { isPending } = toRefs(props)
   const { fetchProfiles, profiles } = useProfile()
-  const initialValues = ref<PurchasingDemandInsert>({
-    contracting_agent_id: undefined,
-    description: '',
-    ptres_number: undefined,
-  })
 
   const { values, handleSubmit, meta, handleReset } =
     useForm<PurchasingDemandInsert>({
       validationSchema: validatePurchasingDemand,
-      initialValues: initialValues.value,
     })
 
   const { value: description, errorMessage: descriptionError } =
@@ -89,6 +83,12 @@
       :loading="isPending"
       type="submit"
       >Enviar</v-btn
+    >
+    <v-btn
+      color="red"
+      :loading="isPending"
+      @click="handleReset"
+      >Limpar</v-btn
     >
     <div>{{ selectProfileData }}</div>
   </v-form>
