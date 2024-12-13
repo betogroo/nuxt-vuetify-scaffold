@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { PurchasingDemandInsert } from '~/types'
-  const { showToast, handleError } = useHelpers()
+  import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
+  const { handleError } = useHelpers()
 
   const { insertPurchasingDemand, purchasingPending } = usePurchasingDemand()
 
@@ -13,15 +13,15 @@
 
   const submitForm = async (
     data: PurchasingDemandInsert,
-    onSuccess: () => void,
+    onSuccess: (id: string | number) => void,
+    onError: (message: string) => void,
   ) => {
     try {
-      await insertPurchasingDemand(data)
-      showToast('success', 'Dados inseridos com sucesso')
-      onSuccess()
+      const insertedData: PurchasingDemand = await insertPurchasingDemand(data)
+      if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
+      onSuccess(insertedData.id)
     } catch (error) {
-      console.log(handleError(error))
-      showToast('error', handleError(error).message)
+      onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
   }
 </script>
@@ -30,7 +30,9 @@
   <div>
     <FormPurchaseDemand
       :is-pending="purchasingPending.isLoading"
-      @on-submit="(values, onSuccess) => submitForm(values, onSuccess)"
+      @on-submit="
+        (values, onSuccess, onError) => submitForm(values, onSuccess, onError)
+      "
     />
   </div>
 </template>
