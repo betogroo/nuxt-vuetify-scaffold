@@ -16,7 +16,8 @@
       await insertPurchasingDemand(data)
       showToast('success', 'Dados inseridos com sucesso')
     } catch (error) {
-      handleError(error)
+      console.log(handleError(error))
+      showToast('error', handleError(error).message)
     }
   }
 </script>

@@ -38,11 +38,10 @@
 
   const onSubmit = handleSubmit(async () => {
     try {
-      console.log(values)
       $emit('on-submit', values)
       handleReset()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   })
 
