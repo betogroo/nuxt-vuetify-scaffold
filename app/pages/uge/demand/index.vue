@@ -3,6 +3,8 @@
   const { handleError } = useHelpers()
 
   const { insertPurchasingDemand, purchasingPending } = usePurchasingDemand()
+  const { fetchProfiles, profiles } = useProfile()
+
   const purchaseDemandModal = ref(false)
   const closeModal = () => {
     purchaseDemandModal.value = false
@@ -31,6 +33,14 @@
       onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
   }
+
+  await fetchProfiles()
+  const selectProfileData = profiles.value.map((item) => {
+    return {
+      name: item.name || '',
+      value: item.id,
+    }
+  })
 </script>
 
 <template>
@@ -42,6 +52,7 @@
       >
         <FormPurchaseDemand
           :is-pending="purchasingPending.isLoading"
+          :select-profile-data="selectProfileData"
           @on-submit="
             (values, onSuccess, onError) =>
               submitForm(values, onSuccess, onError)

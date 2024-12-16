@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import type { PurchasingDemandInsert } from '~/types'
+  import type { PurchasingDemandInsert, SelectOption } from '~/types'
   import { validatePurchasingDemand } from '~/schemas'
 
   interface Props {
     isPending?: boolean
+    selectProfileData: SelectOption[]
   }
   const props = withDefaults(defineProps<Props>(), {
     isPending: false,
@@ -18,7 +19,6 @@
   }>()
 
   const { isPending } = toRefs(props)
-  const { fetchProfiles, profiles } = useProfile()
   const { onHandleSuccess, onHandleError } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } =
@@ -50,14 +50,6 @@
   const onError = (message: string) => {
     onHandleError(message)
   }
-
-  await fetchProfiles()
-  const selectProfileData = profiles.value.map((item) => {
-    return {
-      name: item.name,
-      value: item.id,
-    }
-  })
 </script>
 
 <template>
