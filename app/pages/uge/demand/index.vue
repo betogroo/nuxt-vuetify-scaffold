@@ -65,6 +65,7 @@
       class="mr-4"
       color="green"
       :icon="iconOutline.plus"
+      :loading="purchaseDemandModal"
       @click="openModal"
     />
   </v-container>
