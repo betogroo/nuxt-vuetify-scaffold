@@ -10,11 +10,16 @@
     isPending: false,
   })
   const $emit = defineEmits<{
-    'on-submit': [values: PurchasingDemandInsert, onSuccess: () => void]
+    'on-submit': [
+      values: PurchasingDemandInsert,
+      onSuccess: (id: string | number) => void,
+      onError: (message: string) => void,
+    ]
   }>()
 
   const { isPending } = toRefs(props)
   const { fetchProfiles, profiles } = useProfile()
+  const { onHandleSuccess, onHandleError } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } =
     useForm<PurchasingDemandInsert>({
@@ -32,12 +37,19 @@
 
   const onSubmit = handleSubmit(async () => {
     try {
-      $emit('on-submit', values, handleReset)
+      $emit('on-submit', values, onSuccess, onError)
     } catch (error) {
       console.error(error)
       throw error
     }
   })
+
+  const onSuccess = (id: string | number) => {
+    onHandleSuccess(`Demanda ${id} cadastrada com sucesso`, handleReset)
+  }
+  const onError = (message: string) => {
+    onHandleError(message)
+  }
 
   await fetchProfiles()
   const selectProfileData = profiles.value.map((item) => {

@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import type { DocumentDemandInsert, TableColumn } from '~/types'
-  const { handleError, showToast } = useHelpers()
   const {
     fetchDocumentDemands,
     documentDemandPending,
     insertDocumentDemand,
     tableDemandView,
   } = useDocumentDemand()
+  const { handleError } = useHelpers()
+
   const newRgModal = ref(false)
   const openModal = () => {
     newRgModal.value = true
@@ -20,22 +21,16 @@
   })
   const submitDocumentDemand = async (
     documentDemand: DocumentDemandInsert,
-    onSuccess: () => void,
+    onSuccess: (id: string | number) => void,
+    onError: (message: string) => void,
   ) => {
     try {
       const newDocumentDemand = await insertDocumentDemand(documentDemand)
       if (!newDocumentDemand) throw new Error('Erro ao cadastrar demanda')
-      showToast(
-        'success',
-        `Documento ${newDocumentDemand?.document_number} cadastrado com sucesso`,
-      )
-      onSuccess()
+      onSuccess(newDocumentDemand.id)
       closeModal()
-    } catch (err) {
-      const e = err as Error
-      const error = handleError(e)
-      showToast('error', error.message)
-      console.error(error)
+    } catch (error) {
+      onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
   }
 
@@ -121,7 +116,8 @@
             documentDemandPending.action === 'add-document_demand'
           "
           @on-submit="
-            (values, onSuccess) => submitDocumentDemand(values, onSuccess)
+            (values, onSuccess, onError) =>
+              submitDocumentDemand(values, onSuccess, onError)
           "
         />
       </AppModal>

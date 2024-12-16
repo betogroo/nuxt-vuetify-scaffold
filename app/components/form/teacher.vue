@@ -10,9 +10,14 @@
     isPending: false,
   })
   const $emit = defineEmits<{
-    'on-submit': [values: TeacherInsert, onSuccess: () => void]
+    'on-submit': [
+      values: TeacherInsert,
+      onSuccess: (id: string | number) => void,
+      onError: (message: string) => void,
+    ]
   }>()
   const { isPending } = toRefs(props)
+  const { onHandleSuccess, onHandleError } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } = useForm<TeacherInsert>({
     validationSchema: validateTeacher,
@@ -24,8 +29,15 @@
   const { value: name, errorMessage: nameError } =
     useField<TeacherInsert['name']>('name')
 
+  const onSuccess = (id: string | number) => {
+    onHandleSuccess(`Professor ${id} cadastrado com sucesso`, handleReset)
+  }
+  const onError = (message: string) => {
+    onHandleError(message)
+  }
+
   const onSubmit = handleSubmit(async () => {
-    $emit('on-submit', values, handleReset)
+    $emit('on-submit', values, onSuccess, onError)
   })
 </script>
 

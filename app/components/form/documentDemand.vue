@@ -10,12 +10,17 @@
   })
 
   const $emit = defineEmits<{
-    'on-submit': [values: DocumentDemandInsert, onSuccess: () => void]
+    'on-submit': [
+      values: DocumentDemandInsert,
+      onSuccess: (id: string | number) => void,
+      onError: (message: string) => void,
+    ]
   }>()
 
   const user = useSupabaseUser()
 
   const { isPending } = toRefs(props)
+  const { onHandleSuccess, onHandleError } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } =
     useForm<DocumentDemandInsert>({
@@ -36,8 +41,15 @@
   const { value: note, errorMessage: noteError } =
     useField<DocumentDemandInsert['note']>('note')
 
+  const onSuccess = (id: string | number) => {
+    onHandleSuccess(`Documento ${id} cadastrado com sucesso`, handleReset)
+  }
+  const onError = (message: string) => {
+    onHandleError(message)
+  }
+
   const onSubmit = handleSubmit(async () => {
-    $emit('on-submit', values, handleReset)
+    $emit('on-submit', values, onSuccess, onError)
   })
 </script>
 

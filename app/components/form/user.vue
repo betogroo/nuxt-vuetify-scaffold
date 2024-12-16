@@ -14,24 +14,37 @@
   })
 
   const $emit = defineEmits<{
-    onSubmit: [values: AddUser]
+    onSubmit: [
+      values: AddUser,
+      onSuccess: (id: string | number) => void,
+      onError: (message: string) => void,
+    ]
   }>()
+  const { onHandleSuccess, onHandleError } = useHandleForm()
 
-  const { values, handleSubmit, meta, resetForm } = useForm<AddUser>({
-    validationSchema: validationUserSchema,
-    // fake pre-filled form
-    initialValues: {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-    },
-  })
+  const { values, handleSubmit, meta, resetForm, handleReset } =
+    useForm<AddUser>({
+      validationSchema: validationUserSchema,
+      // fake pre-filled form
+      initialValues: {
+        name: faker.person.fullName(),
+        email: faker.internet.email(),
+      },
+    })
 
   const { value: name, errorMessage: nameError } = useField<string>('name')
   const { value: email, errorMessage: emailError } = useField<string>('email')
 
+  const onSuccess = (id: string | number) => {
+    onHandleSuccess(`Professor ${id} cadastrado com sucesso`, handleReset)
+  }
+  const onError = (message: string) => {
+    onHandleError(message)
+  }
+
   const addData = handleSubmit(async () => {
     //$emit('onSubmit', { name: 'dddd', email: 'emam' })
-    $emit('onSubmit', values)
+    $emit('onSubmit', values, onSuccess, onError)
   })
 </script>
 

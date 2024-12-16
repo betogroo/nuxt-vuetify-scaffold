@@ -1,13 +1,8 @@
 <template>
-  <v-app>
+  <v-app full-height>
     <AppNavbar />
     <v-main>
-      <v-container
-        class="pa-0"
-        max-width="1080"
-      >
-        <slot />
-      </v-container>
+      <slot />
     </v-main>
   </v-app>
 </template>

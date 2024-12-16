@@ -7,12 +7,17 @@ const useRegistration = () => {
   const { isPending, setPendingState } = useHelpers()
   const { getRandomUUID } = useHelpers()
   const addUser = async (data: AddUser) => {
-    await setPendingState(async () => {
-      const parsedFormData = addUserSchema.parse(data)
-      const parsedFakedUser = createFakeUser(parsedFormData)
-      fakeUsers.value = [...fakeUsers.value, parsedFakedUser]
-      console.log(parsedFormData, 'enviado ao db:', fakeUsers.value)
-    }, 'addUser')
+    const parsedFormData = addUserSchema.parse(data)
+    return await setPendingState(
+      async () => {
+        const parsedFakedUser = createFakeUser(parsedFormData)
+        fakeUsers.value = [...fakeUsers.value, parsedFakedUser]
+        console.log(parsedFormData, 'enviado ao db:', fakeUsers.value)
+        return parsedFakedUser
+      },
+      'addUser',
+      { delay: 2000 },
+    )
   }
 
   const deleteUser = async (id: string) => {

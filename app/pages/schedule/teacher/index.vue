@@ -1,25 +1,18 @@
 <script setup lang="ts">
   import type { TeacherInsert } from '~/types'
   const { insertTeacher, insertPending, fetchTeacher, teachers } = useTeacher()
-  const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (
     teacher: TeacherInsert,
-    onSuccess: () => void,
+    onSuccess: (id: string | number) => void,
+    onError: (message: string, error?: unknown) => void,
   ) => {
     try {
       const newTeacher = await insertTeacher(teacher)
       if (!newTeacher) throw new Error('Erro ao Adicionar Professor')
-      showToast(
-        'success',
-        `Professor ${newTeacher.name} cadastrado com sucesso`,
-      )
-      onSuccess()
-    } catch (err) {
-      const e = err as Error
-      const error = handleError(e)
-      showToast('error', error.message)
-      console.error(error)
+      onSuccess(newTeacher.id)
+    } catch (error) {
+      onError('Erro ao tentar inserir a demanda', error)
     }
   }
   onMounted(async () => {
@@ -34,7 +27,9 @@
       :is-pending="
         insertPending.isLoading && insertPending.action === 'add-teachers'
       "
-      @on-submit="(values, onSuccess) => handleSubmit(values, onSuccess)"
+      @on-submit="
+        (values, onSuccess, onError) => handleSubmit(values, onSuccess, onError)
+      "
     />
     <section>
       <v-list nav>
