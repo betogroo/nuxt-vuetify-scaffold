@@ -26,17 +26,18 @@
 
   //const toast = useToast()
 
-  const addData = async (user: AddUser) => {
+  const addData = async (
+    user: AddUser,
+    onSuccess: (id: string | number) => void,
+    onError: (message: string, error?: unknown) => void,
+  ) => {
     try {
-      await addUser(user)
-      showToast('success', 'Cadastrado com sucesso')
-      console.log('Usuário Cadastrado - Index.vue')
+      const newUser = await addUser(user)
+      if (!newUser) throw Error('Erro ao cadastrar usuário')
+      onSuccess(newUser.id!)
       closeModal()
-    } catch (err) {
-      const e = err as Error
-      const error = handleError(e)
-      //showToast('error', error.message)
-      console.error(error)
+    } catch (error) {
+      onError('Erro ao tentar inserir o usuário', error)
     }
   }
   const deleteData = async (id: string) => {
