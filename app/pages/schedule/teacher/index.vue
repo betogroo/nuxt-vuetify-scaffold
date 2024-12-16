@@ -5,15 +5,14 @@
   const handleSubmit = async (
     teacher: TeacherInsert,
     onSuccess: (id: string | number) => void,
-    onError: (message: string) => void,
+    onError: (message: string, error?: unknown) => void,
   ) => {
     try {
       const newTeacher = await insertTeacher(teacher)
       if (!newTeacher) throw new Error('Erro ao Adicionar Professor')
-
       onSuccess(newTeacher.id)
     } catch (error) {
-      onError(error)
+      onError('Erro ao tentar inserir a demanda', error)
     }
   }
   onMounted(async () => {

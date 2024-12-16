@@ -6,6 +6,8 @@
     insertDocumentDemand,
     tableDemandView,
   } = useDocumentDemand()
+  const { handleError } = useHelpers()
+
   const newRgModal = ref(false)
   const openModal = () => {
     newRgModal.value = true
@@ -28,7 +30,7 @@
       onSuccess(newDocumentDemand.id)
       closeModal()
     } catch (error) {
-      onError(error)
+      onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
   }
 

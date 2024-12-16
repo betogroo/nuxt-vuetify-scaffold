@@ -30,7 +30,7 @@
     useField<TeacherInsert['name']>('name')
 
   const onSuccess = (id: string | number) => {
-    onHandleSuccess(id, `Professor ${id} cadastrado com sucesso`, handleReset)
+    onHandleSuccess(`Professor ${id} cadastrado com sucesso`, handleReset)
   }
   const onError = (message: string) => {
     onHandleError(message)

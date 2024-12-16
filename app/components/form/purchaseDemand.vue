@@ -45,7 +45,7 @@
   })
 
   const onSuccess = (id: string | number) => {
-    onHandleSuccess(id, `Demanda ${id} cadastrada com sucesso`, handleReset)
+    onHandleSuccess(`Demanda ${id} cadastrada com sucesso`, handleReset)
   }
   const onError = (message: string) => {
     onHandleError(message)

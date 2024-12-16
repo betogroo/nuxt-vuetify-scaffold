@@ -42,7 +42,7 @@
     useField<DocumentDemandInsert['note']>('note')
 
   const onSuccess = (id: string | number) => {
-    onHandleSuccess(id, `Documento ${id} cadastrado com sucesso`, handleReset)
+    onHandleSuccess(`Documento ${id} cadastrado com sucesso`, handleReset)
   }
   const onError = (message: string) => {
     onHandleError(message)

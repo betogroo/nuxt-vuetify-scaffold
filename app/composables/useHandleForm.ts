@@ -1,16 +1,12 @@
 const useHandleForm = () => {
-  const { showToast } = useHelpers()
+  const { showToast, handleError } = useHelpers()
 
-  const onHandleSuccess = (
-    id: string | number,
-    message: string,
-    resetCallback: () => void,
-  ) => {
+  const onHandleSuccess = (message: string, resetCallback: () => void) => {
     showToast('success', message)
     resetCallback()
   }
-  const onHandleError = (message: string) => {
-    showToast('error', message)
+  const onHandleError = (message: string, error?: unknown) => {
+    showToast('error', `${message}, ${handleError(error).message || ''}`)
   }
   return { onHandleSuccess, onHandleError }
 }
