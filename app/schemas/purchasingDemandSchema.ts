@@ -20,11 +20,21 @@ export const ptresNumberSchema = z
 export const purchasingDemandsRowSchema = z.object({
   id: z.number(),
   contracting_agent_id: z.string().uuid(),
-  created_by: z.string().nullable(),
-  created_at: z.string(),
+  created_by: z.string().nullable().optional(),
+  created_at: z.string().optional(),
   ptres_number: ptresNumberSchema,
   description: z.string(),
 })
+
+export const purchasingDemandsWithContractingAgentRowSchema =
+  purchasingDemandsRowSchema.extend({
+    contracting_agent: z.string(),
+  })
+
+export const purchasingDemandsRowsSchema = z.array(purchasingDemandsRowSchema)
+export const purchasingDemandsWithContractingAgentRowsSchema = z.array(
+  purchasingDemandsWithContractingAgentRowSchema,
+)
 
 export const purchasingDemandsInsertSchema = z.object({
   id: z.number().optional(),

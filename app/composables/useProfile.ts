@@ -17,7 +17,7 @@ const useProfile = () => {
 
   const {
     data: profiles,
-    fetch,
+    fetch: fetchProfiles,
     fetchPending,
   } = useGenericFetch<Profile>('profiles', profileRowsSchema)
 
@@ -37,14 +37,14 @@ const useProfile = () => {
     }
   }
 
-  const fetchProfiles = async () => {
+  /* const fetchProfiles = async () => {
     try {
       await fetch()
     } catch (error) {
       console.log(error)
       throw error
     }
-  }
+  } */
 
   const updateProfile = async (data: ProfileUpdate) => {
     const { email, id, ...newData } = data

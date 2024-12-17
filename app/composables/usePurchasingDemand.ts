@@ -1,5 +1,8 @@
 import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
-import { purchasingDemandsInsertSchema } from '~/schemas'
+import {
+  purchasingDemandsInsertSchema,
+  purchasingDemandsRowsSchema,
+} from '~/schemas'
 
 const usePurchasingDemand = () => {
   const { insertPending: purchasingPending, insert: insertPurchasingDemand } =
@@ -7,7 +10,23 @@ const usePurchasingDemand = () => {
       'purchasing_demands',
       purchasingDemandsInsertSchema,
     )
-  return { purchasingPending, insertPurchasingDemand }
+
+  const {
+    fetchPending: purchasingFetchPending,
+    fetch: fetchPurchasingDemands,
+    data: purchasingDemands,
+  } = useGenericFetch<PurchasingDemand>(
+    'purchasing_demands',
+    purchasingDemandsRowsSchema,
+  )
+
+  return {
+    purchasingPending,
+    insertPurchasingDemand,
+    purchasingFetchPending,
+    fetchPurchasingDemands,
+    purchasingDemands,
+  }
 }
 
 export default usePurchasingDemand
