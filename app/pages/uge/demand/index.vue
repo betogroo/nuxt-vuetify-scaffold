@@ -1,8 +1,15 @@
 <script setup lang="ts">
   import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
   const { handleError } = useHelpers()
+  const { push } = useRouter()
 
-  const { insertPurchasingDemand, purchasingPending } = usePurchasingDemand()
+  const {
+    insertPurchasingDemand,
+    purchasingPending,
+    columns,
+    fetchPurchasingDemands,
+    purchasingDemands,
+  } = usePurchasingDemand()
   const { fetchProfiles, profiles } = useProfile()
 
   const purchaseDemandModal = ref(false)
@@ -29,23 +36,55 @@
       if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
       onSuccess(insertedData.id)
       closeModal()
+      push(`/uge/demand/${insertedData.id}`)
     } catch (error) {
       onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
   }
+  const purchasingDemandsWithContractingAgent = computed(() => {
+    if (!profiles.value || !purchasingDemands.value) return []
+    const profileMap = new Map(
+      profiles.value.map((profile) => [profile.id, profile.name]),
+    )
+    const returnData = purchasingDemands.value.map((demand) => ({
+      ...demand,
+      contracting_agent:
+        profileMap.get(demand.contracting_agent_id) || 'não definido',
+    }))
+    return returnData
+  })
 
-  await fetchProfiles()
-  const selectProfileData = profiles.value.map((item) => {
-    return {
-      name: item.name || '',
-      value: item.id,
+  onMounted(async () => {
+    try {
+      await fetchPurchasingDemands(undefined, [
+        'id, ptres_number',
+        'description',
+        'contracting_agent_id',
+      ])
+      await fetchProfiles(undefined, ['id', 'name'])
+    } catch (error) {
+      console.log(error)
     }
   })
+
+  const selectProfileData = computed(() =>
+    profiles.value.map((item) => {
+      return {
+        name: item.name || '',
+        value: item.id,
+      }
+    }),
+  )
 </script>
 
 <template>
   <v-container class="fill-height flex-column justify-space-between align-end">
     <div class="w-100">
+      <TablePurchasingDemand
+        :columns="columns"
+        :rows="purchasingDemandsWithContractingAgent"
+        title="Demandas"
+      />
       <AppModal
         v-model="purchaseDemandModal"
         title="Cadastrar Processo"

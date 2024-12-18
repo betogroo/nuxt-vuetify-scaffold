@@ -1,4 +1,8 @@
-import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
+import type {
+  PurchasingDemandInsert,
+  PurchasingDemand,
+  TableColumn,
+} from '~/types'
 import {
   purchasingDemandsInsertSchema,
   purchasingDemandsRowsSchema,
@@ -20,12 +24,35 @@ const usePurchasingDemand = () => {
     purchasingDemandsRowsSchema,
   )
 
+  const columns: TableColumn[] = [
+    {
+      key: 'id',
+      title: 'Processo',
+    },
+    {
+      key: 'ptres_number',
+      title: 'PTRES',
+    },
+    {
+      key: 'description',
+      title: 'Descrição',
+    },
+    {
+      key: 'contracting_agent',
+      title: 'Agente de Contratação',
+    },
+    {
+      title: 'Equipe de apoio',
+    },
+  ]
+
   return {
     purchasingPending,
     insertPurchasingDemand,
     purchasingFetchPending,
     fetchPurchasingDemands,
     purchasingDemands,
+    columns,
   }
 }
 
