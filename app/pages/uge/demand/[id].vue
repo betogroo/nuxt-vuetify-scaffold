@@ -1,39 +1,19 @@
 <script setup lang="ts">
-  import type { DemandWithAgent } from '~/types'
   const { params } = useRoute()
-  const { getPurchasingDemandById, purchasingDemand } = usePurchasingDemand()
+  const { getPurchasingDemandById, detailedPurchasingRow, fetchAgents } =
+    useDetailedPurchasing()
 
-  const { profiles, fetchProfiles } = useProfile()
   const id = Array.isArray(params.id) ? params.id[0] : params.id
 
   if (id) await getPurchasingDemandById(id)
-  await fetchProfiles()
-
-  const purchasingDemandWithContractingAgent = computed<DemandWithAgent>(() => {
-    if (!profiles.value || !purchasingDemand.value)
-      return {
-        id: '',
-        description: '',
-        contracting_agent: '',
-        contracting_agent_id: '',
-      }
-    const profileMap = new Map(
-      profiles.value.map((profile) => [profile.id, profile.name]),
-    )
-    return {
-      ...purchasingDemand.value,
-      contracting_agent:
-        profileMap.get(purchasingDemand.value.contracting_agent_id) ||
-        'não definido',
-    }
-  })
+  await fetchAgents()
 
   const {
     id: process,
     description,
     ptres_number,
     contracting_agent,
-  } = purchasingDemandWithContractingAgent.value
+  } = detailedPurchasingRow.value
 </script>
 
 <template>
