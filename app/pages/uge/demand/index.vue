@@ -52,15 +52,6 @@
       console.log(error)
     }
   })
-
-  const selectProfileData = computed(() =>
-    agents.value.map((item) => {
-      return {
-        name: item.name || '',
-        value: item.id,
-      }
-    }),
-  )
 </script>
 
 <template>
@@ -77,7 +68,7 @@
       >
         <FormPurchaseDemand
           :is-pending="purchasingPending.isLoading"
-          :select-profile-data="selectProfileData"
+          :select-profile-data="agents"
           @on-submit="
             (values, onSuccess, onError) =>
               submitForm(values, onSuccess, onError)

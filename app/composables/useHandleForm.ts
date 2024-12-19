@@ -1,3 +1,4 @@
+import type { SelectOption } from '~/types'
 const useHandleForm = () => {
   const { showToast, handleError } = useHelpers()
 
@@ -8,7 +9,19 @@ const useHandleForm = () => {
   const onHandleError = (message: string, error?: unknown) => {
     showToast('error', `${message}, ${handleError(error).message || ''}`)
   }
-  return { onHandleSuccess, onHandleError }
+
+  const selectData = <T extends { name?: string | null; id: U }, U = string>(
+    data: T[],
+  ): SelectOption<U>[] => {
+    return data.map((item) => {
+      return {
+        name: item.name || '',
+        value: item.id,
+      }
+    })
+  }
+
+  return { onHandleSuccess, onHandleError, selectData }
 }
 
 export default useHandleForm

@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import type { PurchasingDemandInsert, SelectOption } from '~/types'
+  import type { PurchasingDemandInsert, Profile } from '~/types'
   import { validatePurchasingDemand } from '~/schemas'
 
   interface Props {
     isPending?: boolean
-    selectProfileData: SelectOption[]
+    selectProfileData: Profile[]
   }
   const props = withDefaults(defineProps<Props>(), {
     isPending: false,
@@ -19,7 +19,7 @@
   }>()
 
   const { isPending } = toRefs(props)
-  const { onHandleSuccess, onHandleError } = useHandleForm()
+  const { onHandleSuccess, onHandleError, selectData } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } =
     useForm<PurchasingDemandInsert>({
@@ -77,7 +77,7 @@
       density="compact"
       :error-messages="contractingAgentIdError"
       item-title="name"
-      :items="selectProfileData"
+      :items="selectData(selectProfileData)"
       label="Escolha o Agente de Contratação"
       variant="outlined"
     />
