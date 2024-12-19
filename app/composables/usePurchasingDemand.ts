@@ -5,6 +5,7 @@ import type {
 } from '~/types'
 import {
   purchasingDemandsInsertSchema,
+  purchasingDemandsRowSchema,
   purchasingDemandsRowsSchema,
 } from '~/schemas'
 
@@ -23,6 +24,12 @@ const usePurchasingDemand = () => {
     'purchasing_demands',
     purchasingDemandsRowsSchema,
   )
+
+  const { getById: getPurchasingDemandById, data: purchasingDemand } =
+    useGenericGet<PurchasingDemand>(
+      'purchasing_demands',
+      purchasingDemandsRowSchema,
+    )
 
   const columns: TableColumn[] = [
     {
@@ -53,6 +60,8 @@ const usePurchasingDemand = () => {
     fetchPurchasingDemands,
     purchasingDemands,
     columns,
+    getPurchasingDemandById,
+    purchasingDemand,
   }
 }
 

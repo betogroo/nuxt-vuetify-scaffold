@@ -1,5 +1,9 @@
 <script setup lang="ts">
-  import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
+  import type {
+    PurchasingDemandInsert,
+    PurchasingDemand,
+    PurchasingDemandsWithContractingAgent,
+  } from '~/types'
   const { handleError } = useHelpers()
   const { push } = useRouter()
 
@@ -41,18 +45,19 @@
       onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
   }
-  const purchasingDemandsWithContractingAgent = computed(() => {
-    if (!profiles.value || !purchasingDemands.value) return []
-    const profileMap = new Map(
-      profiles.value.map((profile) => [profile.id, profile.name]),
-    )
-    const returnData = purchasingDemands.value.map((demand) => ({
-      ...demand,
-      contracting_agent:
-        profileMap.get(demand.contracting_agent_id) || 'não definido',
-    }))
-    return returnData
-  })
+  const purchasingDemandsWithContractingAgent =
+    computed<PurchasingDemandsWithContractingAgent>(() => {
+      if (!profiles.value || !purchasingDemands.value) return []
+      const profileMap = new Map(
+        profiles.value.map((profile) => [profile.id, profile.name]),
+      )
+      const returnData = purchasingDemands.value.map((demand) => ({
+        ...demand,
+        contracting_agent:
+          profileMap.get(demand.contracting_agent_id) || 'não definido',
+      }))
+      return returnData
+    })
 
   onMounted(async () => {
     try {
