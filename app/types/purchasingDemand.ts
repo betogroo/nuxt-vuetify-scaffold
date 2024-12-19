@@ -18,9 +18,9 @@ export type PurchasingDemandUpdate = z.infer<
   typeof purchasingDemandsUpdateSchema
 >
 
-export type PurchasingDemandWithContractingAgent = z.infer<
+export type DemandWithAgent = z.infer<
   typeof purchasingDemandWithContractingAgentRowSchema
 >
-export type PurchasingDemandsWithContractingAgent = z.infer<
+export type DemandsWithAgent = z.infer<
   typeof purchasingDemandsWithContractingAgentRowsSchema
 >

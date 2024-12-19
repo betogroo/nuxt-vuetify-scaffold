@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { PurchasingDemandWithContractingAgent } from '~/types'
+  import type { DemandWithAgent } from '~/types'
   const { params } = useRoute()
   const { getPurchasingDemandById, purchasingDemand } = usePurchasingDemand()
 
@@ -9,25 +9,24 @@
   if (id) await getPurchasingDemandById(id)
   await fetchProfiles()
 
-  const purchasingDemandWithContractingAgent =
-    computed<PurchasingDemandWithContractingAgent>(() => {
-      if (!profiles.value || !purchasingDemand.value)
-        return {
-          id: '',
-          description: '',
-          contracting_agent: '',
-          contracting_agent_id: '',
-        }
-      const profileMap = new Map(
-        profiles.value.map((profile) => [profile.id, profile.name]),
-      )
+  const purchasingDemandWithContractingAgent = computed<DemandWithAgent>(() => {
+    if (!profiles.value || !purchasingDemand.value)
       return {
-        ...purchasingDemand.value,
-        contracting_agent:
-          profileMap.get(purchasingDemand.value.contracting_agent_id) ||
-          'não definido',
+        id: '',
+        description: '',
+        contracting_agent: '',
+        contracting_agent_id: '',
       }
-    })
+    const profileMap = new Map(
+      profiles.value.map((profile) => [profile.id, profile.name]),
+    )
+    return {
+      ...purchasingDemand.value,
+      contracting_agent:
+        profileMap.get(purchasingDemand.value.contracting_agent_id) ||
+        'não definido',
+    }
+  })
 
   const {
     id: process,

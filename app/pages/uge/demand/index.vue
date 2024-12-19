@@ -1,20 +1,16 @@
 <script setup lang="ts">
-  import type {
-    PurchasingDemandInsert,
-    PurchasingDemand,
-    PurchasingDemandsWithContractingAgent,
-  } from '~/types'
+  import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
   const { handleError } = useHelpers()
   const { push } = useRouter()
 
+  const { insertPurchasingDemand, purchasingPending, columns } =
+    usePurchasingDemand()
   const {
-    insertPurchasingDemand,
-    purchasingPending,
-    columns,
     fetchPurchasingDemands,
-    purchasingDemands,
-  } = usePurchasingDemand()
-  const { fetchProfiles, profiles } = useProfile()
+    detailedPurchasingRows,
+    agents,
+    fetchAgents,
+  } = useDetailedPurchasing()
 
   const purchaseDemandModal = ref(false)
   const closeModal = () => {
@@ -45,19 +41,6 @@
       onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
   }
-  const purchasingDemandsWithContractingAgent =
-    computed<PurchasingDemandsWithContractingAgent>(() => {
-      if (!profiles.value || !purchasingDemands.value) return []
-      const profileMap = new Map(
-        profiles.value.map((profile) => [profile.id, profile.name]),
-      )
-      const returnData = purchasingDemands.value.map((demand) => ({
-        ...demand,
-        contracting_agent:
-          profileMap.get(demand.contracting_agent_id) || 'não definido',
-      }))
-      return returnData
-    })
 
   onMounted(async () => {
     try {
@@ -66,14 +49,14 @@
         'description',
         'contracting_agent_id',
       ])
-      await fetchProfiles(undefined, ['id', 'name'])
+      await fetchAgents(undefined, ['id', 'name'])
     } catch (error) {
       console.log(error)
     }
   })
 
   const selectProfileData = computed(() =>
-    profiles.value.map((item) => {
+    agents.value.map((item) => {
       return {
         name: item.name || '',
         value: item.id,
@@ -87,7 +70,7 @@
     <div class="w-100">
       <TablePurchasingDemand
         :columns="columns"
-        :rows="purchasingDemandsWithContractingAgent"
+        :rows="detailedPurchasingRows"
         title="Demandas"
       />
       <AppModal
