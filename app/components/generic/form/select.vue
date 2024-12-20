@@ -2,7 +2,7 @@
   import type { SelectOption } from '~/types'
 
   interface Props {
-    items: SelectOption[]
+    items: SelectOption[] | string[]
     errorMessages?: string | readonly string[] | null | undefined
     label: string
   }

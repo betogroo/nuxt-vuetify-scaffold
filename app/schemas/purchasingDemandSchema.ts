@@ -7,7 +7,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 /* desta maneira é aceito o valor undefined como default, 
 porém não valida o formulpário caso nao seja preenchido */
 export const ptresNumberSchema = z
-  .union([z.literal('180205'), z.literal('180211'), z.literal(undefined)])
+  .union([z.literal('180205'), z.literal('180211')])
   .superRefine((val, ctx) => {
     if (val === undefined) {
       ctx.addIssue({

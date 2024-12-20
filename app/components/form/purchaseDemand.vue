@@ -64,22 +64,18 @@
       label="Descrição"
       variant="outlined"
     />
-    <v-select
+
+    <generic-form-select
       v-model="ptresNumber"
-      density="compact"
       :error-messages="ptresNumberError"
       :items="ptresNumbers"
       label="Escolha o PTRES"
-      variant="outlined"
     />
-    <v-select
+    <generic-form-select
       v-model="contractingAgentId"
-      density="compact"
       :error-messages="contractingAgentIdError"
-      item-title="name"
       :items="selectData(selectProfileData)"
       label="Escolha o Agente de Contratação"
-      variant="outlined"
     />
     <div class="d-flex justify-space-around">
       <v-btn
