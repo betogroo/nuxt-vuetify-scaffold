@@ -73,15 +73,11 @@
       label="Nome (Como escrito no documento)"
       variant="outlined"
     />
-
-    <v-select
+    <generic-form-select
       v-model="type"
-      density="compact"
       :error-messages="typeError"
-      item-title="name"
       :items="demandTypes"
       label="Escolha o tipo do documento"
-      variant="outlined"
     />
     <generic-form-select
       v-model="site"
