@@ -50,6 +50,7 @@
 
   const onSubmit = handleSubmit(async () => {
     $emit('on-submit', values, onSuccess, onError)
+    console.log(values)
   })
 </script>
 
@@ -72,15 +73,7 @@
       label="Nome (Como escrito no documento)"
       variant="outlined"
     />
-    <v-select
-      v-model="site"
-      density="compact"
-      :error-messages="siteError"
-      item-title="name"
-      :items="demandSites"
-      label="Escolha o posto de identificação"
-      variant="outlined"
-    />
+
     <v-select
       v-model="type"
       density="compact"
@@ -89,6 +82,12 @@
       :items="demandTypes"
       label="Escolha o tipo do documento"
       variant="outlined"
+    />
+    <generic-form-select
+      v-model="site"
+      :error-messages="siteError"
+      :items="demandSites"
+      label="Escolha o posto de identificação"
     />
     <v-textarea
       v-model="note"
