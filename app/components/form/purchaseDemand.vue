@@ -77,21 +77,14 @@
       :items="selectData(selectProfileData)"
       label="Escolha o Agente de Contratação"
     />
-    <div class="d-flex justify-space-around">
-      <v-btn
-        color="success"
-        :disabled="!meta.valid"
-        :loading="isPending"
-        type="submit"
-        >Enviar</v-btn
-      >
-      <v-btn
-        color="red"
-        :disabled="!meta.dirty"
-        :loading="isPending"
-        @click="handleReset"
-        >Limpar</v-btn
-      >
-    </div>
+    <generic-form-action
+      :cancel-button="{
+        label: 'Limpar',
+        disabled: !meta.dirty,
+        isPending,
+        action: handleReset,
+      }"
+      :submit-button="{ disabled: !meta.valid, isPending, label: 'Enviar' }"
+    />
   </v-form>
 </template>
