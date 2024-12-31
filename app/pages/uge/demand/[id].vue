@@ -30,8 +30,23 @@
     <h2>Descrição {{ description }}</h2>
     <h2>PTRES {{ ptres_number }}</h2>
     <h2>Agente de Contratação {{ contracting_agent }}</h2>
-    <div>{{ availableSupportTeamProfile }}</div>
-    <v-divider />
-    <div>{{ supportTeam }}</div>
+    <h2>
+      Equipe de Apoio:
+      <v-list-item
+        v-for="item in supportTeam"
+        :key="item.profiles.id"
+      >
+        {{ item.profiles.name }}
+      </v-list-item>
+    </h2>
+    <h2>
+      Funcionários Disponíveis:
+      <v-list-item
+        v-for="item in availableSupportTeamProfile"
+        :key="item.id"
+      >
+        {{ item.name }}
+      </v-list-item>
+    </h2>
   </div>
 </template>

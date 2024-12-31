@@ -6,7 +6,7 @@ const useSupportTeam = () => {
   >([])
   const supportTeam = ref<
     Database['public']['Functions']['get_available_profiles']['Returns']
-  >([])
+  >([]) // criar schema and type
 
   const fetchAvailableSupportTeam = async (process_id: number) => {
     const { data, error } = await supabase.rpc('get_available_profiles', {
