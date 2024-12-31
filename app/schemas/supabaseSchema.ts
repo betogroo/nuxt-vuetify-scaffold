@@ -340,14 +340,14 @@ export const supportTeamUpdateSchema = z.object({
 
 export const supportTeamRelationshipsSchema = z.tuple([
   z.object({
-    foreignKeyName: z.literal('support_team_process_id_fkey'),
+    foreignKeyName: z.literal('suport_team_process_id_fkey'),
     columns: z.tuple([z.literal('process_id')]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal('purchasing_demands'),
     referencedColumns: z.tuple([z.literal('id')]),
   }),
   z.object({
-    foreignKeyName: z.literal('support_team_profile_id_fkey'),
+    foreignKeyName: z.literal('suport_team_profile_id_fkey'),
     columns: z.tuple([z.literal('profile_id')]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal('profiles'),

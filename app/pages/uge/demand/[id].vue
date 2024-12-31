@@ -2,11 +2,19 @@
   const { params } = useRoute()
   const { getPurchasingDemandById, detailedPurchasingRow, fetchAgents } =
     useDetailedPurchasing()
+  const {
+    fetchAvailableSupportTeam,
+    availableSupportTeamProfile,
+    supportTeam,
+    fetchSupportTeam,
+  } = useSupportTeam()
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id
 
   if (id) await getPurchasingDemandById(id)
   await fetchAgents()
+  await fetchSupportTeam(+id!)
+  await fetchAvailableSupportTeam(+id!)
 
   const {
     id: process,
@@ -22,5 +30,8 @@
     <h2>Descrição {{ description }}</h2>
     <h2>PTRES {{ ptres_number }}</h2>
     <h2>Agente de Contratação {{ contracting_agent }}</h2>
+    <div>{{ availableSupportTeamProfile }}</div>
+    <v-divider />
+    <div>{{ supportTeam }}</div>
   </div>
 </template>
