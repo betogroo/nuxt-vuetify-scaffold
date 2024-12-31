@@ -323,31 +323,31 @@ export const subjectsUpdateSchema = z.object({
 
 export const subjectsRelationshipsSchema = z.tuple([])
 
-export const suportTeamRowSchema = z.object({
+export const supportTeamRowSchema = z.object({
   process_id: z.number(),
   profile_id: z.string(),
 })
 
-export const suportTeamInsertSchema = z.object({
+export const supportTeamInsertSchema = z.object({
   process_id: z.number(),
   profile_id: z.string(),
 })
 
-export const suportTeamUpdateSchema = z.object({
+export const supportTeamUpdateSchema = z.object({
   process_id: z.number().optional(),
   profile_id: z.string().optional(),
 })
 
-export const suportTeamRelationshipsSchema = z.tuple([
+export const supportTeamRelationshipsSchema = z.tuple([
   z.object({
-    foreignKeyName: z.literal('suport_team_process_id_fkey'),
+    foreignKeyName: z.literal('support_team_process_id_fkey'),
     columns: z.tuple([z.literal('process_id')]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal('purchasing_demands'),
     referencedColumns: z.tuple([z.literal('id')]),
   }),
   z.object({
-    foreignKeyName: z.literal('suport_team_profile_id_fkey'),
+    foreignKeyName: z.literal('support_team_profile_id_fkey'),
     columns: z.tuple([z.literal('profile_id')]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal('profiles'),
