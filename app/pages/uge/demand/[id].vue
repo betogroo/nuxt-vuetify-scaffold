@@ -3,18 +3,20 @@
   const { getPurchasingDemandById, detailedPurchasingRow, fetchAgents } =
     useDetailedPurchasing()
   const {
-    fetchAvailableSupportTeam,
+    getAvailableSupportTeam,
+    getDesignedSupportTeam,
     availableSupportTeamProfile,
-    supportTeam,
-    fetchSupportTeam,
+    designedSupportTeamProfile,
+
+    isPending: supportTeamIsPending,
   } = useSupportTeam()
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id
 
   if (id) await getPurchasingDemandById(id)
   await fetchAgents()
-  await fetchSupportTeam(+id!)
-  await fetchAvailableSupportTeam(+id!)
+  await getAvailableSupportTeam(+id!)
+  await getDesignedSupportTeam(+id!)
 
   const {
     id: process,
@@ -33,20 +35,26 @@
     <h2>
       Equipe de Apoio:
       <v-list-item
-        v-for="item in supportTeam"
-        :key="item.profiles.id"
+        v-for="teamProfile in designedSupportTeamProfile"
+        :key="teamProfile.id"
       >
-        {{ item.profiles.name }}
+        {{ teamProfile.name }}
       </v-list-item>
     </h2>
     <h2>
       Funcionários Disponíveis:
-      <v-list-item
-        v-for="item in availableSupportTeamProfile"
-        :key="item.id"
-      >
-        {{ item.name }}
-      </v-list-item>
+      <template
+        v-if="supportTeamIsPending.action === 'get-available-support_team'"
+        >Loading
+      </template>
+      <template v-else>
+        <v-list-item
+          v-for="item in availableSupportTeamProfile"
+          :key="item.id"
+        >
+          {{ item.name }}
+        </v-list-item>
+      </template>
     </h2>
   </div>
 </template>

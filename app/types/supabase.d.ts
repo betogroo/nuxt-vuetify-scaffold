@@ -412,7 +412,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_available_profiles: {
+      get_available_support_team: {
+        Args: {
+          process_id: number
+        }
+        Returns: {
+          id: string
+          username: string
+          name: string
+          updated_at: string
+        }[]
+      }
+      get_designed_support_team: {
         Args: {
           process_id: number
         }

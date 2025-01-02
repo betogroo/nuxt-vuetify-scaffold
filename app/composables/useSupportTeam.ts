@@ -1,34 +1,38 @@
-import type { Database } from '~/types/supabase'
+import type { Database, SupportTeam } from '~/types'
 const useSupportTeam = () => {
   const supabase = useSupabaseClient<Database>()
-  const availableSupportTeamProfile = ref<
-    Database['public']['Functions']['get_available_profiles']['Returns']
-  >([])
-  const supportTeam = ref<
-    Database['public']['Functions']['get_available_profiles']['Returns']
-  >([]) // criar schema and type
+  const { isPending, setPendingState } = useHelpers()
+  const availableSupportTeamProfile = ref<SupportTeam[]>([])
+  const designedSupportTeamProfile = ref<SupportTeam[]>([])
 
-  const fetchAvailableSupportTeam = async (process_id: number) => {
-    const { data, error } = await supabase.rpc('get_available_profiles', {
-      process_id,
-    })
-    if (error) console.error(error)
-    else availableSupportTeamProfile.value = data
+  const getAvailableSupportTeam = async (process_id: number) => {
+    return setPendingState(async () => {
+      const { data, error } = await supabase.rpc('get_available_support_team', {
+        process_id,
+      })
+      console.log(data)
+      if (error) throw error
+      if (data) availableSupportTeamProfile.value = data
+    }, 'get-available-support_team')
   }
 
-  const fetchSupportTeam = async (process_id: string | number) => {
-    const { data, error } = await supabase
-      .from('support_team')
-      .select('process_id, profiles(id, username, name, updated_at)')
-      .eq('process_id', process_id) // ID do processo que você quer consultar
-    if (!error) supportTeam.value = data
+  const getDesignedSupportTeam = async (process_id: number) => {
+    return setPendingState(async () => {
+      const { data, error } = await supabase.rpc('get_designed_support_team', {
+        process_id,
+      })
+      console.log(data)
+      if (error) throw error
+      if (data) designedSupportTeamProfile.value = data
+    }, 'get-designed-support_team')
   }
 
   return {
-    fetchAvailableSupportTeam,
+    getAvailableSupportTeam,
+    getDesignedSupportTeam,
     availableSupportTeamProfile,
-    fetchSupportTeam,
-    supportTeam,
+    designedSupportTeamProfile,
+    isPending,
   }
 }
 
