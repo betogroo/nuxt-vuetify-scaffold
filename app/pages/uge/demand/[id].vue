@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  const { fetch, profiles, availableSupportTeam } = useSupportTeamStoreStore()
   const { params } = useRoute()
   const { getPurchasingDemandById, detailedPurchasingRow, fetchAgents } =
     useDetailedPurchasing()
@@ -13,17 +14,28 @@
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id
 
-  if (id) await getPurchasingDemandById(id)
-  await fetchAgents()
-  await getAvailableSupportTeam(+id!)
-  await getDesignedSupportTeam(+id!)
+  onMounted(async () => {
+    if (id) await getPurchasingDemandById(id)
+    await fetchAgents()
+    await getAvailableSupportTeam(+id!)
+    await getDesignedSupportTeam(+id!)
+    await fetch()
+  })
 
   const {
     id: process,
     description,
     ptres_number,
     contracting_agent,
+    contracting_agent_id,
   } = detailedPurchasingRow.value
+
+  const coisos = computed(() => {
+    return availableSupportTeam(
+      contracting_agent_id,
+      detailedPurchasingRow.value,
+    )
+  })
 </script>
 
 <template>
@@ -35,7 +47,7 @@
     <h2>
       Equipe de Apoio:
       <v-list-item
-        v-for="teamProfile in designedSupportTeamProfile"
+        v-for="teamProfile in coisos"
         :key="teamProfile.id"
       >
         {{ teamProfile.name }}
@@ -49,12 +61,13 @@
       </template>
       <template v-else>
         <v-list-item
-          v-for="item in availableSupportTeamProfile"
+          v-for="item in coisos"
           :key="item.id"
         >
-          {{ item.name }}
+          {{ item.name }} <v-btn @click="console.log(item.id)">+</v-btn>
         </v-list-item>
       </template>
     </h2>
+    <v-divider />
   </div>
 </template>
