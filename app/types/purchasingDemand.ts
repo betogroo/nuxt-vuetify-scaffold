@@ -6,7 +6,8 @@ import type {
   purchasingDemandsUpdateSchema,
   ptresNumberSchema,
   purchasingDemandsWithContractingAgentRowsSchema,
-  purchasingDemandWithContractingAgentRowSchema,
+  purchasingDemandWithContractingAgentSchema,
+  purchasingDemandDetailsSchema,
 } from '~/schemas'
 
 export type Ptres = z.infer<typeof ptresNumberSchema>
@@ -19,8 +20,10 @@ export type PurchasingDemandUpdate = z.infer<
 >
 
 export type DemandWithAgent = z.infer<
-  typeof purchasingDemandWithContractingAgentRowSchema
+  typeof purchasingDemandWithContractingAgentSchema
 >
 export type DemandsWithAgent = z.infer<
   typeof purchasingDemandsWithContractingAgentRowsSchema
 >
+
+export type DemandDetails = z.infer<typeof purchasingDemandDetailsSchema>

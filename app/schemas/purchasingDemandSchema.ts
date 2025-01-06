@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
+import { profileRowSchema } from '~/schemas'
 
 /* export const ptresNumberSchema = z
   .union([z.literal('180205'), z.literal('180211')])
@@ -26,14 +27,19 @@ export const purchasingDemandsRowSchema = z.object({
   description: z.string(),
 })
 
-export const purchasingDemandWithContractingAgentRowSchema =
+export const purchasingDemandWithContractingAgentSchema =
   purchasingDemandsRowSchema.extend({
-    contracting_agent: z.string(),
+    profiles: profileRowSchema,
   })
+
+export const purchasingDemandDetailsSchema = z.object({
+  ...purchasingDemandsRowSchema.shape,
+  ...profileRowSchema.shape,
+})
 
 export const purchasingDemandsRowsSchema = z.array(purchasingDemandsRowSchema)
 export const purchasingDemandsWithContractingAgentRowsSchema = z.array(
-  purchasingDemandWithContractingAgentRowSchema,
+  purchasingDemandWithContractingAgentSchema,
 )
 
 export const purchasingDemandsInsertSchema = z.object({
