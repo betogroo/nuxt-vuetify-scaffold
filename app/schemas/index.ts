@@ -1,5 +1,7 @@
 export * from './userSchema'
-export * from './profileSchema'
+
+export * from './profile/row'
+export * from './profile/update'
 
 export * from './app/color'
 export * from './app/dropdown'
