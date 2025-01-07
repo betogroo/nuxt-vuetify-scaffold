@@ -47,7 +47,6 @@ const usePurchasingDemand = () => {
       contracting_agent_id: purchasingDemand.value!.contracting_agent_id,
       ptres_number: purchasingDemand.value!.ptres_number,
       description: purchasingDemand.value!.description,
-      profile_id: purchasingDemand.value!.profiles.id, // Campo de profiles achata para o nível superior
       profile_name: purchasingDemand.value!.profiles.name,
       profile_username: purchasingDemand.value!.profiles.username,
     }
