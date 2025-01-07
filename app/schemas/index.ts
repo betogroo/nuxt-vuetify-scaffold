@@ -29,7 +29,9 @@ export * from './teacher/availability/row'
 export * from './teacher/availability/insert'
 export * from './teacher/availability/update'
 
-export * from './documentDemandSchema'
+export * from './document-demand/row'
+export * from './document-demand/insert'
+
 export * from './purchasingDemandSchema'
 export * from './timeSlotSchema'
 export * from './supportTeamSchema'

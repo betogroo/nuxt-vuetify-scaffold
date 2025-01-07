@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
   import type { DocumentDemandInsert } from '~/types'
-  import { validateDocumentDemand } from '~/schemas'
+  import { validateDocumentDemand } from '~/validate'
   interface Props {
     isPending?: boolean
   }
