@@ -19,8 +19,15 @@ export * from './subject/row'
 export * from './subject/insert'
 export * from './subject/update'
 
+export * from './teacher/row'
+export * from './teacher/insert'
+export * from './teacher/update'
+
+export * from './teacher/availability/row'
+export * from './teacher/availability/insert'
+export * from './teacher/availability/update'
+
 export * from './documentDemandSchema'
 export * from './purchasingDemandSchema'
-export * from './teacherSchema'
 export * from './timeSlotSchema'
 export * from './supportTeamSchema'
