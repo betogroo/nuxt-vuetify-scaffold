@@ -1,12 +1,16 @@
 export * from './userSchema'
 export * from './profileSchema'
+
+export * from './class/row'
+export * from './class/insert'
+export * from './class/update'
+
 export * from './documentDemandSchema'
 export * from './purchasingDemandSchema'
 export * from './helpersSchema'
 export * from './appSchema'
 export * from './teacherSchema'
 export * from './subjectSchema'
-export * from './classSchema'
 export * from './timeSlotSchema'
 export * from './formSchema'
 export * from './supportTeamSchema'
