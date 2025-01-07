@@ -15,9 +15,12 @@ export * from './class/update'
 
 export * from './form/form'
 
+export * from './subject/row'
+export * from './subject/insert'
+export * from './subject/update'
+
 export * from './documentDemandSchema'
 export * from './purchasingDemandSchema'
 export * from './teacherSchema'
-export * from './subjectSchema'
 export * from './timeSlotSchema'
 export * from './supportTeamSchema'
