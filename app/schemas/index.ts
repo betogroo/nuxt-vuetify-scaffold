@@ -1,3 +1,8 @@
+export * from './app/color'
+export * from './app/dropdown'
+export * from './app/navbar'
+export * from './app/table'
+
 export * from './userSchema'
 export * from './profileSchema'
 
@@ -8,7 +13,6 @@ export * from './class/update'
 export * from './documentDemandSchema'
 export * from './purchasingDemandSchema'
 export * from './helpersSchema'
-export * from './appSchema'
 export * from './teacherSchema'
 export * from './subjectSchema'
 export * from './timeSlotSchema'
