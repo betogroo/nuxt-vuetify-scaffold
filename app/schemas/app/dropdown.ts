@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { actionColorSchema } from '~/schemas'
 
 export const dropdownItemSchema = z.object({
   label: z.string().trim().optional(),
