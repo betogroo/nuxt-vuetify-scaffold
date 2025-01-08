@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
   import type { UserLogin, UserSignup, CredencialType } from '~/types'
-  import { validationLogin, validationSignup } from '~/schemas'
+  import { validationLogin, validationSignup } from '~/validate'
 
   interface Props {
     type: CredencialType

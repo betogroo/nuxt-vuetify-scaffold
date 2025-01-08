@@ -290,7 +290,7 @@ export type Database = {
         }
         Relationships: []
       }
-      suport_team: {
+      support_team: {
         Row: {
           process_id: number
           profile_id: string
@@ -412,7 +412,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_available_support_team: {
+        Args: {
+          process_id: number
+        }
+        Returns: {
+          id: string
+          username: string
+          name: string
+          updated_at: string
+        }[]
+      }
+      get_designed_support_team: {
+        Args: {
+          process_id: number
+        }
+        Returns: {
+          id: string
+          username: string
+          name: string
+          updated_at: string
+        }[]
+      }
     }
     Enums: {
       demand_site: "1062-9" | "1342-5"

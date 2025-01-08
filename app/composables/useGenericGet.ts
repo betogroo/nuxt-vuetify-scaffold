@@ -1,7 +1,11 @@
 import type { ZodSchema } from 'zod'
 import type { Database, Tables } from '~/types'
 
-const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
+const useGenericGet = <RowType>(
+  tableName: Tables,
+  schema: ZodSchema,
+  columns = '*',
+) => {
   const supabase = useSupabaseClient<Database>()
   const { validateWithSchema } = useSchema()
   const { isPending: getDataPending, setPendingState } = useHelpers()
@@ -11,7 +15,7 @@ const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
     return setPendingState(async () => {
       const { data: newData, error } = await supabase
         .from(tableName)
-        .select('*')
+        .select(columns)
         .eq('id', id)
         .returns<RowType>()
         .single()
@@ -29,7 +33,7 @@ const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
     filters: Record<string, string | number> = {},
   ) => {
     return setPendingState(async () => {
-      let query = supabase.from(tableName).select('*')
+      let query = supabase.from(tableName).select(columns)
       for (const [key, value] of Object.entries(filters)) {
         query = query.eq(key, value)
       }

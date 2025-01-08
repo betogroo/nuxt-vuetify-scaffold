@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import type { PurchasingDemandInsert } from '~/types'
-  import { validatePurchasingDemand } from '~/schemas'
+  import type { PurchasingDemandInsert, Profile } from '~/types'
+  import { validatePurchasingDemand } from '~/validate'
 
   interface Props {
     isPending?: boolean
+    selectProfileData: Profile[]
   }
   const props = withDefaults(defineProps<Props>(), {
     isPending: false,
@@ -18,8 +19,7 @@
   }>()
 
   const { isPending } = toRefs(props)
-  const { fetchProfiles, profiles } = useProfile()
-  const { onHandleSuccess, onHandleError } = useHandleForm()
+  const { onHandleSuccess, onHandleError, selectData } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } =
     useForm<PurchasingDemandInsert>({
@@ -50,14 +50,6 @@
   const onError = (message: string) => {
     onHandleError(message)
   }
-
-  await fetchProfiles()
-  const selectProfileData = profiles.value.map((item) => {
-    return {
-      name: item.name,
-      value: item.id,
-    }
-  })
 </script>
 
 <template>
@@ -72,38 +64,27 @@
       label="Descrição"
       variant="outlined"
     />
-    <v-select
+
+    <generic-form-select
       v-model="ptresNumber"
-      density="compact"
       :error-messages="ptresNumberError"
       :items="ptresNumbers"
       label="Escolha o PTRES"
-      variant="outlined"
     />
-    <v-select
+    <generic-form-select
       v-model="contractingAgentId"
-      density="compact"
       :error-messages="contractingAgentIdError"
-      item-title="name"
-      :items="selectProfileData"
+      :items="selectData(selectProfileData)"
       label="Escolha o Agente de Contratação"
-      variant="outlined"
     />
-    <div class="d-flex justify-space-around">
-      <v-btn
-        color="success"
-        :disabled="!meta.valid"
-        :loading="isPending"
-        type="submit"
-        >Enviar</v-btn
-      >
-      <v-btn
-        color="red"
-        :disabled="!meta.dirty"
-        :loading="isPending"
-        @click="handleReset"
-        >Limpar</v-btn
-      >
-    </div>
+    <generic-form-action
+      :cancel-button="{
+        label: 'Limpar',
+        disabled: !meta.dirty,
+        isPending,
+        action: handleReset,
+      }"
+      :submit-button="{ disabled: !meta.valid, isPending, label: 'Enviar' }"
+    />
   </v-form>
 </template>

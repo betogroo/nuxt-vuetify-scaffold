@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import { validationUserSchema } from '~/schemas'
+  import { validationUserSchema } from '~/validate'
   import type { AddUser } from '~/types'
 
   import { fakerPT_BR as faker } from '@faker-js/faker'

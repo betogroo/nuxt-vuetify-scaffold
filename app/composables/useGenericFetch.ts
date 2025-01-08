@@ -6,13 +6,19 @@ const useGenericFetch = <RowType>(tableName: Tables, schema: ZodSchema) => {
   const { isPending: fetchPending, setPendingState } = useHelpers()
   const data = ref<RowType[]>([])
 
-  const fetch = async (orderBy?: { column?: string; ascending?: boolean }) => {
+  const fetch = async (
+    orderBy?: { column?: string; ascending?: boolean },
+    columns?: string | string[],
+  ) => {
     return setPendingState(async () => {
       const column = orderBy?.column || 'id'
       const ascending = orderBy?.ascending ?? true
+      const selectedColumns = Array.isArray(columns)
+        ? columns.join(', ')
+        : columns || '*'
       const { data: newData, error } = await supabase
         .from(tableName)
-        .select('*')
+        .select(selectedColumns)
         .order(column, { ascending })
         .returns<RowType>()
       if (error) throw error

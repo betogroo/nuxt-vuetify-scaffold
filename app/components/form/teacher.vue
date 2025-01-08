@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
   import type { TeacherInsert } from '~/types'
-  import { validateTeacher } from '~/schemas'
+  import { validateTeacher } from '~/validate'
 
   interface Props {
     isPending?: boolean

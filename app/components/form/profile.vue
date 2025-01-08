@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
   import type { ProfileUpdate } from '~/types'
-  import { validateProfile } from '~/schemas'
+  import { validateProfile } from '~/validate'
 
   interface Props {
     isPending?: boolean

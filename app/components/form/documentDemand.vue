@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
   import type { DocumentDemandInsert } from '~/types'
-  import { validateDocumentDemand } from '~/schemas'
+  import { validateDocumentDemand } from '~/validate'
   interface Props {
     isPending?: boolean
   }
@@ -50,6 +50,7 @@
 
   const onSubmit = handleSubmit(async () => {
     $emit('on-submit', values, onSuccess, onError)
+    console.log(values)
   })
 </script>
 
@@ -72,23 +73,17 @@
       label="Nome (Como escrito no documento)"
       variant="outlined"
     />
-    <v-select
-      v-model="site"
-      density="compact"
-      :error-messages="siteError"
-      item-title="name"
-      :items="demandSites"
-      label="Escolha o posto de identificação"
-      variant="outlined"
-    />
-    <v-select
+    <generic-form-select
       v-model="type"
-      density="compact"
       :error-messages="typeError"
-      item-title="name"
       :items="demandTypes"
       label="Escolha o tipo do documento"
-      variant="outlined"
+    />
+    <generic-form-select
+      v-model="site"
+      :error-messages="siteError"
+      :items="demandSites"
+      label="Escolha o posto de identificação"
     />
     <v-textarea
       v-model="note"

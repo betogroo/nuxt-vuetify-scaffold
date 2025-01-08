@@ -9,6 +9,6 @@
 
 <template>
   <div>
-    <router-link to="/uge/demand">Processos</router-link>
+    <router-link to="/uge/demand">Demandas</router-link>
   </div>
 </template>
