@@ -42,6 +42,8 @@ export * from './purchasing-demand/insert'
 export * from './purchasing-demand/update'
 export * from './purchasing-demand/withContractingAgent'
 
-export * from './supportTeamSchema'
+export * from './support-team/row'
+export * from './support-team/insert'
+export * from './support-team/update'
 
 export * from './user/user'
