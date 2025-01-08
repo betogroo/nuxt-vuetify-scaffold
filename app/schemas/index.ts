@@ -32,8 +32,12 @@ export * from './teacher/availability/update'
 export * from './document-demand/row'
 export * from './document-demand/insert'
 
+export * from './time-slot/row'
+export * from './time-slot/insert'
+export * from './time-slot/update'
+export * from './time-slot/withTeacherAvailability'
+
 export * from './purchasingDemandSchema'
-export * from './timeSlotSchema'
 export * from './supportTeamSchema'
 
 export * from './user/user'
