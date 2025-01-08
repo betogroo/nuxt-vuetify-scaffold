@@ -37,7 +37,11 @@ export * from './time-slot/insert'
 export * from './time-slot/update'
 export * from './time-slot/withTeacherAvailability'
 
-export * from './purchasingDemandSchema'
+export * from './purchasing-demand/row'
+export * from './purchasing-demand/insert'
+export * from './purchasing-demand/update'
+export * from './purchasing-demand/withContractingAgent'
+
 export * from './supportTeamSchema'
 
 export * from './user/user'
