@@ -30,5 +30,22 @@
         >{{ value }}</v-btn
       >
     </template>
+    <template #item.support_team="{ value }">
+      <div v-if="value.length">
+        <v-list :items="value">
+          <v-list-item
+            v-for="item in value"
+            :key="item.id"
+            >{{ item.name }}</v-list-item
+          >
+        </v-list>
+      </div>
+      <div v-else>
+        <v-btn
+          :icon="iconOutline.plus"
+          variant="text"
+        />
+      </div>
+    </template>
   </v-data-table>
 </template>
