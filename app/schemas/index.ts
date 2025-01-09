@@ -5,6 +5,11 @@ export * from './auth/credential'
 export * from './profile/row'
 export * from './profile/update'
 
+export * from './support-team/row'
+export * from './support-team/insert'
+export * from './support-team/update'
+export * from './support-team/member'
+
 export * from './app/color'
 export * from './app/dropdown'
 export * from './app/navbar'
@@ -41,9 +46,6 @@ export * from './purchasing-demand/row'
 export * from './purchasing-demand/insert'
 export * from './purchasing-demand/update'
 export * from './purchasing-demand/withContractingAgent'
-
-export * from './support-team/row'
-export * from './support-team/insert'
-export * from './support-team/update'
+export * from './purchasing-demand/withDetails'
 
 export * from './user/user'

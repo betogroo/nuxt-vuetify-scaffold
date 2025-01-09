@@ -1,6 +1,6 @@
 <script setup lang="ts">
   //<script setup lang="ts">
-  import type { PurchasingDemand, TableColumn } from '~/types'
+  import type { PurchasingDemandDetails, TableColumn } from '~/types'
 
   defineProps<Props>()
 
@@ -10,7 +10,7 @@
   interface Props {
     title: string
     columns: TableColumn[]
-    rows: PurchasingDemand[]
+    rows: PurchasingDemandDetails[]
   }
 </script>
 
