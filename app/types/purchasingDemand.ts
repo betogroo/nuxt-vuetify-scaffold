@@ -3,6 +3,7 @@ import type { z } from 'zod'
 import type {
   purchasingDemandsInsertSchema,
   purchasingDemandsRowSchema,
+  purchasingDemandDetailsRowSchema,
   purchasingDemandsUpdateSchema,
   ptresNumberSchema,
   purchasingDemandsWithContractingAgentRowsSchema,
@@ -12,6 +13,9 @@ import type {
 
 export type Ptres = z.infer<typeof ptresNumberSchema>
 export type PurchasingDemand = z.infer<typeof purchasingDemandsRowSchema>
+export type PurchasingDemandDetails = z.infer<
+  typeof purchasingDemandDetailsRowSchema
+>
 export type PurchasingDemandInsert = z.infer<
   typeof purchasingDemandsInsertSchema
 >

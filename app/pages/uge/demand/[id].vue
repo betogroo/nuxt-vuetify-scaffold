@@ -1,14 +1,28 @@
 <script setup lang="ts">
   const { id } = useValidateParam()
-  const { getPurchasingDemandById, purchasingDemandDetails } =
+  const { demand, getPurchasingDemand, purchasing_demand_details_pending } =
     usePurchasingDemand()
-
-  await getPurchasingDemandById(id!)
+  onBeforeMount(async () => {
+    await getPurchasingDemand(+id!)
+  })
 </script>
 
 <template>
   <div>
-    <div>Aqui nemanda numero {{ id }}</div>
-    <div>{{ purchasingDemandDetails }}</div>
+    <div v-if="demand">
+      <h1>Processo {{ id }} - ({{ demand.description }})</h1>
+      <h2>PTRES {{ demand.ptres_number }}</h2>
+      <h2>Agente de Contratação: {{ demand.contracting_agent_name }}</h2>
+      <h3>
+        Equipe de Apoio:
+        <div
+          v-for="member in demand.support_team"
+          :key="member.id"
+        >
+          {{ member.name }}
+        </div>
+      </h3>
+      {{ demand }}
+    </div>
   </div>
 </template>
