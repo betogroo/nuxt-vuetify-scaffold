@@ -15,8 +15,12 @@
     purchaseDemandModal.value = true
   }
 
-  const { fetchPurchasingDemandRows, demandTableColumns, demands } =
-    usePurchasingDemand()
+  const {
+    fetchPurchasingDemandRows,
+    demandTableColumns,
+    demands,
+    purchasing_demand_details_pending,
+  } = usePurchasingDemand()
 
   /* const submitForm = async (
     data: PurchasingDemandInsert,
@@ -42,6 +46,11 @@
     <div class="w-100">
       <TablePurchasingDemand
         :columns="demandTableColumns"
+        :is-pending="
+          purchasing_demand_details_pending.isLoading &&
+          purchasing_demand_details_pending.action ===
+            'fetch-purchasing-demand-details'
+        "
         :rows="demands"
         title="Demandas"
       />

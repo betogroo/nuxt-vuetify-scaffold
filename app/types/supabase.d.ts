@@ -412,6 +412,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      fetch_purchasing_demands: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: number
+          created_at: string
+          ptres_number: Database["public"]["Enums"]["ptres_number"]
+          description: string
+          contracting_agent_id: string
+          contracting_agent_name: string
+          support_team: Json
+        }[]
+      }
       get_available_support_team: {
         Args: {
           process_id: number
@@ -432,6 +444,20 @@ export type Database = {
           username: string
           name: string
           updated_at: string
+        }[]
+      }
+      get_purchasing_demand_detais: {
+        Args: {
+          demand_id: number
+        }
+        Returns: {
+          id: number
+          created_at: string
+          ptres_number: Database["public"]["Enums"]["ptres_number"]
+          description: string
+          contracting_agent_id: string
+          contracting_agent_name: string
+          support_team: Json
         }[]
       }
     }

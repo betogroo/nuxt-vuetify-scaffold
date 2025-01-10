@@ -11,6 +11,7 @@
     title: string
     columns: TableColumn[]
     rows: PurchasingDemandDetails[]
+    isPending?: boolean
   }
 </script>
 
@@ -19,6 +20,7 @@
     density="compact"
     :headers="columns"
     :items="rows"
+    :loading="isPending"
   >
     <template #item.id="{ value }">
       <v-btn
@@ -36,6 +38,7 @@
           <v-list-item
             v-for="item in value"
             :key="item.id"
+            density="compact"
             >{{ item.name }}</v-list-item
           >
         </v-list>

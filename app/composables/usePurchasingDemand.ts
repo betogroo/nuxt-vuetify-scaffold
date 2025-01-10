@@ -1,19 +1,23 @@
-import type { PurchasingDemandDetails, TableColumn } from '~/types'
+import type { PurchasingDemandDetails, TableColumn, Database } from '~/types'
 import { purchasingDemandDetailsRowsSchema } from '~/schemas'
 const usePurchasingDemand = () => {
-  const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient<Database>()
+  const { setPendingState, isPending: purchasing_demand_details_pending } =
+    useHelpers()
 
   const demands = ref<PurchasingDemandDetails[]>([])
 
   const fetchPurchasingDemandRows = async () => {
-    try {
-      const { data, error } = await supabase.rpc('fetch_purchasing_demands')
+    await setPendingState(async () => {
+      const { data: newData, error } = await supabase.rpc(
+        'fetch_purchasing_demands',
+      )
       if (error) throw error
-      const parsedData = purchasingDemandDetailsRowsSchema.parse(data)
-      demands.value = parsedData
-    } catch (error) {
-      console.error(error)
-    }
+      if (newData) {
+        const parsedData = purchasingDemandDetailsRowsSchema.parse(newData)
+        demands.value = parsedData
+      }
+    }, 'fetch-purchasing-demand-details')
   }
 
   const tableColumns: TableColumn[] = [
@@ -43,6 +47,7 @@ const usePurchasingDemand = () => {
     fetchPurchasingDemandRows,
     demandTableColumns: tableColumns,
     demands,
+    purchasing_demand_details_pending,
   }
 }
 
