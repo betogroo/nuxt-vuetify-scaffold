@@ -38,7 +38,9 @@
     }
   } */
 
-  await fetchPurchasingDemandRows()
+  onBeforeMount(async () => {
+    await fetchPurchasingDemandRows()
+  })
 </script>
 
 <template>

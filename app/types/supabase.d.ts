@@ -446,7 +446,7 @@ export type Database = {
           updated_at: string
         }[]
       }
-      get_purchasing_demand_detais: {
+      get_purchasing_demand: {
         Args: {
           demand_id: number
         }
