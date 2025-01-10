@@ -9,9 +9,12 @@
 
 <template>
   <div>
-    <div v-if="demand">
-      <h1>Processo {{ id }} - ({{ demand.description }})</h1>
-      <h2>PTRES {{ demand.ptres_number }}</h2>
+    <AppCard
+      v-if="demand"
+      :loading="purchasing_demand_details_pending.isLoading"
+      :subtitle="`PTRES ${demand.ptres_number}`"
+      :title="`Processo ${demand.id} - (${demand.description})`"
+    >
       <h2>Agente de Contratação: {{ demand.contracting_agent_name }}</h2>
       <h3>
         Equipe de Apoio:
@@ -23,6 +26,6 @@
         </div>
       </h3>
       {{ demand }}
-    </div>
+    </AppCard>
   </div>
 </template>

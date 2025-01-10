@@ -5,7 +5,7 @@ import {
 } from '~/schemas'
 
 // for test
-const delay = ref(0)
+const delay = ref(5000)
 const usePurchasingDemand = () => {
   const supabase = useSupabaseClient<Database>()
   const { setPendingState, isPending: purchasing_demand_details_pending } =
