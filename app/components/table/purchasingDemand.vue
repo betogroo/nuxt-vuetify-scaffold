@@ -32,15 +32,25 @@
         >{{ value }}</v-btn
       >
     </template>
-    <template #item.support_team="{ value }">
+    <template #item.contracting_agent_name="{ item }">
+      <link-profile
+        :text="item.contracting_agent_name!"
+        :to="`/uge/profile/${item.contracting_agent_id}`"
+      />
+    </template>
+    <template #item.support_team="{ value, item }">
       <div v-if="value.length">
-        <v-list :items="value">
+        <v-list>
           <v-list-item
-            v-for="item in value"
-            :key="item.id"
+            v-for="member in item.support_team"
+            :key="member.id"
             density="compact"
-            >{{ item.name }}</v-list-item
           >
+            <link-profile
+              :text="member.name!"
+              :to="`/uge/profile/${member.id}`"
+            />
+          </v-list-item>
         </v-list>
       </div>
       <div v-else>
