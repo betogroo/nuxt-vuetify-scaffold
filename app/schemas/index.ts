@@ -48,4 +48,6 @@ export * from './purchasing-demand/update'
 export * from './purchasing-demand/withContractingAgent'
 export * from './purchasing-demand/withDetails'
 
+export * from './member/withDemands'
+
 export * from './user/user'

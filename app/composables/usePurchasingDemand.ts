@@ -1,11 +1,17 @@
-import type { PurchasingDemandDetails, TableColumn, Database } from '~/types'
+import type {
+  PurchasingDemandDetails,
+  TableColumn,
+  Database,
+  AgentWithDemands,
+} from '~/types'
 import {
   purchasingDemandDetailsRowSchema,
   purchasingDemandDetailsRowsSchema,
+  purchasingDemandsWithMembersSchema,
 } from '~/schemas'
 
 // for test
-const delay = ref(5000)
+const delay = ref()
 const usePurchasingDemand = () => {
   const supabase = useSupabaseClient<Database>()
   const { setPendingState, isPending: purchasing_demand_details_pending } =
@@ -13,6 +19,7 @@ const usePurchasingDemand = () => {
 
   const demand = ref<PurchasingDemandDetails>()
   const demands = ref<PurchasingDemandDetails[]>([])
+  const agentWithDemands = ref<AgentWithDemands>()
 
   const fetchPurchasingDemandRows = async () => {
     await setPendingState(
@@ -29,6 +36,31 @@ const usePurchasingDemand = () => {
       'fetch-purchasing-demand-details',
       { delay: delay.value },
     )
+  }
+
+  const fetchPurchasingDemandsByMember = async (id: string) => {
+    await setPendingState(async () => {
+      const { data: newData, error } = await supabase
+        .from('profiles')
+        .select(
+          `
+        profile_id:id,
+        contracting_agent_name:name,
+        purchasing_demands!purchasing_demands_contracting_agent_id_fkey(
+          *
+        )
+        `,
+        )
+        .eq('id', id)
+        .returns<AgentWithDemands>()
+        .single()
+
+      if (error) console.error(error)
+      if (newData) {
+        const parsedData = purchasingDemandsWithMembersSchema.parse(newData)
+        agentWithDemands.value = parsedData
+      }
+    }, 'fetch-purchasing-demands-by-member')
   }
 
   const getPurchasingDemand = async (demand_id: number) => {
@@ -80,6 +112,8 @@ const usePurchasingDemand = () => {
     purchasing_demand_details_pending,
     getPurchasingDemand,
     fetchPurchasingDemandRows,
+    fetchPurchasingDemandsByMember,
+    agentWithDemands,
   }
 }
 

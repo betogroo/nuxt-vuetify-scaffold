@@ -27,9 +27,16 @@ const useMemberTeam = () => {
     }, 'get-designed-support_team')
   }
 
+  const getContractingAgentsById = async (id: string) => {
+    return setPendingState(async () => {
+      console.log('Listar os Processos do Agente de Conrtatação', id)
+    }, 'get-contracting-agents-by-id')
+  }
+
   return {
     getAvailableSupportTeam,
     getDesignedSupportTeam,
+    getContractingAgentsById,
     availableSupportTeamProfile,
     designedSupportTeamProfile,
     isPending,
