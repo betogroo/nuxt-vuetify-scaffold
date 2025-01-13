@@ -10,5 +10,6 @@
 <template>
   <div>
     <router-link to="/uge/demand">Demandas</router-link>
+    <router-link to="/uge/profile">Agentes</router-link>
   </div>
 </template>

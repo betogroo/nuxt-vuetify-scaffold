@@ -1,5 +1,5 @@
 import type { Database, SupportTeam } from '~/types'
-const useSupportTeam = () => {
+const useMemberTeam = () => {
   const supabase = useSupabaseClient<Database>()
   const { isPending, setPendingState } = useHelpers()
   const availableSupportTeamProfile = ref<SupportTeam[]>([])
@@ -36,4 +36,4 @@ const useSupportTeam = () => {
   }
 }
 
-export default useSupportTeam
+export default useMemberTeam
