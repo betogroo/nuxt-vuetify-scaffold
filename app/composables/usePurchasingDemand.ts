@@ -3,6 +3,7 @@ import type {
   TableColumn,
   Database,
   AgentWithDemands,
+  Ptres,
 } from '~/types'
 import {
   purchasingDemandDetailsRowSchema,
@@ -81,6 +82,14 @@ const usePurchasingDemand = () => {
       { delay: delay.value },
     )
   }
+  const demandNumber = (demand: number | string, createdAt: string): string =>
+    `${demand.toString().padStart(5, '0')}/${getYear(createdAt)}`
+
+  const title = (description: string, ptres_number: Ptres) =>
+    `${description} (${ptres_number})`
+
+  const subtitle = (id: string | number, created_at: string) =>
+    `Processo ${demandNumber(id, created_at!)}`
 
   const tableColumns: TableColumn[] = [
     {
@@ -114,6 +123,9 @@ const usePurchasingDemand = () => {
     fetchPurchasingDemandRows,
     fetchPurchasingDemandsByMember,
     agentWithDemands,
+    title,
+    subtitle,
+    demandNumber,
   }
 }
 
