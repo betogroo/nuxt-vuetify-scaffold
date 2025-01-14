@@ -13,6 +13,8 @@
     rows: PurchasingDemandDetails[]
     isPending?: boolean
   }
+
+  const { demandNumber } = usePurchasingDemand()
 </script>
 
 <template>
@@ -22,22 +24,24 @@
     :items="rows"
     :loading="isPending"
   >
-    <template #item.id="{ value }">
+    <template #item.id="{ item }">
       <v-btn
         density="compact"
         flat
         rounded
         slim
-        :to="`/uge/demand/${value}`"
-        >{{ value }}</v-btn
+        :to="`/uge/demand/${item.id}`"
+        >{{ demandNumber(item.id, item.created_at!) }}</v-btn
       >
     </template>
+
     <template #item.contracting_agent_name="{ item }">
       <link-profile
         :text="item.contracting_agent_name!"
         :to="`/uge/profile/${item.contracting_agent_id}`"
       />
     </template>
+
     <template #item.support_team="{ value, item }">
       <div v-if="value.length">
         <v-list>
