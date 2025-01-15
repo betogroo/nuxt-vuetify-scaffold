@@ -1,9 +1,11 @@
-import type { Database, SupportTeam } from '~/types'
+import type { Database, SupportTeamMember } from '~/types'
 const useMemberTeam = () => {
   const supabase = useSupabaseClient<Database>()
   const { isPending, setPendingState } = useHelpers()
-  const availableSupportTeamProfile = ref<SupportTeam[]>([])
-  const designedSupportTeamProfile = ref<SupportTeam[]>([])
+  const availableSupportTeamMember = ref<SupportTeamMember[]>([])
+  const designedSupportTeamMember = ref<SupportTeamMember[]>([])
+
+  const { profiles: members, fetchProfiles: fetchMembers } = useProfile()
 
   const getAvailableSupportTeam = async (process_id: number) => {
     return setPendingState(async () => {
@@ -12,18 +14,19 @@ const useMemberTeam = () => {
       })
       console.log(data)
       if (error) throw error
-      if (data) availableSupportTeamProfile.value = data
+      if (data) availableSupportTeamMember.value = data
     }, 'get-available-support_team')
   }
 
   const getDesignedSupportTeam = async (process_id: number) => {
     return setPendingState(async () => {
       const { data, error } = await supabase.rpc('get_designed_support_team', {
+        // mudar retorno da function no supa
         process_id,
       })
       console.log(data)
       if (error) throw error
-      if (data) designedSupportTeamProfile.value = data
+      if (data) designedSupportTeamMember.value = data
     }, 'get-designed-support_team')
   }
 
@@ -37,9 +40,11 @@ const useMemberTeam = () => {
     getAvailableSupportTeam,
     getDesignedSupportTeam,
     getContractingAgentsById,
-    availableSupportTeamProfile,
-    designedSupportTeamProfile,
+    fetchMembers,
+    availableSupportTeamMember,
+    designedSupportTeamMember,
     isPending,
+    members,
   }
 }
 

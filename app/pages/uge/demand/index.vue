@@ -1,16 +1,16 @@
 <script setup lang="ts">
-  // import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
+  import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
     title: 'UGE - Demandas',
   })
-  // const { push } = useRouter()
+  const { push } = useRouter()
 
   const purchaseDemandModal = ref(false)
-  /*  const closeModal = () => {
+  const closeModal = () => {
     purchaseDemandModal.value = false
-  } */
+  }
   const openModal = () => {
     purchaseDemandModal.value = true
   }
@@ -20,9 +20,12 @@
     demandTableColumns,
     demands,
     purchasing_demand_details_pending,
+    insertPurchasingDemand,
   } = usePurchasingDemand()
 
-  /* const submitForm = async (
+  const { members, fetchMembers } = useMemberTeam()
+
+  const submitForm = async (
     data: PurchasingDemandInsert,
     onSuccess: (id: string | number) => void,
     onError: (message: string, error: unknown) => void,
@@ -36,10 +39,11 @@
     } catch (error) {
       onError(`Erro ao tentar inserir a demanda`, error)
     }
-  } */
+  }
 
-  onBeforeMount(async () => {
+  onMounted(async () => {
     await fetchPurchasingDemandRows()
+    await fetchMembers(undefined, ['id, name'])
   })
 </script>
 
@@ -60,12 +64,13 @@
         v-model="purchaseDemandModal"
         title="Cadastrar Processo"
       >
-        <!-- <FormPurchaseDemand
+        <FormPurchaseDemand
+          :member-option="members"
           @on-submit="
             (values, onSuccess, onError) =>
               submitForm(values, onSuccess, onError)
           "
-        /> -->
+        />
       </AppModal>
     </div>
     <v-fab

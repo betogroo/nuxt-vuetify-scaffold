@@ -1,5 +1,7 @@
 import type {
   PurchasingDemandDetails,
+  PurchasingDemandInsert,
+  PurchasingDemand,
   TableColumn,
   Database,
   AgentWithDemands,
@@ -9,6 +11,7 @@ import {
   purchasingDemandDetailsRowSchema,
   purchasingDemandDetailsRowsSchema,
   purchasingDemandsWithMembersSchema,
+  purchasingDemandsInsertSchema,
 } from '~/schemas'
 
 // for test
@@ -21,6 +24,12 @@ const usePurchasingDemand = () => {
   const demand = ref<PurchasingDemandDetails>()
   const demands = ref<PurchasingDemandDetails[]>([])
   const agentWithDemands = ref<AgentWithDemands>()
+
+  const { insertPending: purchasingPending, insert: insertPurchasingDemand } =
+    useGenericInsert<PurchasingDemandInsert, PurchasingDemand>(
+      'purchasing_demands',
+      purchasingDemandsInsertSchema,
+    )
 
   const fetchPurchasingDemandRows = async () => {
     await setPendingState(
@@ -122,10 +131,12 @@ const usePurchasingDemand = () => {
     getPurchasingDemand,
     fetchPurchasingDemandRows,
     fetchPurchasingDemandsByMember,
+    insertPurchasingDemand,
     agentWithDemands,
     title,
     subtitle,
     demandNumber,
+    purchasingPending,
   }
 }
 
