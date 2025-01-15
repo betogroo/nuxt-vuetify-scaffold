@@ -74,7 +74,7 @@
     <generic-form-select
       v-model="contractingAgentId"
       :error-messages="contractingAgentIdError"
-      :items="selectData(selectProfileData!)"
+      :items="selectData(selectProfileData)"
       label="Escolha o Agente de Contratação"
     />
     <generic-form-action

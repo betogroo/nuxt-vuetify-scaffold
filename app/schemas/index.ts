@@ -37,7 +37,7 @@ export * from './time-slot/insert'
 export * from './time-slot/update'
 export * from './time-slot/withTeacherAvailability'
 
-export * from './member/support-team/member'
+export * from './member/row'
 export * from './member/support-team/row'
 export * from './member/support-team/insert'
 export * from './member/support-team/update'
