@@ -7,13 +7,15 @@
   })
   const { push } = useRouter()
 
-  const purchaseDemandModal = ref(false)
+  /* const purchaseDemandModal = ref(false)
   const closeModal = () => {
     purchaseDemandModal.value = false
   }
   const openModal = () => {
     purchaseDemandModal.value = true
-  }
+  } */
+
+  const { props, isActive, openModal, closeModal } = useModal()
 
   const {
     fetchPurchasingDemandRows,
@@ -49,6 +51,7 @@
 
 <template>
   <v-container class="fill-height flex-column justify-space-between align-end">
+    {{ props }}
     <div class="w-100">
       <TablePurchasingDemand
         :columns="demandTableColumns"
@@ -61,25 +64,28 @@
         title="Demandas"
       />
       <AppModal
-        v-model="purchaseDemandModal"
-        title="Cadastrar Processo"
+        v-model="isActive"
+        :title="props.title"
       >
         <FormPurchaseDemand
+          v-if="props.mode === 'purchasing-demand'"
           :member-option="members"
           @on-submit="
             (values, onSuccess, onError) =>
               submitForm(values, onSuccess, onError)
           "
         />
+        <div v-if="props.mode === 'default'">Default</div>
       </AppModal>
     </div>
+
     <v-fab
       absolute
       class="mr-4"
       color="green"
       :icon="iconOutline.plus"
-      :loading="purchaseDemandModal"
-      @click="openModal"
+      :loading="isActive"
+      @click="openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })"
     />
   </v-container>
 </template>
