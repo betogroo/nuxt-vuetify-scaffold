@@ -52,6 +52,7 @@
 <template>
   <v-container class="fill-height flex-column justify-space-between align-end">
     {{ props }}
+    <v-btn @click="openModal({ title: 'AAA', mode: 'aaa' })">Teste</v-btn>
     <div class="w-100">
       <TablePurchasingDemand
         :columns="demandTableColumns"
@@ -75,7 +76,7 @@
               submitForm(values, onSuccess, onError)
           "
         />
-        <div v-if="props.mode === 'default'">Default</div>
+        <div v-if="props.mode === 'aaa'">Default</div>
       </AppModal>
     </div>
 

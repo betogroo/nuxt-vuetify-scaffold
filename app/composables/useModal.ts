@@ -5,12 +5,11 @@ export const modalPropsSchema = z.object({
 })
 
 export type ModalProps = z.infer<typeof modalPropsSchema>
-const useModal = () => {
+const useModal = (
+  defaultProps: Partial<ModalProps> = { title: 'Modal', mode: 'default' },
+) => {
   const isActive = ref<boolean>(false)
-  const defaultProps: ModalProps = {
-    title: 'Modal',
-    mode: 'default',
-  }
+
   const props = ref<ModalProps>(modalPropsSchema.parse(defaultProps))
 
   const openModal = (modalProps: Partial<ModalProps>) => {
@@ -22,7 +21,6 @@ const useModal = () => {
     isActive.value = true
   }
   const closeModal = () => {
-    props.value = { ...modalPropsSchema.parse(defaultProps) }
     isActive.value = false
   }
   return {
