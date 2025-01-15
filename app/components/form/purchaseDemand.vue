@@ -5,7 +5,7 @@
 
   interface Props {
     isPending?: boolean
-    selectProfileData?: Profile[]
+    selectProfileData: Profile[]
   }
   const props = withDefaults(defineProps<Props>(), {
     isPending: false,
