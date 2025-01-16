@@ -25,11 +25,13 @@ const usePurchasingDemand = () => {
   const demands = ref<PurchasingDemandDetails[]>([])
   const agentWithDemands = ref<AgentWithDemands>()
 
-  const { insertPending: purchasingPending, insert: insertPurchasingDemand } =
-    useGenericInsert<PurchasingDemandInsert, PurchasingDemand>(
-      'purchasing_demands',
-      purchasingDemandsInsertSchema,
-    )
+  const {
+    insertPending: purchasingInsertPending,
+    insert: insertPurchasingDemand,
+  } = useGenericInsert<PurchasingDemandInsert, PurchasingDemand>(
+    'purchasing_demands',
+    purchasingDemandsInsertSchema,
+  )
 
   const fetchPurchasingDemandRows = async () => {
     await setPendingState(
@@ -136,7 +138,7 @@ const usePurchasingDemand = () => {
     title,
     subtitle,
     demandNumber,
-    purchasingPending,
+    purchasingInsertPending,
   }
 }
 

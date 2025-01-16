@@ -4,37 +4,31 @@
     PurchasingDemand,
     SupportTeam,
   } from '~/types'
+
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
     title: 'UGE - Demandas',
   })
+
+  // Composables
   const { push } = useRouter()
-
-  /* const purchaseDemandModal = ref(false)
-  const closeModal = () => {
-    purchaseDemandModal.value = false
-  }
-  const openModal = () => {
-    purchaseDemandModal.value = true
-  } */
-
   const { props, isActive, openModal, closeModal } = useModal()
-
   const {
     fetchPurchasingDemandRows,
     demandTableColumns,
     demands,
     purchasing_demand_details_pending,
     insertPurchasingDemand,
+    purchasingInsertPending,
   } = usePurchasingDemand()
-
   const {
     members,
     fetchMembers,
     getAvailableSupportTeam,
     availableSupportTeamMember,
     insertMember,
+    insertMemberPending,
   } = useMemberTeam()
 
   const submitDemandForm = async (
@@ -53,7 +47,7 @@
     }
   }
 
-  const purchasingDemandId = ref<number | string>('')
+  const purchasingDemandId = ref<number>()
 
   const addSupportMemberForm = async (id: number) => {
     await getAvailableSupportTeam(id)
@@ -61,19 +55,21 @@
     purchasingDemandId.value = id
   }
 
-  const submitSupportMemberForm = async (data: SupportTeam) => {
-    console.log(data)
-
+  const submitSupportMemberForm = async (
+    data: SupportTeam,
+    onSuccess: (message: string) => void,
+    onError: (message: string, error: unknown) => void,
+  ) => {
     try {
       const insertedData = await insertMember(data)
       if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
       await fetchPurchasingDemandRows()
-      //onSuccess(insertedData.id)
+      onSuccess('Membro adicionado à demanda com sucesso')
       closeModal()
       //push(`/uge/demand/${insertedData.id}`)
     } catch (error) {
       console.log(error)
-      //onError(`Erro ao tentar inserir a demanda`, error)
+      onError(`Erro ao tentar inserir a demanda`, error)
     }
   }
 
@@ -85,8 +81,6 @@
 
 <template>
   <v-container class="fill-height flex-column justify-space-between align-end">
-    {{ props }}
-    <v-btn @click="openModal({ title: 'AAA', mode: 'aaa' })">Teste</v-btn>
     <div class="w-100">
       <TablePurchasingDemand
         :columns="demandTableColumns"
@@ -105,6 +99,7 @@
       >
         <FormPurchaseDemand
           v-if="props.mode === 'purchasing-demand'"
+          :is-pending="purchasingInsertPending.isLoading"
           :member-option="members"
           @on-submit="
             (values, onSuccess, onError) =>
@@ -113,11 +108,12 @@
         />
         <FormSupportTeam
           v-if="props.mode === 'support-member'"
-          :is-pending="false"
+          :is-pending="insertMemberPending.isLoading"
           :member-option="availableSupportTeamMember"
-          :purchasing-demand-id="purchasingDemandId"
+          :purchasing-demand-id="purchasingDemandId!"
           @on-submit="
-            (values, onSuccess, onError) => submitSupportMemberForm(values)
+            (values, onSuccess, onError) =>
+              submitSupportMemberForm(values, onSuccess, onError)
           "
         />
       </AppModal>

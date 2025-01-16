@@ -5,17 +5,19 @@
   interface Props {
     purchasingDemandId: number
     memberOption: MemberOption[]
-    isPending: boolean
+    isPending?: boolean
   }
   const props = defineProps<Props>()
 
   const $emit = defineEmits<{
     'on-submit': [
       values: SupportTeam,
-      onSuccess: (id: string | number) => void,
+      onSuccess: (message: string) => void,
       onError: (message: string) => void,
     ]
   }>()
+
+  const { isPending } = toRefs(props)
 
   const { onHandleSuccess, onHandleError, selectData } = useHandleForm()
 
@@ -38,8 +40,8 @@
     }
   })
 
-  const onSuccess = (id: string | number) => {
-    onHandleSuccess(`Demanda ${id} cadastrada com sucesso`, handleReset)
+  const onSuccess = (message: string) => {
+    onHandleSuccess(message, handleReset)
   }
   const onError = (message: string) => {
     onHandleError(message)

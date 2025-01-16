@@ -5,7 +5,7 @@
   defineProps<Props>()
 
   const $emit = defineEmits<{
-    'add-member': [demand_id: string | number]
+    'add-member': [demand_id: number]
   }>()
 
   //const { getOptionName } = useHelpers()

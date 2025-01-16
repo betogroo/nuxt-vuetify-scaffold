@@ -11,9 +11,17 @@ const useMemberTeam = () => {
   const availableSupportTeamMember = ref<MemberOption[]>([])
   const designedSupportTeamMember = ref<SupportTeamMember[]>([])
 
-  const { profiles: members, fetchProfiles: fetchMembers } = useProfile()
+  const { profiles, fetchProfiles: fetchMembers } = useProfile()
+  const members = computed((): MemberOption[] => {
+    return profiles.value.map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+      }
+    })
+  })
 
-  const { insertPending: memberPending, insert: insertMember } =
+  const { insertPending: insertMemberPending, insert: insertMember } =
     useGenericInsert<SupportTeamInsert, SupportTeamInsert>(
       'support_team',
       supportTeamInsertSchema,
@@ -53,7 +61,7 @@ const useMemberTeam = () => {
     getDesignedSupportTeam,
     getContractingAgentsById,
     fetchMembers,
-    memberPending,
+    insertMemberPending,
     insertMember,
     availableSupportTeamMember,
     designedSupportTeamMember,
