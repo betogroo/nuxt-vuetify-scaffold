@@ -106,10 +106,12 @@ const usePurchasingDemand = () => {
     {
       key: 'id',
       title: 'Processo',
+      width: '50px',
     },
     {
       key: 'ptres_number',
       title: 'PTRES',
+      width: '50px',
     },
     {
       key: 'description',

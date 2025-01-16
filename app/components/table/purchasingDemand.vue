@@ -32,6 +32,9 @@
     :items="rows"
     :loading="isPending"
   >
+    <template #loading>
+      <v-skeleton-loader type="table-row@10" />
+    </template>
     <template #item.id="{ item }">
       <v-btn
         density="compact"

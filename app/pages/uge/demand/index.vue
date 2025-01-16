@@ -80,7 +80,7 @@
 </script>
 
 <template>
-  <v-container class="fill-height flex-column justify-space-between align-end">
+  <v-container class="fill-height flex-column justify-space-between">
     <div class="w-100">
       <TablePurchasingDemand
         :columns="demandTableColumns"
