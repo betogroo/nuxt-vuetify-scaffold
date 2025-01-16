@@ -1,4 +1,10 @@
-import type { Database, SupportTeamMember, MemberOption } from '~/types'
+import type {
+  Database,
+  SupportTeamMember,
+  MemberOption,
+  SupportTeamInsert,
+} from '~/types'
+import { supportTeamInsertSchema } from '~/schemas'
 const useMemberTeam = () => {
   const supabase = useSupabaseClient<Database>()
   const { isPending, setPendingState } = useHelpers()
@@ -6,6 +12,12 @@ const useMemberTeam = () => {
   const designedSupportTeamMember = ref<SupportTeamMember[]>([])
 
   const { profiles: members, fetchProfiles: fetchMembers } = useProfile()
+
+  const { insertPending: memberPending, insert: insertMember } =
+    useGenericInsert<SupportTeamInsert, SupportTeamInsert>(
+      'support_team',
+      supportTeamInsertSchema,
+    )
 
   const getAvailableSupportTeam = async (process_id: number) => {
     return setPendingState(async () => {
@@ -41,6 +53,8 @@ const useMemberTeam = () => {
     getDesignedSupportTeam,
     getContractingAgentsById,
     fetchMembers,
+    memberPending,
+    insertMember,
     availableSupportTeamMember,
     designedSupportTeamMember,
     isPending,

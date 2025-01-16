@@ -34,6 +34,7 @@
     fetchMembers,
     getAvailableSupportTeam,
     availableSupportTeamMember,
+    insertMember,
   } = useMemberTeam()
 
   const submitDemandForm = async (
@@ -62,6 +63,18 @@
 
   const submitSupportMemberForm = async (data: SupportTeam) => {
     console.log(data)
+
+    try {
+      const insertedData = await insertMember(data)
+      if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
+      await fetchPurchasingDemandRows()
+      //onSuccess(insertedData.id)
+      closeModal()
+      //push(`/uge/demand/${insertedData.id}`)
+    } catch (error) {
+      console.log(error)
+      //onError(`Erro ao tentar inserir a demanda`, error)
+    }
   }
 
   onMounted(async () => {
