@@ -6,6 +6,7 @@
 
   const $emit = defineEmits<{
     'add-member': [demand_id: number]
+    'delete-member': [demand_id: number, profile_id: string]
   }>()
 
   //const { getOptionName } = useHelpers()
@@ -20,6 +21,10 @@
 
   const addMember = (id: number) => {
     $emit('add-member', id)
+  }
+
+  const deleteMember = (process_id: number, profile_id: string) => {
+    console.log(process_id, profile_id)
   }
 
   const { demandNumber } = usePurchasingDemand()
@@ -65,6 +70,12 @@
               :text="member.name!"
               :to="`/uge/profile/${member.id}`"
             />
+            <template #append
+              ><v-btn
+                :icon="iconOutline.minus"
+                variant="text"
+                @click="deleteMember(item.id, member.id)"
+            /></template>
           </v-list-item>
           <v-list-item>
             <v-btn
