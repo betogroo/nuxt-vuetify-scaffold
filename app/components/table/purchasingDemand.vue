@@ -18,7 +18,7 @@
     isPending?: boolean
   }
 
-  const addMember = (id: string | number) => {
+  const addMember = (id: number) => {
     $emit('add-member', id)
   }
 
@@ -67,7 +67,7 @@
             <v-btn
               :icon="iconOutline.plus"
               variant="text"
-              @click="addMember(item.id)"
+              @click="addMember(+item.id)"
             />
           </v-list-item>
         </v-list>

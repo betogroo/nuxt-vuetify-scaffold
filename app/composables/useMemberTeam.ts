@@ -1,8 +1,8 @@
-import type { Database, SupportTeamMember } from '~/types'
+import type { Database, SupportTeamMember, MemberOption } from '~/types'
 const useMemberTeam = () => {
   const supabase = useSupabaseClient<Database>()
   const { isPending, setPendingState } = useHelpers()
-  const availableSupportTeamMember = ref<SupportTeamMember[]>([])
+  const availableSupportTeamMember = ref<MemberOption[]>([])
   const designedSupportTeamMember = ref<SupportTeamMember[]>([])
 
   const { profiles: members, fetchProfiles: fetchMembers } = useProfile()

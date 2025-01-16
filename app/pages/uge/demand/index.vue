@@ -1,5 +1,9 @@
 <script setup lang="ts">
-  import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
+  import type {
+    PurchasingDemandInsert,
+    PurchasingDemand,
+    SupportTeam,
+  } from '~/types'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
@@ -25,7 +29,12 @@
     insertPurchasingDemand,
   } = usePurchasingDemand()
 
-  const { members, fetchMembers } = useMemberTeam()
+  const {
+    members,
+    fetchMembers,
+    getAvailableSupportTeam,
+    availableSupportTeamMember,
+  } = useMemberTeam()
 
   const submitDemandForm = async (
     data: PurchasingDemandInsert,
@@ -43,11 +52,16 @@
     }
   }
 
-  const purchasing_demand_id = ref<number | string>('')
+  const purchasingDemandId = ref<number | string>('')
 
-  const submitSupportMembers = (id: string | number) => {
+  const addSupportMemberForm = async (id: number) => {
+    await getAvailableSupportTeam(id)
     openModal({ title: 'Novo Membro na Equipe', mode: 'support-member' })
-    purchasing_demand_id.value = id
+    purchasingDemandId.value = id
+  }
+
+  const submitSupportMemberForm = async (data: SupportTeam) => {
+    console.log(data)
   }
 
   onMounted(async () => {
@@ -70,7 +84,7 @@
         "
         :rows="demands"
         title="Demandas"
-        @add-member="submitSupportMembers"
+        @add-member="addSupportMemberForm"
       />
       <AppModal
         v-model="isActive"
@@ -84,9 +98,15 @@
               submitDemandForm(values, onSuccess, onError)
           "
         />
-        <div v-if="props.mode === 'support-member'">
-          Vai adicionar membros na demanda {{ purchasing_demand_id }}
-        </div>
+        <FormSupportTeam
+          v-if="props.mode === 'support-member'"
+          :is-pending="false"
+          :member-option="availableSupportTeamMember"
+          :purchasing-demand-id="purchasingDemandId"
+          @on-submit="
+            (values, onSuccess, onError) => submitSupportMemberForm(values)
+          "
+        />
       </AppModal>
     </div>
 
