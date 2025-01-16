@@ -27,7 +27,7 @@
 
   const { members, fetchMembers } = useMemberTeam()
 
-  const submitForm = async (
+  const submitDemandForm = async (
     data: PurchasingDemandInsert,
     onSuccess: (id: string | number) => void,
     onError: (message: string, error: unknown) => void,
@@ -41,6 +41,13 @@
     } catch (error) {
       onError(`Erro ao tentar inserir a demanda`, error)
     }
+  }
+
+  const purchasing_demand_id = ref<number | string>('')
+
+  const submitSupportMembers = (id: string | number) => {
+    openModal({ title: 'Novo Membro na Equipe', mode: 'support-member' })
+    purchasing_demand_id.value = id
   }
 
   onMounted(async () => {
@@ -63,6 +70,7 @@
         "
         :rows="demands"
         title="Demandas"
+        @add-member="submitSupportMembers"
       />
       <AppModal
         v-model="isActive"
@@ -73,10 +81,12 @@
           :member-option="members"
           @on-submit="
             (values, onSuccess, onError) =>
-              submitForm(values, onSuccess, onError)
+              submitDemandForm(values, onSuccess, onError)
           "
         />
-        <div v-if="props.mode === 'aaa'">Default</div>
+        <div v-if="props.mode === 'support-member'">
+          Vai adicionar membros na demanda {{ purchasing_demand_id }}
+        </div>
       </AppModal>
     </div>
 

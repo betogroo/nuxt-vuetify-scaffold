@@ -4,6 +4,10 @@
 
   defineProps<Props>()
 
+  const $emit = defineEmits<{
+    'add-member': [demand_id: string | number]
+  }>()
+
   //const { getOptionName } = useHelpers()
   //const { dropdownItems } = useDocumentDemand()
 
@@ -12,6 +16,10 @@
     columns: TableColumn[]
     rows: PurchasingDemandDetails[]
     isPending?: boolean
+  }
+
+  const addMember = (id: string | number) => {
+    $emit('add-member', id)
   }
 
   const { demandNumber } = usePurchasingDemand()
@@ -42,8 +50,8 @@
       />
     </template>
 
-    <template #item.support_team="{ value, item }">
-      <div v-if="value.length">
+    <template #item.support_team="{ item }">
+      <div>
         <v-list>
           <v-list-item
             v-for="member in item.support_team"
@@ -55,13 +63,14 @@
               :to="`/uge/profile/${member.id}`"
             />
           </v-list-item>
+          <v-list-item>
+            <v-btn
+              :icon="iconOutline.plus"
+              variant="text"
+              @click="addMember(item.id)"
+            />
+          </v-list-item>
         </v-list>
-      </div>
-      <div v-else>
-        <v-btn
-          :icon="iconOutline.plus"
-          variant="text"
-        />
       </div>
     </template>
   </v-data-table>
