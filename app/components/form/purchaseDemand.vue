@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import type { PurchasingDemandInsert, Profile } from '~/types'
+  import type { PurchasingDemandInsert, MemberOption } from '~/types'
   import { validatePurchasingDemand } from '~/validate'
 
   interface Props {
     isPending?: boolean
-    selectProfileData?: Profile[]
+    memberOption: MemberOption[]
   }
   const props = withDefaults(defineProps<Props>(), {
     isPending: false,
@@ -74,7 +74,7 @@
     <generic-form-select
       v-model="contractingAgentId"
       :error-messages="contractingAgentIdError"
-      :items="selectData(selectProfileData!)"
+      :items="selectData(memberOption)"
       label="Escolha o Agente de Contratação"
     />
     <generic-form-action

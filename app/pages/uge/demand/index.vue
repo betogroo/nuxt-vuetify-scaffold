@@ -1,28 +1,37 @@
 <script setup lang="ts">
-  // import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
+  import type {
+    PurchasingDemandInsert,
+    PurchasingDemand,
+    SupportTeam,
+  } from '~/types'
+
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
     title: 'UGE - Demandas',
   })
-  // const { push } = useRouter()
 
-  const purchaseDemandModal = ref(false)
-  /*  const closeModal = () => {
-    purchaseDemandModal.value = false
-  } */
-  const openModal = () => {
-    purchaseDemandModal.value = true
-  }
-
+  // Composables
+  const { push } = useRouter()
+  const { props, isActive, openModal, closeModal } = useModal()
   const {
     fetchPurchasingDemandRows,
     demandTableColumns,
     demands,
     purchasing_demand_details_pending,
+    insertPurchasingDemand,
+    purchasingInsertPending,
   } = usePurchasingDemand()
+  const {
+    members,
+    fetchMembers,
+    getAvailableSupportTeam,
+    availableSupportTeamMember,
+    insertMember,
+    insertMemberPending,
+  } = useMemberTeam()
 
-  /* const submitForm = async (
+  const submitDemandForm = async (
     data: PurchasingDemandInsert,
     onSuccess: (id: string | number) => void,
     onError: (message: string, error: unknown) => void,
@@ -36,15 +45,42 @@
     } catch (error) {
       onError(`Erro ao tentar inserir a demanda`, error)
     }
-  } */
+  }
 
-  onBeforeMount(async () => {
+  const purchasingDemandId = ref<number>()
+
+  const addSupportMemberForm = async (id: number) => {
+    await getAvailableSupportTeam(id)
+    openModal({ title: 'Novo Membro na Equipe', mode: 'support-member' })
+    purchasingDemandId.value = id
+  }
+
+  const submitSupportMemberForm = async (
+    data: SupportTeam,
+    onSuccess: (message: string) => void,
+    onError: (message: string, error: unknown) => void,
+  ) => {
+    try {
+      const insertedData = await insertMember(data)
+      if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
+      await fetchPurchasingDemandRows()
+      onSuccess('Membro adicionado à demanda com sucesso')
+      closeModal()
+      //push(`/uge/demand/${insertedData.id}`)
+    } catch (error) {
+      console.log(error)
+      onError(`Erro ao tentar inserir a demanda`, error)
+    }
+  }
+
+  onMounted(async () => {
     await fetchPurchasingDemandRows()
+    await fetchMembers(undefined, ['id, name'])
   })
 </script>
 
 <template>
-  <v-container class="fill-height flex-column justify-space-between align-end">
+  <v-container class="fill-height flex-column justify-space-between">
     <div class="w-100">
       <TablePurchasingDemand
         :columns="demandTableColumns"
@@ -55,26 +91,41 @@
         "
         :rows="demands"
         title="Demandas"
+        @add-member="addSupportMemberForm"
       />
       <AppModal
-        v-model="purchaseDemandModal"
-        title="Cadastrar Processo"
+        v-model="isActive"
+        :title="props.title"
       >
-        <!-- <FormPurchaseDemand
+        <FormPurchaseDemand
+          v-if="props.mode === 'purchasing-demand'"
+          :is-pending="purchasingInsertPending.isLoading"
+          :member-option="members"
           @on-submit="
             (values, onSuccess, onError) =>
-              submitForm(values, onSuccess, onError)
+              submitDemandForm(values, onSuccess, onError)
           "
-        /> -->
+        />
+        <FormSupportTeam
+          v-if="props.mode === 'support-member'"
+          :is-pending="insertMemberPending.isLoading"
+          :member-option="availableSupportTeamMember"
+          :purchasing-demand-id="purchasingDemandId!"
+          @on-submit="
+            (values, onSuccess, onError) =>
+              submitSupportMemberForm(values, onSuccess, onError)
+          "
+        />
       </AppModal>
     </div>
+
     <v-fab
       absolute
       class="mr-4"
       color="green"
       :icon="iconOutline.plus"
-      :loading="purchaseDemandModal"
-      @click="openModal"
+      :loading="isActive"
+      @click="openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })"
     />
   </v-container>
 </template>
