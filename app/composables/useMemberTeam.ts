@@ -35,7 +35,6 @@ const useMemberTeam = () => {
       const { data, error } = await supabase.rpc('get_available_support_team', {
         process_id,
       })
-      console.log(data)
       if (error) throw error
       if (data) availableSupportTeamMember.value = data
     }, 'get-available-support_team')
@@ -47,7 +46,6 @@ const useMemberTeam = () => {
         // mudar retorno da function no supa
         process_id,
       })
-      console.log(data)
       if (error) throw error
       if (data) designedSupportTeamMember.value = data
     }, 'get-designed-support_team')
