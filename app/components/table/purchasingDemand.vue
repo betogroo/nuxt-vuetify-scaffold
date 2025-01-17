@@ -24,7 +24,7 @@
   }
 
   const deleteMember = (process_id: number, profile_id: string) => {
-    console.log(process_id, profile_id)
+    $emit('delete-member', process_id, profile_id)
   }
 
   const { demandNumber } = usePurchasingDemand()

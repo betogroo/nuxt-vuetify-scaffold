@@ -29,6 +29,7 @@
     availableSupportTeamMember,
     insertMember,
     insertMemberPending,
+    deleteMember: _deleteMember,
   } = useMemberTeam()
 
   const submitDemandForm = async (
@@ -73,6 +74,11 @@
     }
   }
 
+  const deleteMember = async (process_id: number, profile_id: string) => {
+    await _deleteMember({ process_id, profile_id })
+    await fetchPurchasingDemandRows()
+  }
+
   onMounted(async () => {
     await fetchPurchasingDemandRows()
     await fetchMembers(undefined, ['id, name'])
@@ -92,6 +98,7 @@
         :rows="demands"
         title="Demandas"
         @add-member="addSupportMemberForm"
+        @delete-member="deleteMember"
       />
       <AppModal
         v-model="isActive"

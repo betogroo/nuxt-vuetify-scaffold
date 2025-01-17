@@ -27,6 +27,9 @@ const useMemberTeam = () => {
       supportTeamInsertSchema,
     )
 
+  const { deleteDataByFilters: deleteMember, deletePending } =
+    useGenericDelete('support_team')
+
   const getAvailableSupportTeam = async (process_id: number) => {
     return setPendingState(async () => {
       const { data, error } = await supabase.rpc('get_available_support_team', {
@@ -63,6 +66,8 @@ const useMemberTeam = () => {
     fetchMembers,
     insertMemberPending,
     insertMember,
+    deleteMember,
+    deletePending,
     availableSupportTeamMember,
     designedSupportTeamMember,
     isPending,
