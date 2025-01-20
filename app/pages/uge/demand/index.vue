@@ -32,7 +32,7 @@
     deleteMember: _deleteMember,
   } = useMemberTeam()
 
-  const submitDemandForm = async (
+  const submitDemand = async (
     data: PurchasingDemandInsert,
     onSuccess: (id: string | number) => void,
     onError: (message: string, error: unknown) => void,
@@ -50,7 +50,7 @@
 
   const purchasingDemandId = ref<number>()
 
-  const addSupportMemberForm = async (id: number) => {
+  const openSupportMemberModal = async (id: number) => {
     await getAvailableSupportTeam(id)
     openModal({
       title: 'Novo Membro na Equipe de Apoio',
@@ -100,7 +100,7 @@
         "
         :rows="demands"
         title="Demandas"
-        @add-member="addSupportMemberForm"
+        @add-member="openSupportMemberModal"
         @delete-member="deleteMember"
       />
       <AppModal
@@ -113,7 +113,7 @@
           :member-option="members"
           @on-submit="
             (values, onSuccess, onError) =>
-              submitDemandForm(values, onSuccess, onError)
+              submitDemand(values, onSuccess, onError)
           "
         />
         <FormSupportTeam
