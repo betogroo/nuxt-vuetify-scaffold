@@ -5,11 +5,6 @@ export * from './auth/credential'
 export * from './profile/row'
 export * from './profile/update'
 
-export * from './support-team/row'
-export * from './support-team/insert'
-export * from './support-team/update'
-export * from './support-team/member'
-
 export * from './app/color'
 export * from './app/dropdown'
 export * from './app/navbar'
@@ -42,10 +37,16 @@ export * from './time-slot/insert'
 export * from './time-slot/update'
 export * from './time-slot/withTeacherAvailability'
 
+export * from './member/row'
+export * from './member/support-team/row'
+export * from './member/support-team/insert'
+export * from './member/support-team/update'
+
 export * from './purchasing-demand/row'
 export * from './purchasing-demand/insert'
 export * from './purchasing-demand/update'
 export * from './purchasing-demand/withContractingAgent'
 export * from './purchasing-demand/withDetails'
+export * from './purchasing-demand/withMembers'
 
 export * from './user/user'

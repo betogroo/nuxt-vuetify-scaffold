@@ -7,10 +7,11 @@ const useGenericDelete = (tableName: Tables) => {
     return setPendingState(
       async () => {
         const { data: deletedData, error } = await supabase
-          .from('teacher_availability')
+          .from(tableName)
           .delete()
           .eq('id', id)
           .select()
+          .returns()
         if (error) throw error
         return deletedData
       },
@@ -18,7 +19,21 @@ const useGenericDelete = (tableName: Tables) => {
       { itemId: id },
     )
   }
-  return { deleteDataById, deletePending }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const deleteDataByFilters = async (filters: Record<string, any>) => {
+    return setPendingState(async () => {
+      let query = supabase.from(tableName).delete()
+      for (const [key, value] of Object.entries(filters)) {
+        query = query.eq(key, value) as typeof query
+      }
+      const { data, error } = await query
+      if (error) throw error
+      console.log(data)
+      return data
+    }, `delete-${tableName}`)
+  }
+  return { deleteDataById, deleteDataByFilters, deletePending }
 }
 
 export default useGenericDelete

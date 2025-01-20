@@ -1,28 +1,40 @@
 <script setup lang="ts">
-  // import type { PurchasingDemandInsert, PurchasingDemand } from '~/types'
+  import type {
+    PurchasingDemandInsert,
+    PurchasingDemand,
+    SupportTeam,
+  } from '~/types'
+
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
     title: 'UGE - Demandas',
   })
-  // const { push } = useRouter()
 
-  const purchaseDemandModal = ref(false)
-  /*  const closeModal = () => {
-    purchaseDemandModal.value = false
-  } */
-  const openModal = () => {
-    purchaseDemandModal.value = true
-  }
+  // Composables
+  const { push } = useRouter()
+  const { props, isActive, openModal, closeModal } = useModal()
 
   const {
-    fetchPurchasingDemandRows,
-    demandTableColumns,
     demands,
-    purchasing_demand_details_pending,
+    demandTableColumns,
+    purchasingDemandDetailsPending,
+    purchasingInsertPending,
+    fetchPurchasingDemandRows,
+    insertPurchasingDemand,
   } = usePurchasingDemand()
 
-  /* const submitForm = async (
+  const {
+    members,
+    availableSupportTeamMember,
+    insertMemberPending,
+    fetchMembers,
+    getAvailableSupportTeam,
+    insertMember,
+    deleteMember: _deleteMember,
+  } = useMemberTeam()
+
+  const submitDemand = async (
     data: PurchasingDemandInsert,
     onSuccess: (id: string | number) => void,
     onError: (message: string, error: unknown) => void,
@@ -36,45 +48,96 @@
     } catch (error) {
       onError(`Erro ao tentar inserir a demanda`, error)
     }
-  } */
+  }
 
-  onBeforeMount(async () => {
+  const purchasingDemandId = ref<number>()
+
+  const openSupportMemberModal = async (id: number) => {
+    await getAvailableSupportTeam(id)
+    openModal({
+      title: 'Novo Membro na Equipe de Apoio',
+      mode: 'support-member',
+    })
+    purchasingDemandId.value = id
+  }
+
+  const submitSupportMemberForm = async (
+    data: SupportTeam,
+    onSuccess: (message: string) => void,
+    onError: (message: string, error: unknown) => void,
+  ) => {
+    try {
+      const insertedData = await insertMember(data)
+      if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
+      await fetchPurchasingDemandRows()
+      onSuccess('Membro adicionado à demanda com sucesso')
+      closeModal()
+      //push(`/uge/demand/${insertedData.id}`)
+    } catch (error) {
+      console.log(error)
+      onError(`Erro ao tentar inserir a demanda`, error)
+    }
+  }
+
+  const deleteMember = async (process_id: number, profile_id: string) => {
+    await _deleteMember({ process_id, profile_id })
     await fetchPurchasingDemandRows()
+  }
+
+  onMounted(async () => {
+    await fetchPurchasingDemandRows()
+    await fetchMembers(undefined, ['id, name'])
   })
 </script>
 
 <template>
-  <v-container class="fill-height flex-column justify-space-between align-end">
+  <v-container class="fill-height flex-column justify-space-between">
     <div class="w-100">
       <TablePurchasingDemand
         :columns="demandTableColumns"
         :is-pending="
-          purchasing_demand_details_pending.isLoading &&
-          purchasing_demand_details_pending.action ===
+          purchasingDemandDetailsPending.isLoading &&
+          purchasingDemandDetailsPending.action ===
             'fetch-purchasing-demand-details'
         "
         :rows="demands"
         title="Demandas"
+        @add-member="openSupportMemberModal"
+        @delete-member="deleteMember"
       />
       <AppModal
-        v-model="purchaseDemandModal"
-        title="Cadastrar Processo"
+        v-model="isActive"
+        :title="props.title"
       >
-        <!-- <FormPurchaseDemand
+        <FormPurchaseDemand
+          v-if="props.mode === 'purchasing-demand'"
+          :is-pending="purchasingInsertPending.isLoading"
+          :member-option="members"
           @on-submit="
             (values, onSuccess, onError) =>
-              submitForm(values, onSuccess, onError)
+              submitDemand(values, onSuccess, onError)
           "
-        /> -->
+        />
+        <FormSupportTeam
+          v-if="props.mode === 'support-member'"
+          :is-pending="insertMemberPending.isLoading"
+          :member-option="availableSupportTeamMember"
+          :purchasing-demand-id="purchasingDemandId!"
+          @on-submit="
+            (values, onSuccess, onError) =>
+              submitSupportMemberForm(values, onSuccess, onError)
+          "
+        />
       </AppModal>
     </div>
+
     <v-fab
       absolute
       class="mr-4"
       color="green"
       :icon="iconOutline.plus"
-      :loading="purchaseDemandModal"
-      @click="openModal"
+      :loading="isActive"
+      @click="openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })"
     />
   </v-container>
 </template>

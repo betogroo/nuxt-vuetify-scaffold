@@ -1,6 +1,3 @@
-export const useSupportTeamStoreStore = defineStore(
-  'useSupportTeamStore',
-  () => {
-    return {}
-  },
-)
+export const useMemberTeamStore = defineStore('useMemberTeamStore', () => {
+  return {}
+})

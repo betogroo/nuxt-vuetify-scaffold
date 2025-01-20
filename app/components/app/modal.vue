@@ -4,12 +4,12 @@
   }
   defineProps<Props>()
 
-  const isOpen = defineModel<boolean>()
+  const isActive = defineModel<boolean>()
 </script>
 
 <template>
   <v-dialog
-    v-model="isOpen"
+    v-model="isActive"
     max-width="640px"
   >
     <v-card class="pa-0 ma-0">
@@ -21,7 +21,7 @@
             :icon="iconOutline.close"
             size="x-small"
             variant="text"
-            @click="isOpen = false"
+            @click="isActive = false"
           />
         </div>
       </template>

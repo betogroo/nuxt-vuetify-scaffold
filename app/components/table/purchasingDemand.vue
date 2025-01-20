@@ -4,6 +4,11 @@
 
   defineProps<Props>()
 
+  const $emit = defineEmits<{
+    'add-member': [demand_id: number]
+    'delete-member': [demand_id: number, profile_id: string]
+  }>()
+
   //const { getOptionName } = useHelpers()
   //const { dropdownItems } = useDocumentDemand()
 
@@ -13,6 +18,16 @@
     rows: PurchasingDemandDetails[]
     isPending?: boolean
   }
+
+  const addMember = (id: number) => {
+    $emit('add-member', id)
+  }
+
+  const deleteMember = (process_id: number, profile_id: string) => {
+    $emit('delete-member', process_id, profile_id)
+  }
+
+  const { demandNumber } = usePurchasingDemand()
 </script>
 
 <template>
@@ -22,32 +37,54 @@
     :items="rows"
     :loading="isPending"
   >
-    <template #item.id="{ value }">
+    <template #loading>
+      <v-skeleton-loader type="table-row@10" />
+    </template>
+    <template #item.id="{ item }">
       <v-btn
         density="compact"
         flat
         rounded
         slim
-        :to="`/uge/demand/${value}`"
-        >{{ value }}</v-btn
+        :to="`/uge/demand/${item.id}`"
+        >{{ demandNumber(item.id, item.created_at!) }}</v-btn
       >
     </template>
-    <template #item.support_team="{ value }">
-      <div v-if="value.length">
-        <v-list :items="value">
+
+    <template #item.contracting_agent_name="{ item }">
+      <link-profile
+        :text="item.contracting_agent_name!"
+        :to="`/uge/profile/${item.contracting_agent_id}`"
+      />
+    </template>
+
+    <template #item.support_team="{ item }">
+      <div>
+        <v-list>
           <v-list-item
-            v-for="item in value"
-            :key="item.id"
+            v-for="member in item.support_team"
+            :key="member.id"
             density="compact"
-            >{{ item.name }}</v-list-item
           >
+            <link-profile
+              :text="member.name!"
+              :to="`/uge/profile/${member.id}`"
+            />
+            <template #append
+              ><v-btn
+                :icon="iconOutline.minus"
+                variant="text"
+                @click="deleteMember(item.id, member.id)"
+            /></template>
+          </v-list-item>
+          <v-list-item>
+            <v-btn
+              :icon="iconOutline.plus"
+              variant="text"
+              @click="addMember(+item.id)"
+            />
+          </v-list-item>
         </v-list>
-      </div>
-      <div v-else>
-        <v-btn
-          :icon="iconOutline.plus"
-          variant="text"
-        />
       </div>
     </template>
   </v-data-table>
