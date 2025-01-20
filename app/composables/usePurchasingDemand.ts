@@ -15,10 +15,11 @@ import {
 } from '~/schemas'
 
 // for test
-const delay = ref()
+const delay = ref(0)
+
 const usePurchasingDemand = () => {
   const supabase = useSupabaseClient<Database>()
-  const { setPendingState, isPending: purchasing_demand_details_pending } =
+  const { setPendingState, isPending: purchasingDemandDetailsPending } =
     useHelpers()
 
   const demand = ref<PurchasingDemandDetails>()
@@ -131,7 +132,7 @@ const usePurchasingDemand = () => {
     demand,
     demands,
     demandTableColumns: tableColumns,
-    purchasing_demand_details_pending,
+    purchasingDemandDetailsPending,
     getPurchasingDemand,
     fetchPurchasingDemandRows,
     fetchPurchasingDemandsByMember,

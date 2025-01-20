@@ -1,6 +1,6 @@
 <script setup lang="ts">
   const { id } = useValidateParam()
-  const { demand, getPurchasingDemand, purchasing_demand_details_pending } =
+  const { demand, getPurchasingDemand, purchasingDemandDetailsPending } =
     usePurchasingDemand()
   onBeforeMount(async () => {
     await getPurchasingDemand(+id!)
@@ -11,7 +11,7 @@
   <div>
     <AppCard
       v-if="demand"
-      :loading="purchasing_demand_details_pending.isLoading"
+      :loading="purchasingDemandDetailsPending.isLoading"
       :subtitle="`PTRES ${demand.ptres_number}`"
       :title="`Processo ${demand.id} - (${demand.description})`"
     >

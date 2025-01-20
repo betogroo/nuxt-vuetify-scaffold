@@ -14,21 +14,23 @@
   // Composables
   const { push } = useRouter()
   const { props, isActive, openModal, closeModal } = useModal()
+
   const {
-    fetchPurchasingDemandRows,
-    demandTableColumns,
     demands,
-    purchasing_demand_details_pending,
-    insertPurchasingDemand,
+    demandTableColumns,
+    purchasingDemandDetailsPending,
     purchasingInsertPending,
+    fetchPurchasingDemandRows,
+    insertPurchasingDemand,
   } = usePurchasingDemand()
+
   const {
     members,
+    availableSupportTeamMember,
+    insertMemberPending,
     fetchMembers,
     getAvailableSupportTeam,
-    availableSupportTeamMember,
     insertMember,
-    insertMemberPending,
     deleteMember: _deleteMember,
   } = useMemberTeam()
 
@@ -94,8 +96,8 @@
       <TablePurchasingDemand
         :columns="demandTableColumns"
         :is-pending="
-          purchasing_demand_details_pending.isLoading &&
-          purchasing_demand_details_pending.action ===
+          purchasingDemandDetailsPending.isLoading &&
+          purchasingDemandDetailsPending.action ===
             'fetch-purchasing-demand-details'
         "
         :rows="demands"
