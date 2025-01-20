@@ -52,7 +52,10 @@
 
   const addSupportMemberForm = async (id: number) => {
     await getAvailableSupportTeam(id)
-    openModal({ title: 'Novo Membro na Equipe', mode: 'support-member' })
+    openModal({
+      title: 'Novo Membro na Equipe de Apoio',
+      mode: 'support-member',
+    })
     purchasingDemandId.value = id
   }
 

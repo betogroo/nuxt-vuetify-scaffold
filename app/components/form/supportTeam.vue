@@ -49,8 +49,6 @@
 </script>
 
 <template>
-  <div>Formulário para Cadastro de Membro da Equipe de Apoio</div>
-  <div>Processo {{ purchasingDemandId }}</div>
   <v-form
     class="pa-2 ma-2"
     @submit.prevent="onSubmit"
@@ -59,7 +57,7 @@
       v-model="member"
       :error-messages="memberError"
       :items="selectData(memberOption)"
-      label="Escolha o Agente de Contratação"
+      label="Selecione um Funcionário disponível"
     />
     <generic-form-action
       :cancel-button="{
