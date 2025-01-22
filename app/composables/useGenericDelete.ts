@@ -16,7 +16,7 @@ const useGenericDelete = (tableName: Tables) => {
         return deletedData
       },
       `delete-${tableName}`,
-      { itemId: id },
+      { pendingItem: id },
     )
   }
 
@@ -33,7 +33,7 @@ const useGenericDelete = (tableName: Tables) => {
         return data
       },
       `delete-${tableName}`,
-      { itemId: filters, delay: 5000 },
+      { pendingItem: filters, delay: 5000 },
     )
   }
   return { deleteDataById, deleteDataByFilters, deletePending }

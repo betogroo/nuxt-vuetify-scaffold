@@ -23,7 +23,7 @@ const useGenericUpsert = <InsertType>(
         })
       },
       tableName,
-      { itemId: pendingRow },
+      { pendingItem: pendingRow },
     )
   }
 

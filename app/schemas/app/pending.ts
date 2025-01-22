@@ -7,11 +7,11 @@ const pendingItem = z
 
 export const pendingStateSchema = z.object({
   action: z.string().nullable(),
-  itemId: pendingItem,
+  pendingItem: pendingItem,
   isLoading: z.boolean().default(false),
 })
 
 export const pendingOptionsSchema = z.object({
-  itemId: pendingItem,
+  pendingItem: pendingItem,
   delay: z.number().positive().optional(),
 })

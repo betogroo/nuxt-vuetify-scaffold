@@ -152,7 +152,7 @@
                 :is-pending="
                   isPending.isLoading &&
                   isPending.action === 'deleteUser' &&
-                  isPending.itemId === user.id
+                  isPending.pendingItem === user.id
                 "
                 :item="user"
                 @handle-delete="deleteData(user.id!)"

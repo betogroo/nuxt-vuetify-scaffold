@@ -92,7 +92,7 @@
                 deletable
                 :is-pending="
                   deleteMemberPending.isLoading &&
-                  deleteMemberPending.itemId.profile_id === member.id
+                  deleteMemberPending.pendingItem.profile_id === member.id
                 "
                 :name="member.name || ''"
                 :to="{ name: 'uge-profile-id', params: { id: member.id } }"

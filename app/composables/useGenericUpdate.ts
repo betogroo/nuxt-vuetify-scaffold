@@ -25,7 +25,7 @@ const useGenericUpdate = <UpdateType>(
         if (error) throw error
       },
       tableName,
-      { itemId: pendingRow, delay: 5000 },
+      { pendingItem: pendingRow, delay: 5000 },
     )
   }
 

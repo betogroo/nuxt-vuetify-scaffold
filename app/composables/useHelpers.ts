@@ -144,7 +144,7 @@ const useHelpers = () => {
 
   const isPending = ref<PendingState>({
     action: null,
-    itemId: null,
+    pendingItem: null,
     isLoading: false,
   })
 
@@ -153,8 +153,8 @@ const useHelpers = () => {
     action: string,
     options: PendingOptions = {},
   ): Promise<T> => {
-    const { itemId = null, delay = 0 } = options
-    isPending.value = { action, itemId, isLoading: true }
+    const { pendingItem = null, delay = 0 } = options
+    isPending.value = { action, pendingItem, isLoading: true }
     if (delay > 0)
       await simulateDelayInDevelopment(delay, `Delay de ${delay}ms para testes`)
     try {
@@ -163,7 +163,7 @@ const useHelpers = () => {
       const error = handleError(err)
       throw error // Propaga o erro, se houver
     } finally {
-      isPending.value = { action: null, itemId: null, isLoading: false }
+      isPending.value = { action: null, pendingItem: null, isLoading: false }
     }
   }
 
