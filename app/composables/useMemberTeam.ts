@@ -3,6 +3,7 @@ import type {
   SupportTeamMember,
   MemberOption,
   SupportTeamInsert,
+  SupportTeam,
 } from '~/types'
 import { supportTeamInsertSchema } from '~/schemas'
 const useMemberTeam = () => {
@@ -28,7 +29,7 @@ const useMemberTeam = () => {
     )
 
   const { deleteDataByFilters: deleteMember, deletePending } =
-    useGenericDelete('support_team')
+    useGenericDelete<SupportTeam>('support_team')
 
   const getAvailableSupportTeam = async (process_id: number) => {
     return setPendingState(async () => {

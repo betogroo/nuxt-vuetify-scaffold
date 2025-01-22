@@ -13,6 +13,8 @@
     deletePending: deleteMemberPending,
   } = useMemberTeam()
 
+  const { areObjectsEqual } = useHelpers()
+
   const {
     isActive: insertMemberModal,
     openModal,
@@ -36,7 +38,6 @@
       await getPurchasingDemand(+id!)
       onSuccess('Membro adicionado à demanda com sucesso')
       closeModal()
-      //push(`/uge/demand/${insertedData.id}`)
     } catch (error) {
       console.log(error)
       onError(`Erro ao tentar inserir a demanda`, error)
@@ -91,14 +92,14 @@
               <LinkProfileChip
                 deletable
                 :is-pending="
-                  deleteMemberPending.isLoading &&
-                  deleteMemberPending.pendingItem.profile_id === member.id
+                  deleteMemberPending.isLoading 
+                  &&
+                  areObjectsEqual(deleteMemberPending.pendingItem as SupportTeam, {process_id: demand.id, profile_id: member.id})
                 "
                 :name="member.name || ''"
                 :to="{ name: 'uge-profile-id', params: { id: member.id } }"
                 @on-delete="deleteMember(demand.id, member.id)"
               />
-              {{ deleteMemberPending }}
             </div>
             <v-btn
               density="compact"
