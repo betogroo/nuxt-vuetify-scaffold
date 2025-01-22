@@ -6,7 +6,6 @@
 
   const $emit = defineEmits<{
     'add-member': [demand_id: number]
-    'delete-member': [demand_id: number, profile_id: string]
   }>()
 
   //const { getOptionName } = useHelpers()
@@ -21,10 +20,6 @@
 
   const addMember = (id: number) => {
     $emit('add-member', id)
-  }
-
-  const deleteMember = (process_id: number, profile_id: string) => {
-    $emit('delete-member', process_id, profile_id)
   }
 
   const { demandNumber } = usePurchasingDemand()
@@ -52,39 +47,28 @@
     </template>
 
     <template #item.contracting_agent_name="{ item }">
-      <link-profile
-        :text="item.contracting_agent_name!"
-        :to="`/uge/profile/${item.contracting_agent_id}`"
+      <LinkProfileChip
+        :name="item.contracting_agent_name || ''"
+        :to="{
+          name: 'uge-profile-id',
+          params: { id: item.contracting_agent_id },
+        }"
       />
     </template>
 
     <template #item.support_team="{ item }">
       <div>
-        <v-list>
-          <v-list-item
-            v-for="member in item.support_team"
-            :key="member.id"
-            density="compact"
-          >
-            <link-profile
-              :text="member.name!"
-              :to="`/uge/profile/${member.id}`"
-            />
-            <template #append
-              ><v-btn
-                :icon="iconOutline.minus"
-                variant="text"
-                @click="deleteMember(item.id, member.id)"
-            /></template>
-          </v-list-item>
-          <v-list-item>
-            <v-btn
-              :icon="iconOutline.plus"
-              variant="text"
-              @click="addMember(+item.id)"
-            />
-          </v-list-item>
-        </v-list>
+        <LinkProfileChip
+          v-for="member in item.support_team"
+          :key="member.id"
+          :name="member.name || ''"
+          :to="{ name: 'uge-profile-id', params: { id: member.id } }"
+        />
+        <v-btn
+          :icon="iconOutline.plus"
+          variant="text"
+          @click="addMember(+item.id)"
+        />
       </div>
     </template>
   </v-data-table>
