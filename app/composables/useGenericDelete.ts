@@ -22,16 +22,19 @@ const useGenericDelete = (tableName: Tables) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const deleteDataByFilters = async (filters: Record<string, any>) => {
-    return setPendingState(async () => {
-      let query = supabase.from(tableName).delete()
-      for (const [key, value] of Object.entries(filters)) {
-        query = query.eq(key, value) as typeof query
-      }
-      const { data, error } = await query
-      if (error) throw error
-      console.log(data)
-      return data
-    }, `delete-${tableName}`)
+    return setPendingState(
+      async () => {
+        let query = supabase.from(tableName).delete()
+        for (const [key, value] of Object.entries(filters)) {
+          query = query.eq(key, value).select() as typeof query
+        }
+        const { data, error } = await query
+        if (error) throw error
+        return data
+      },
+      `delete-${tableName}`,
+      { itemId: filters, delay: 5000 },
+    )
   }
   return { deleteDataById, deleteDataByFilters, deletePending }
 }
