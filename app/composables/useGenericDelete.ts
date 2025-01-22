@@ -1,6 +1,8 @@
 import type { Database, Tables } from '~/types'
 
-const useGenericDelete = (tableName: Tables) => {
+const useGenericDelete = <T extends Record<string, string | number>>(
+  tableName: Tables,
+) => {
   const supabase = useSupabaseClient<Database>()
   const { isPending: deletePending, setPendingState } = useHelpers()
   const deleteDataById = async (id: string | number) => {
@@ -11,7 +13,6 @@ const useGenericDelete = (tableName: Tables) => {
           .delete()
           .eq('id', id)
           .select()
-          .returns()
         if (error) throw error
         return deletedData
       },
@@ -20,8 +21,7 @@ const useGenericDelete = (tableName: Tables) => {
     )
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const deleteDataByFilters = async (filters: Record<string, any>) => {
+  const deleteDataByFilters = async (filters: T) => {
     return setPendingState(
       async () => {
         let query = supabase.from(tableName).delete()
