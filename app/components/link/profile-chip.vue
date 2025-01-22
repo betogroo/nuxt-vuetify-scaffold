@@ -42,6 +42,7 @@
     >
       <v-btn
         class="ml-1"
+        color="red"
         density="compact"
         :icon="iconOutline.trash"
         :loading="isPending"

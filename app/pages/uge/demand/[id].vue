@@ -23,8 +23,18 @@
   } = useModal()
 
   const openSupportMemberModal = async () => {
-    await getAvailableSupportTeam(+id!)
-    openModal({ title: 'Novo Membro', mode: 'insert-member-modal' })
+    if (availableMemberToInsert.value) return
+    if (!availableSupportTeamMember.value.length) return
+    openModal({
+      title: 'Inserir membro em equipe de apoio',
+      mode: 'insert-member-modal',
+    })
+  }
+
+  const updateData = async (id: number | string) => {
+    if (!id) return
+    await getPurchasingDemand(+id)
+    await getAvailableSupportTeam(+id)
   }
 
   const submitSupportMemberForm = async (
@@ -35,7 +45,7 @@
     try {
       const insertedData = await insertMember(data)
       if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
-      await getPurchasingDemand(+id!)
+      await updateData(id!)
       onSuccess('Membro adicionado à demanda com sucesso')
       closeModal()
     } catch (error) {
@@ -44,10 +54,14 @@
     }
   }
 
+  const availableMemberToInsert = computed(
+    () => !availableSupportTeamMember.value.length,
+  )
+
   const deleteMember = async (process_id: number, profile_id: string) => {
     try {
       const deletedData = await _deleteMember({ process_id, profile_id })
-      await getPurchasingDemand(+id!)
+      await updateData(id!)
       console.log(deletedData)
     } catch (error) {
       console.error(error)
@@ -55,7 +69,7 @@
   }
 
   onMounted(async () => {
-    await getPurchasingDemand(+id!)
+    await updateData(id!)
   })
 </script>
 
@@ -85,28 +99,28 @@
         </v-col>
         <v-col>
           <UgeCard title="Equipe de Apoio">
-            <div
+            <LinkProfileChip
               v-for="member in demand.support_team"
               :key="member.id"
-            >
-              <LinkProfileChip
-                deletable
-                :is-pending="
+              deletable
+              :is-pending="
                   deleteMemberPending.isLoading 
                   &&
                   areObjectsEqual(deleteMemberPending.pendingItem as SupportTeam, {process_id: demand.id, profile_id: member.id})
                 "
-                :name="member.name || ''"
-                :to="{ name: 'uge-profile-id', params: { id: member.id } }"
-                @on-delete="deleteMember(demand.id, member.id)"
-              />
-            </div>
-            <v-btn
-              density="compact"
-              :icon="iconOutline.plus"
-              variant="text"
-              @click="openSupportMemberModal"
+              :name="member.name || ''"
+              :to="{ name: 'uge-profile-id', params: { id: member.id } }"
+              @on-delete="deleteMember(demand.id, member.id)"
             />
+            <template #action>
+              <v-btn
+                color="red"
+                density="compact"
+                :disabled="availableMemberToInsert"
+                :icon="iconOutline.plus"
+                variant="text"
+                @click="openSupportMemberModal"
+            /></template>
           </UgeCard>
         </v-col>
       </v-row>
