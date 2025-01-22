@@ -4,22 +4,11 @@
 
   defineProps<Props>()
 
-  const $emit = defineEmits<{
-    'add-member': [demand_id: number]
-  }>()
-
-  //const { getOptionName } = useHelpers()
-  //const { dropdownItems } = useDocumentDemand()
-
   interface Props {
     title: string
     columns: TableColumn[]
     rows: PurchasingDemandDetails[]
     isPending?: boolean
-  }
-
-  const addMember = (id: number) => {
-    $emit('add-member', id)
   }
 
   const { demandNumber } = usePurchasingDemand()
@@ -33,6 +22,7 @@
     :loading="isPending"
   >
     <template #loading>
+      <v-skeleton-loader type="table-heading" />
       <v-skeleton-loader type="table-row@10" />
     </template>
     <template #item.id="{ item }">
@@ -63,11 +53,6 @@
           :key="member.id"
           :name="member.name || ''"
           :to="{ name: 'uge-profile-id', params: { id: member.id } }"
-        />
-        <v-btn
-          :icon="iconOutline.plus"
-          variant="text"
-          @click="addMember(+item.id)"
         />
       </div>
     </template>
