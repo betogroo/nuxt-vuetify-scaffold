@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const pendingItem = z
-  .union([z.string(), z.number(), z.record(z.unknown())])
+  .union([z.string(), z.number(), z.record(z.union([z.string(), z.number()]))])
   .nullable()
   .optional()
 
