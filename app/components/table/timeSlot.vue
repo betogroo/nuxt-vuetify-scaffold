@@ -48,7 +48,7 @@
           :loading="
             rowPending.isLoading &&
             rowPending.action === 'teacher_availability' &&
-            rowPending.itemId === item.id
+            rowPending.pendingItem === item.id
           "
           variant="text"
           @click="$emit('handleAvailability', item)"

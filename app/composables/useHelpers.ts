@@ -144,7 +144,7 @@ const useHelpers = () => {
 
   const isPending = ref<PendingState>({
     action: null,
-    itemId: null,
+    pendingItem: null,
     isLoading: false,
   })
 
@@ -153,8 +153,8 @@ const useHelpers = () => {
     action: string,
     options: PendingOptions = {},
   ): Promise<T> => {
-    const { itemId = null, delay = 0 } = options
-    isPending.value = { action, itemId, isLoading: true }
+    const { pendingItem = null, delay = 0 } = options
+    isPending.value = { action, pendingItem, isLoading: true }
     if (delay > 0)
       await simulateDelayInDevelopment(delay, `Delay de ${delay}ms para testes`)
     try {
@@ -163,13 +163,26 @@ const useHelpers = () => {
       const error = handleError(err)
       throw error // Propaga o erro, se houver
     } finally {
-      isPending.value = { action: null, itemId: null, isLoading: false }
+      isPending.value = { action: null, pendingItem: null, isLoading: false }
     }
   }
 
   const getOptionName = <T>(value: T, options: SelectOption<T>[]): string => {
     const option = options.find((option) => option.value === value)
     return option ? option.name : 'Outros'
+  }
+
+  const areObjectsEqual = (
+    obj1: { [key: string]: string | number },
+    obj2: { [key: string]: string | number },
+  ): boolean => {
+    if (!obj1 || !obj2) return false
+    const keys1 = Object.keys(obj1)
+    const keys2 = Object.keys(obj2)
+
+    if (keys1.length !== keys2.length) return false
+
+    return keys1.every((key) => obj1[key] === obj2[key])
   }
 
   const capitalize = (s: string) => s.charAt(0).toLocaleUpperCase() + s.slice(1)
@@ -184,6 +197,7 @@ const useHelpers = () => {
     handleError,
     isDevelopment,
     setPendingState,
+    areObjectsEqual,
     showToast,
     simulateDelayInDevelopment,
   }

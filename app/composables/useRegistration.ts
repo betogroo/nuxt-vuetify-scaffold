@@ -26,7 +26,7 @@ const useRegistration = () => {
         fakeUsers.value = fakeUsers.value.filter((item) => item.id !== id)
       },
       'deleteUser',
-      { itemId: id, delay: 500 },
+      { pendingItem: id, delay: 500 },
     )
   }
   const createFakeUser = (formData: AddUser) => {
