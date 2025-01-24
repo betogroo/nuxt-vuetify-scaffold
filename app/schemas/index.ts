@@ -32,6 +32,10 @@ export * from './teacher/availability/update'
 export * from './document-demand/row'
 export * from './document-demand/insert'
 
+export * from './product/row'
+export * from './product/insert'
+export * from './product/update'
+
 export * from './time-slot/row'
 export * from './time-slot/insert'
 export * from './time-slot/update'
