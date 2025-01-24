@@ -1,5 +1,10 @@
 <script setup lang="ts">
-  const { products, fetchProducts, fetchPendingProducts } = useProduct()
+  const {
+    products,
+    fetchProducts,
+    fetchPendingProducts,
+    tableColumns: productTableColumns,
+  } = useProduct()
 
   onMounted(async () => {
     await fetchProducts()
@@ -8,16 +13,11 @@
 
 <template>
   <div>
-    <div>Produtos</div>
-    <v-list>
-      <v-list-item
-        v-for="product in products"
-        :key="product.id"
-        nav
-        :to="{ name: 'uge-products-id', params: { id: product.id } }"
-      >
-        {{ `${product}` }}
-      </v-list-item>
-    </v-list>
+    <TableProducts
+      :columns="productTableColumns"
+      :is-pending="fetchPendingProducts.isLoading"
+      :rows="products"
+      title="Produtos Cadastrados"
+    />
   </div>
 </template>
