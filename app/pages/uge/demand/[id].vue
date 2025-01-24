@@ -68,6 +68,8 @@
     }
   }
 
+  const insertProductsDrawer = ref(false)
+
   onMounted(async () => {
     await updateData(id!)
   })
@@ -123,6 +125,16 @@
             /></template>
           </UgeCard>
         </v-col>
+        <v-col cols="12">
+          <UgeCard title="Produtos">
+            <v-btn
+              density="compact"
+              :icon="iconOutline.plus"
+              variant="text"
+              @click="insertProductsDrawer = true"
+            />
+          </UgeCard>
+        </v-col>
       </v-row>
 
       {{ demand }}
@@ -142,5 +154,6 @@
         "
       />
     </AppModal>
+    <AppDrawer v-model="insertProductsDrawer"> aqui vai as coisas </AppDrawer>
   </div>
 </template>
