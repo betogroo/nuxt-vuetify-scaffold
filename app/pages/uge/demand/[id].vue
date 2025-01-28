@@ -1,6 +1,16 @@
 <script setup lang="ts">
   import type { SupportTeam } from '~/types'
   const { id } = useValidateParam()
+  const { areObjectsEqual } = useHelpers()
+  const {
+    isActive: insertMemberModal,
+    openModal,
+    closeModal,
+    props,
+  } = useModal()
+
+  const { isActive: cartIsActive, open: openCart } = useDrawer()
+
   const { demand, getPurchasingDemand, purchasingDemandDetailsPending } =
     usePurchasingDemand()
 
@@ -13,15 +23,6 @@
     deletePending: deleteMemberPending,
   } = useMemberTeam()
 
-  const { areObjectsEqual } = useHelpers()
-
-  const {
-    isActive: insertMemberModal,
-    openModal,
-    closeModal,
-    props,
-  } = useModal()
-
   const openSupportMemberModal = async () => {
     if (availableMemberToInsert.value) return
     if (!availableSupportTeamMember.value.length) return
@@ -29,6 +30,10 @@
       title: 'Inserir membro em equipe de apoio',
       mode: 'insert-member-modal',
     })
+  }
+
+  const openProductsDrawer = () => {
+    openCart()
   }
 
   const updateData = async (id: number | string) => {
@@ -74,7 +79,7 @@
 </script>
 
 <template>
-  <div>
+  <v-container>
     <AppCard
       v-if="demand"
       :loading="purchasingDemandDetailsPending.isLoading"
@@ -123,9 +128,20 @@
             /></template>
           </UgeCard>
         </v-col>
+        <v-col cols="12">
+          <UgeCard title="Produtos">
+            <ProductList :id="+id!" />
+            <template #action>
+              <v-btn
+                density="compact"
+                :icon="iconOutline.plus"
+                variant="text"
+                @click="openProductsDrawer()"
+              />
+            </template>
+          </UgeCard>
+        </v-col>
       </v-row>
-
-      {{ demand }}
     </AppCard>
     <AppModal
       v-model="insertMemberModal"
@@ -142,5 +158,9 @@
         "
       />
     </AppModal>
-  </div>
+    <ProductCart
+      v-model="cartIsActive"
+      :demand-id="+id!"
+    />
+  </v-container>
 </template>

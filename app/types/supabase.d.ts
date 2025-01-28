@@ -119,6 +119,24 @@ export type Database = {
         }
         Relationships: []
       }
+      product_classes: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
       product_packaging_unit: {
         Row: {
           created_at: string
@@ -139,6 +157,54 @@ export type Database = {
           name_bec?: string
         }
         Relationships: []
+      }
+      products: {
+        Row: {
+          bec_number: number
+          cat_mat: number
+          created_at: string
+          expense_category_id: number
+          id: string
+          name: string
+          pdm_number: number | null
+          product_class_id: number
+        }
+        Insert: {
+          bec_number: number
+          cat_mat: number
+          created_at?: string
+          expense_category_id: number
+          id?: string
+          name: string
+          pdm_number?: number | null
+          product_class_id: number
+        }
+        Update: {
+          bec_number?: number
+          cat_mat?: number
+          created_at?: string
+          expense_category_id?: number
+          id?: string
+          name?: string
+          pdm_number?: number | null
+          product_class_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_expense_category_id_fkey"
+            columns: ["expense_category_id"]
+            isOneToOne: false
+            referencedRelation: "expense_category"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_product_class_id_fkey"
+            columns: ["product_class_id"]
+            isOneToOne: false
+            referencedRelation: "product_classes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profile_types: {
         Row: {
@@ -181,6 +247,51 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      purchasing_demand_products: {
+        Row: {
+          created_at: string
+          id: string
+          price: number | null
+          products_id: string
+          purchasing_demand_id: number | null
+          quantity: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          price?: number | null
+          products_id: string
+          purchasing_demand_id?: number | null
+          quantity?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          price?: number | null
+          products_id?: string
+          purchasing_demand_id?: number | null
+          quantity?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchasing_demand_products_products_id_fkey"
+            columns: ["products_id"]
+            isOneToOne: true
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchasing_demand_products_purchasing_demand_id_fkey"
+            columns: ["purchasing_demand_id"]
+            isOneToOne: false
+            referencedRelation: "purchasing_demands"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       purchasing_demands: {
         Row: {
@@ -430,9 +541,7 @@ export type Database = {
         }
         Returns: {
           id: string
-          username: string
           name: string
-          updated_at: string
         }[]
       }
       get_designed_support_team: {

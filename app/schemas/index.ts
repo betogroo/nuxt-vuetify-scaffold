@@ -32,6 +32,10 @@ export * from './teacher/availability/update'
 export * from './document-demand/row'
 export * from './document-demand/insert'
 
+export * from './product/row'
+export * from './product/insert'
+export * from './product/update'
+
 export * from './time-slot/row'
 export * from './time-slot/insert'
 export * from './time-slot/update'
@@ -48,5 +52,8 @@ export * from './purchasing-demand/update'
 export * from './purchasing-demand/withContractingAgent'
 export * from './purchasing-demand/withDetails'
 export * from './purchasing-demand/withMembers'
+
+export * from './purchasing-demand-products/row'
+export * from './purchasing-demand-products/insert'
 
 export * from './user/user'
