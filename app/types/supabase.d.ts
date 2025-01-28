@@ -248,6 +248,51 @@ export type Database = {
         }
         Relationships: []
       }
+      purchasing_demand_products: {
+        Row: {
+          created_at: string
+          id: string
+          price: number | null
+          products_id: string
+          purchasing_demand_id: number | null
+          quantity: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          price?: number | null
+          products_id: string
+          purchasing_demand_id?: number | null
+          quantity?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          price?: number | null
+          products_id?: string
+          purchasing_demand_id?: number | null
+          quantity?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchasing_demand_products_products_id_fkey"
+            columns: ["products_id"]
+            isOneToOne: true
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchasing_demand_products_purchasing_demand_id_fkey"
+            columns: ["purchasing_demand_id"]
+            isOneToOne: false
+            referencedRelation: "purchasing_demands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       purchasing_demands: {
         Row: {
           contracting_agent_id: string
