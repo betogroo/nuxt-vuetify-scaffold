@@ -1,6 +1,14 @@
 <script setup lang="ts">
-  import type { SupportTeam } from '~/types'
+  import type { ProductName, ProductRow, SupportTeam } from '~/types'
   const { id } = useValidateParam()
+  const { areObjectsEqual } = useHelpers()
+  const {
+    isActive: insertMemberModal,
+    openModal,
+    closeModal,
+    props,
+  } = useModal()
+
   const { demand, getPurchasingDemand, purchasingDemandDetailsPending } =
     usePurchasingDemand()
 
@@ -13,15 +21,6 @@
     deletePending: deleteMemberPending,
   } = useMemberTeam()
 
-  const { areObjectsEqual } = useHelpers()
-
-  const {
-    isActive: insertMemberModal,
-    openModal,
-    closeModal,
-    props,
-  } = useModal()
-
   const openSupportMemberModal = async () => {
     if (availableMemberToInsert.value) return
     if (!availableSupportTeamMember.value.length) return
@@ -29,6 +28,34 @@
       title: 'Inserir membro em equipe de apoio',
       mode: 'insert-member-modal',
     })
+  }
+
+  const { getProductsByName, productsByName } = useProduct()
+
+  const openProductsDrawer = async () => {
+    insertProductsDrawer.value = true
+  }
+
+  const handleSearchForm = async (data: ProductName) => {
+    await getProductsByName({ name: data.name }, ['name'])
+    console.log(productsByName)
+  }
+
+  const products = ref<ProductRow[]>([])
+  const quantities = reactive<Record<string, number>>({})
+
+  const addProduct = (product: ProductRow) => {
+    products.value = [...products.value, product]
+  }
+
+  const insertProductsOnDemand = async () => {
+    const finalProducts = products.value.map((item) => {
+      return {
+        id: item.id,
+        quantities: quantities[item.id],
+      }
+    })
+    console.log(finalProducts)
   }
 
   const updateData = async (id: number | string) => {
@@ -72,6 +99,9 @@
 
   onMounted(async () => {
     await updateData(id!)
+    products.value.forEach((product) => {
+      quantities[product.id] = 1 // Default inicial
+    })
   })
 </script>
 
@@ -131,7 +161,7 @@
               density="compact"
               :icon="iconOutline.plus"
               variant="text"
-              @click="insertProductsDrawer = true"
+              @click="openProductsDrawer()"
             />
           </UgeCard>
         </v-col>
@@ -154,6 +184,35 @@
         "
       />
     </AppModal>
-    <AppDrawer v-model="insertProductsDrawer"> aqui vai as coisas </AppDrawer>
+    <AppDrawer v-model="insertProductsDrawer">
+      <FormProductSearch @on-submit="(values) => handleSearchForm(values)" />
+      <v-list v-if="productsByName?.length">
+        <v-list-item
+          v-for="product in productsByName"
+          :key="product.cat_mat"
+          @click="addProduct(product)"
+        >
+          {{ product.name }}</v-list-item
+        >
+      </v-list>
+      <v-divider />
+      <v-list v-if="products.length">
+        <v-list-item
+          v-for="product in products"
+          :key="product.id"
+        >
+          <div class="d-flex align-center">
+            <div>{{ product.name }}</div>
+            <v-text-field
+              v-model="quantities[product.id]"
+              hide-details
+              type="number"
+              variant="outlined"
+            />
+          </div>
+        </v-list-item>
+        <v-btn @click="insertProductsOnDemand">Adicionar ao Processo</v-btn>
+      </v-list>
+    </AppDrawer>
   </div>
 </template>

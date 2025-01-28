@@ -29,7 +29,7 @@ const useGenericGet = <RowType>(
     }, `get-${tableName}`)
   }
 
-  const getWithFilters = async (
+  /*  const getWithFilters = async (
     filters: Record<string, string | number> = {},
   ) => {
     return setPendingState(async () => {
@@ -37,6 +37,32 @@ const useGenericGet = <RowType>(
       for (const [key, value] of Object.entries(filters)) {
         query = query.eq(key, value)
       }
+      const { data: newData, error } = await query.returns<RowType>()
+      if (error) throw error
+      if (newData) {
+        const parsedData = validateWithSchema(newData, schema)
+        data.value = parsedData
+      }
+    }, `get-${tableName}`)
+  } */
+
+  const getWithFilters = async (
+    filters: Record<string, string | number> = {},
+    partialMatches: string[] = [], // Adicionado: lista de campos para busca parcial
+  ) => {
+    return setPendingState(async () => {
+      let query = supabase.from(tableName).select(columns)
+
+      for (const [key, value] of Object.entries(filters)) {
+        if (typeof value === 'string' && partialMatches.includes(key)) {
+          // Usa ilike para busca parcial
+          query = query.ilike(key, `%${value}%`)
+        } else {
+          // Usa eq para correspondência exata
+          query = query.eq(key, value)
+        }
+      }
+
       const { data: newData, error } = await query.returns<RowType>()
       if (error) throw error
       if (newData) {

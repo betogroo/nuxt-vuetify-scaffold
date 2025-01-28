@@ -7,6 +7,12 @@ const useProduct = () => {
     fetchPending: fetchPendingProducts,
   } = useGenericFetch<ProductRow>('products', productRowsSchema)
 
+  const {
+    getWithFilters: getProductsByName,
+    data: productsByName,
+    getDataPending: productByNamePending,
+  } = useGenericGet<ProductRow[]>('products', productRowsSchema)
+
   const tableColumns: TableColumn[] = [
     {
       key: 'cat_mat',
@@ -25,7 +31,15 @@ const useProduct = () => {
       title: 'Natureza',
     },
   ]
-  return { products, fetchProducts, tableColumns, fetchPendingProducts }
+  return {
+    products,
+    fetchProducts,
+    tableColumns,
+    fetchPendingProducts,
+    getProductsByName,
+    productByNamePending,
+    productsByName,
+  }
 }
 
 export default useProduct
