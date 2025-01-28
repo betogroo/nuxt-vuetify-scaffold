@@ -53,4 +53,7 @@ export * from './purchasing-demand/withContractingAgent'
 export * from './purchasing-demand/withDetails'
 export * from './purchasing-demand/withMembers'
 
+export * from './purchasing-demand-products/row'
+export * from './purchasing-demand-products/insert'
+
 export * from './user/user'
