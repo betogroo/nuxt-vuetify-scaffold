@@ -130,7 +130,7 @@
         </v-col>
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <ProductList />
+            <ProductList :id="+id!" />
             <template #action>
               <v-btn
                 density="compact"
@@ -158,6 +158,9 @@
         "
       />
     </AppModal>
-    <ProductCart v-model="cartIsActive" />
+    <ProductCart
+      v-model="cartIsActive"
+      :demand-id="+id!"
+    />
   </v-container>
 </template>
