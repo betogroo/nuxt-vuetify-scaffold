@@ -1,11 +1,31 @@
-import { productRowsSchema } from '~/schemas'
-import type { ProductRow, TableColumn } from '~/types'
+import {
+  productRowsSchema,
+  purchasingDemandProductsInsert,
+  purchasingDemandProductsRows,
+} from '~/schemas'
+import type {
+  ProductRow,
+  TableColumn,
+  PurchasingDemandProductInsert,
+  PurchasingDemandProduct,
+} from '~/types'
 const useProduct = () => {
   const {
     data: products,
     fetch: fetchProducts,
     fetchPending: fetchPendingProducts,
   } = useGenericFetch<ProductRow>('products', productRowsSchema)
+
+  const { insert: insertProductsOnDemand } = useGenericInsert<
+    PurchasingDemandProductInsert,
+    PurchasingDemandProduct
+  >('purchasing_demand_products', purchasingDemandProductsInsert)
+
+  const { data: productOnDemand, getWithFilters: getProductsOnDemand } =
+    useGenericGet<PurchasingDemandProduct[]>(
+      'purchasing_demand_products',
+      purchasingDemandProductsRows,
+    )
 
   const {
     getWithFilters: getProductsByName,
@@ -39,6 +59,9 @@ const useProduct = () => {
     getProductsByName,
     productByNamePending,
     productsByName,
+    insertProductsOnDemand,
+    productOnDemand,
+    getProductsOnDemand,
   }
 }
 
