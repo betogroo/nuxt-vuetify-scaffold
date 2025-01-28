@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { ProductName, ProductRow, SupportTeam } from '~/types'
+  import type { SupportTeam } from '~/types'
   const { id } = useValidateParam()
   const { areObjectsEqual } = useHelpers()
   const {
@@ -32,32 +32,8 @@
     })
   }
 
-  const { getProductsByName, productsByName } = useProduct()
-
   const openProductsDrawer = () => {
     openCart()
-  }
-
-  const handleSearchForm = async (data: ProductName) => {
-    await getProductsByName({ name: data.name }, ['name'])
-    console.log(productsByName)
-  }
-
-  const products = ref<ProductRow[]>([])
-  const quantities = reactive<Record<string, number>>({})
-
-  const addProduct = (product: ProductRow) => {
-    products.value = [...products.value, product]
-  }
-
-  const insertProductsOnDemand = async () => {
-    const finalProducts = products.value.map((item) => {
-      return {
-        id: item.id,
-        quantities: quantities[item.id],
-      }
-    })
-    console.log(finalProducts)
   }
 
   const updateData = async (id: number | string) => {
@@ -97,18 +73,13 @@
     }
   }
 
-  // const insertProductsDrawer = ref(false)
-
   onMounted(async () => {
     await updateData(id!)
-    products.value.forEach((product) => {
-      quantities[product.id] = 1 // Default inicial
-    })
   })
 </script>
 
 <template>
-  <div>
+  <v-container>
     <AppCard
       v-if="demand"
       :loading="purchasingDemandDetailsPending.isLoading"
@@ -159,17 +130,18 @@
         </v-col>
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <v-btn
-              density="compact"
-              :icon="iconOutline.plus"
-              variant="text"
-              @click="openProductsDrawer()"
-            />
+            <ProductList />
+            <template #action>
+              <v-btn
+                density="compact"
+                :icon="iconOutline.plus"
+                variant="text"
+                @click="openProductsDrawer()"
+              />
+            </template>
           </UgeCard>
         </v-col>
       </v-row>
-
-      {{ demand }}
     </AppCard>
     <AppModal
       v-model="insertMemberModal"
@@ -186,35 +158,6 @@
         "
       />
     </AppModal>
-    <AppDrawer v-model="cartIsActive">
-      <FormProductSearch @on-submit="(values) => handleSearchForm(values)" />
-      <v-list v-if="productsByName?.length">
-        <v-list-item
-          v-for="product in productsByName"
-          :key="product.cat_mat"
-          @click="addProduct(product)"
-        >
-          {{ product.name }}</v-list-item
-        >
-      </v-list>
-      <v-divider />
-      <v-list v-if="products.length">
-        <v-list-item
-          v-for="product in products"
-          :key="product.id"
-        >
-          <div class="d-flex align-center">
-            <div>{{ product.name }}</div>
-            <v-text-field
-              v-model="quantities[product.id]"
-              hide-details
-              type="number"
-              variant="outlined"
-            />
-          </div>
-        </v-list-item>
-        <v-btn @click="insertProductsOnDemand">Adicionar ao Processo</v-btn>
-      </v-list>
-    </AppDrawer>
-  </div>
+    <ProductCart v-model="cartIsActive" />
+  </v-container>
 </template>
