@@ -15,6 +15,7 @@
       onSuccess: (id: string | number) => void,
       onError: (message: string) => void,
     ]
+    'on-reset': []
   }>()
 
   const { isPending } = toRefs(props)
@@ -34,6 +35,11 @@
       throw error
     }
   })
+
+  const onReset = () => {
+    handleReset()
+    $emit('on-reset')
+  }
 
   const onSuccess = (id: string | number) => {
     onHandleSuccess(`Demanda ${id} cadastrada com sucesso`, handleReset)
@@ -61,7 +67,7 @@
         label: 'Limpar',
         disabled: !meta.dirty,
         isPending,
-        action: handleReset,
+        action: onReset,
       }"
       :submit-button="{ disabled: !meta.valid, isPending, label: 'Enviar' }"
     />
