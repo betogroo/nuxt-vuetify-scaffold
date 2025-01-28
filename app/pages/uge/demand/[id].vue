@@ -9,6 +9,8 @@
     props,
   } = useModal()
 
+  const { isActive: cartIsActive, open: openCart } = useDrawer()
+
   const { demand, getPurchasingDemand, purchasingDemandDetailsPending } =
     usePurchasingDemand()
 
@@ -32,8 +34,8 @@
 
   const { getProductsByName, productsByName } = useProduct()
 
-  const openProductsDrawer = async () => {
-    insertProductsDrawer.value = true
+  const openProductsDrawer = () => {
+    openCart()
   }
 
   const handleSearchForm = async (data: ProductName) => {
@@ -95,7 +97,7 @@
     }
   }
 
-  const insertProductsDrawer = ref(false)
+  // const insertProductsDrawer = ref(false)
 
   onMounted(async () => {
     await updateData(id!)
@@ -184,7 +186,7 @@
         "
       />
     </AppModal>
-    <AppDrawer v-model="insertProductsDrawer">
+    <AppDrawer v-model="cartIsActive">
       <FormProductSearch @on-submit="(values) => handleSearchForm(values)" />
       <v-list v-if="productsByName?.length">
         <v-list-item
