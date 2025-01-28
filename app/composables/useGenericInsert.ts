@@ -9,18 +9,19 @@ const useGenericInsert = <InsertType, RowType>(
   const supabase = useSupabaseClient<Database>()
   const { isPending: insertPending, setPendingState } = useHelpers()
 
-  const insert = async (data: InsertType) => {
+  const insert = async (data: InsertType | InsertType[]) => {
     return setPendingState(
       async () => {
-        const parsedData = schema.parse(data)
+        const parsedData = Array.isArray(data)
+          ? data.map((item) => schema.parse(item))
+          : schema.parse(data)
         const { data: newInsert, error } = await supabase
           .from(tableName)
           .insert(parsedData)
           .select()
           .returns<RowType[]>()
-          .single()
         if (error) throw error
-        return newInsert
+        return Array.isArray(data) ? newInsert : newInsert?.[0]
       },
       `add-${tableName}`,
       { delay: 2000 },
