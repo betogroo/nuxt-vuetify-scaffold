@@ -10,6 +10,7 @@ export const productOnDemandRowSchema = z.object({
   quantity: z.number(),
   price: z.number(),
   total_price: z.number(),
+  item_number: z.number(),
 })
 
 export const productOnDemandRowsSchema = z.array(productOnDemandRowSchema)
