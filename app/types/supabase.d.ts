@@ -523,6 +523,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      fetch_products_demand: {
+        Args: {
+          purchasing_demand_id: number
+        }
+        Returns: {
+          id: string
+          created_at: string
+          name: string
+          product_class: number
+          cat_mat: number
+          bec_number: number
+          quantity: number
+          price: number
+          total_price: number
+        }[]
+      }
       fetch_purchasing_demands: {
         Args: Record<PropertyKey, never>
         Returns: {
