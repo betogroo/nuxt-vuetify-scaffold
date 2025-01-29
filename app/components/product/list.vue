@@ -4,13 +4,17 @@
   }
   const props = defineProps<Props>()
 
-  const { productOnDemand, getProductsOnDemand } = useProduct()
+  const { productsOnDemand, getProductsOnDemand } = useProductOnDemand()
 
   onMounted(async () => {
-    await getProductsOnDemand({ purchasing_demand_id: props.id })
+    try {
+      await getProductsOnDemand(props.id)
+    } catch (error) {
+      console.log(error)
+    }
   })
 </script>
 
 <template>
-  <div v-if="productOnDemand?.length">{{ productOnDemand }}</div>
+  <div v-if="productsOnDemand?.length">{{ productsOnDemand }}</div>
 </template>
