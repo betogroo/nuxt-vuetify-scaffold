@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const productOnDemandRow = z.object({
+export const productOnDemandRowSchema = z.object({
   id: uuidSchema,
   created_at: databaseDateSchema,
   name: nameSchema,
@@ -12,4 +12,4 @@ export const productOnDemandRow = z.object({
   total_price: z.number(),
 })
 
-export const productOnDemandRows = z.array(productOnDemandRow)
+export const productOnDemandRowsSchema = z.array(productOnDemandRowSchema)
