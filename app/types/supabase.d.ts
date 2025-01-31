@@ -119,25 +119,7 @@ export type Database = {
         }
         Relationships: []
       }
-      product_classes: {
-        Row: {
-          created_at: string
-          id: number
-          name: string
-        }
-        Insert: {
-          created_at?: string
-          id: number
-          name: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          name?: string
-        }
-        Relationships: []
-      }
-      product_packaging_unit: {
+      packaging_unit: {
         Row: {
           created_at: string
           id: number
@@ -157,6 +139,60 @@ export type Database = {
           name_bec?: string
         }
         Relationships: []
+      }
+      product_classes: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      product_unit: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          unit_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          unit_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          unit_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_unit_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_unit_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "packaging_unit"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       products: {
         Row: {
@@ -252,6 +288,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          item_number: number | null
           price: number | null
           products_id: string
           purchasing_demand_id: number | null
@@ -261,6 +298,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          item_number?: number | null
           price?: number | null
           products_id: string
           purchasing_demand_id?: number | null
@@ -270,6 +308,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          item_number?: number | null
           price?: number | null
           products_id?: string
           purchasing_demand_id?: number | null
@@ -518,6 +557,24 @@ export type Database = {
         }
         Relationships: []
       }
+      trigger_logs: {
+        Row: {
+          created_at: string | null
+          id: number
+          message: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          message?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          message?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -537,6 +594,7 @@ export type Database = {
           quantity: number
           price: number
           total_price: number
+          item_number: number
         }[]
       }
       fetch_purchasing_demands: {

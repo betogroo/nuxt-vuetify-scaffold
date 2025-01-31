@@ -1,10 +1,10 @@
-import { z } from 'zod'
+import { productRowSchema } from './row'
 
-export const productInsertSchema = z.object({
-  cat_mat: z.bigint(),
-  bec_number: z.bigint(),
-  name: z.string(),
-  pdm_number: z.bigint().nullable().optional(), // Pode ser omitido ou nulo
-  product_class_id: z.bigint(),
-  expense_category_id: z.bigint(),
-})
+export const productInsertSchema = productRowSchema
+  .omit({
+    id: true,
+    created_at: true,
+  })
+  .partial({
+    pdm_number: true,
+  })

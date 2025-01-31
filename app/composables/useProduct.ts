@@ -1,10 +1,12 @@
 import {
   productRowsSchema,
+  productInsertSchema,
   purchasingDemandProductsInsert,
   purchasingDemandProductsRows,
 } from '~/schemas'
 import type {
   ProductRow,
+  ProductInsert,
   TableColumn,
   PurchasingDemandProductInsert,
   PurchasingDemandProduct,
@@ -15,6 +17,9 @@ const useProduct = () => {
     fetch: fetchProducts,
     fetchPending: fetchPendingProducts,
   } = useGenericFetch<ProductRow>('products', productRowsSchema)
+
+  const { insert: insertProduct, insertPending: insertProductPending } =
+    useGenericInsert<ProductInsert, ProductRow>('products', productInsertSchema)
 
   const { insert: insertProductsOnDemand } = useGenericInsert<
     PurchasingDemandProductInsert,
@@ -62,6 +67,8 @@ const useProduct = () => {
     insertProductsOnDemand,
     productOnDemand,
     getProductsOnDemand,
+    insertProduct,
+    insertProductPending,
   }
 }
 
