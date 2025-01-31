@@ -6,10 +6,13 @@ import type {
   productInsertSchema,
   productUpdateSchema,
   productNameSearch,
+  productOnDemandRowSchema,
 } from '~/schemas'
 
 export type ProductRow = z.infer<typeof productRowSchema>
 export type ProductRows = z.infer<typeof productRowsSchema>
+export type ProductOnDemandRow = z.infer<typeof productOnDemandRowSchema>
+
 export type ProductName = z.infer<typeof productNameSearch>
 
 export type ProductInsert = z.infer<typeof productInsertSchema>

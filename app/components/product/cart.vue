@@ -44,7 +44,7 @@
   }
 
   const insertProductsOnDemand = async () => {
-    const finalProducts: PurchasingDemandProductInsert[] = products.value.map(
+    let finalProducts: PurchasingDemandProductInsert[] = products.value.map(
       (item) => {
         return {
           purchasing_demand_id: props.demandId,
@@ -55,6 +55,8 @@
       },
     )
     await _insertProductsOnDemand(finalProducts)
+    finalProducts = []
+    products.value = []
     console.log(finalProducts)
   }
 

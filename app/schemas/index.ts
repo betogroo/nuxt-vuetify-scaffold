@@ -35,6 +35,7 @@ export * from './document-demand/insert'
 export * from './product/row'
 export * from './product/insert'
 export * from './product/update'
+export * from './product/onDemand'
 
 export * from './time-slot/row'
 export * from './time-slot/insert'

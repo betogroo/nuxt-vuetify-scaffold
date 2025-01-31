@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const uuidSchema = z.string().uuid()
 export const dayOfWeekSchema = z.number().min(0).max(6)
+export const databaseDateSchema = z.string().datetime({ offset: true })
 
 export const nameSchema = z
   .string()
