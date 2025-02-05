@@ -20,6 +20,8 @@ export const nameSchemaWithRefine = nameSchema.refine(
   },
 )
 
+export const createdAtSchema = z.string().datetime({ offset: true }) // Timestamp com fuso horário
+
 export const usernameSchema = z
   .string()
   .min(1, MANDATORY_FIELD)
