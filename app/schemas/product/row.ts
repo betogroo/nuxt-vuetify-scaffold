@@ -3,7 +3,7 @@ import { z } from 'zod'
 // Schema para validar uma linha completa (row)
 export const productRowSchema = z.object({
   id: z.string().uuid(),
-  created_at: z.string().datetime({ offset: true }), // Timestamp com fuso horário
+  created_at: createdAtSchema,
   cat_mat: z.number(),
   bec_number: z.number(),
   name: nameSchema,
