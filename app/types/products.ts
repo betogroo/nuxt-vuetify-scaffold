@@ -8,12 +8,16 @@ import type {
   productNameSearch,
   productOnDemandRowSchema,
   productClassRowSchema,
+  productExpenseCategoryRowSchema,
 } from '~/schemas'
 
 export type ProductRow = z.infer<typeof productRowSchema>
 export type ProductRows = z.infer<typeof productRowsSchema>
 export type ProductOnDemandRow = z.infer<typeof productOnDemandRowSchema>
 export type ProductClassRow = z.infer<typeof productClassRowSchema>
+export type ProductExpenseCategoryRow = z.infer<
+  typeof productExpenseCategoryRowSchema
+>
 
 export type ProductName = z.infer<typeof productNameSearch>
 
