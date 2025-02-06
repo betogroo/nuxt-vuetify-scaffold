@@ -10,6 +10,8 @@
     tableColumns: productTableColumns,
     insertProduct,
     insertProductPending,
+    productClasses,
+    fetchProductClasses,
   } = useProduct()
 
   const submitProduct = async (
@@ -29,6 +31,7 @@
 
   onMounted(async () => {
     await fetchProducts()
+    await fetchProductClasses()
   })
 </script>
 
@@ -42,10 +45,12 @@
     />
     <FormProduct
       :is-pending="insertProductPending.isLoading"
+      :product-classes-select-items="productClasses"
       @on-submit="
         (values, onSuccess, onError) =>
           submitProduct(values, onSuccess, onError)
       "
     />
+    {{ productClasses }}
   </div>
 </template>

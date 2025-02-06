@@ -10,15 +10,16 @@ const useHandleForm = () => {
     showToast('error', `${message}, ${handleError(error).message || ''}`)
   }
 
-  const selectData = <T extends { name?: string | null; id: U }, U = string>(
-    data: T[],
+  const selectData = <
+    T extends Record<string, unknown>,
+    U extends string | number,
+  >(
+    data: (T & { id: U; name?: string | null })[],
   ): SelectOption<U>[] => {
-    return data.map((item) => {
-      return {
-        name: item.name || '',
-        value: item.id,
-      }
-    })
+    return data.map((item) => ({
+      name: item.name ?? '',
+      value: item.id,
+    }))
   }
 
   return { onHandleSuccess, onHandleError, selectData }
