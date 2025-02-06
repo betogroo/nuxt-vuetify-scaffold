@@ -9,7 +9,7 @@
     compositeTitle?: boolean
   }
 
-  withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<Props>(), {
     compositeTitle: false,
     errorMessages: null,
   })
@@ -21,10 +21,9 @@
   const modelValue = defineModel<string | number>()
 
   const fetchItems = () => {
-    console.log('use @update:menu="fetchItems()"')
     // será usado quando a lista de items for muito extensa
     // ainda não foi programado
-    /* if (!props.items.length) console.log('update-menu') */
+    if (!props.items.length) console.log('update-menu')
   }
 </script>
 
@@ -41,11 +40,11 @@
   >
     <template
       v-if="compositeTitle"
-      #item="{ item, props }"
+      #item="{ item, props: itemProps }"
     >
       <v-list-item
         :subtitle="item.value"
         :title="item.title"
-        v-bind="props" /></template
+        v-bind="itemProps" /></template
   ></v-select>
 </template>
