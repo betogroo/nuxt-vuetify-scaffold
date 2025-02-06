@@ -43,6 +43,7 @@
     <FormProduct
       :is-pending="insertProductPending.isLoading"
       :product-classes-select-items="productClasses"
+      :product-expense-category-select-items="productExpenseCategories"
       @on-submit="
         (values, onSuccess, onError) =>
           submitProduct(values, onSuccess, onError)
@@ -54,6 +55,5 @@
       :rows="products"
       title="Produtos Cadastrados"
     />
-    {{ productExpenseCategories }}
   </div>
 </template>

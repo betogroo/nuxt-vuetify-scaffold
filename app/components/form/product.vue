@@ -1,11 +1,16 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import type { ProductInsert, ProductClassRow } from '~/types'
+  import type {
+    ProductInsert,
+    ProductClassRow,
+    ProductExpenseCategoryRow,
+  } from '~/types'
   import { validateProduct } from '~/validate'
 
   interface Props {
     isPending?: boolean
     productClassesSelectItems: ProductClassRow[]
+    productExpenseCategorySelectItems: ProductExpenseCategoryRow[]
   }
   const props = withDefaults(defineProps<Props>(), {
     isPending: false,
@@ -91,14 +96,14 @@
       :items="selectData(productClassesSelectItems)"
       label="Escolha a classe"
     />
-
-    <v-text-field
+    <generic-form-select
       v-model.number="expenseCategoryId"
-      density="compact"
+      composite-title
       :error-messages="expenseCategoryIdError"
-      label="Natureza da Despesa"
-      variant="outlined"
+      :items="selectData(productExpenseCategorySelectItems)"
+      label="Escolha a Natureza"
     />
+
     <v-text-field
       v-model.number="pdmNumber"
       density="compact"
