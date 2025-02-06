@@ -4,6 +4,7 @@ import {
   purchasingDemandProductsInsert,
   purchasingDemandProductsRows,
   productClassRowsSchema,
+  productExpenseCategoryRowsSchema,
 } from '~/schemas'
 import type {
   ProductRow,
@@ -12,6 +13,7 @@ import type {
   PurchasingDemandProductInsert,
   PurchasingDemandProduct,
   ProductClassRow,
+  ProductExpenseCategoryRow,
 } from '~/types'
 const useProduct = () => {
   // product
@@ -46,6 +48,15 @@ const useProduct = () => {
   const { data: productClasses, fetch: fetchProductClasses } =
     useGenericFetch<ProductClassRow>('product_classes', productClassRowsSchema)
 
+  // product expense category
+  const {
+    data: productExpenseCategories,
+    fetch: fetchProductExpenseCategories,
+  } = useGenericFetch<ProductExpenseCategoryRow>(
+    'expense_category',
+    productExpenseCategoryRowsSchema,
+  )
+
   const tableColumns: TableColumn[] = [
     {
       key: 'cat_mat',
@@ -79,6 +90,8 @@ const useProduct = () => {
     insertProductPending,
     productClasses,
     fetchProductClasses,
+    productExpenseCategories,
+    fetchProductExpenseCategories,
   }
 }
 
