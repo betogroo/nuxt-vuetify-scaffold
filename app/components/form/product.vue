@@ -95,6 +95,7 @@
       :error-messages="productClassIdError"
       :items="selectData(productClassesSelectItems)"
       label="Escolha a classe"
+      show-id
     />
     <generic-form-select
       v-model.number="expenseCategoryId"
@@ -102,6 +103,7 @@
       :error-messages="expenseCategoryIdError"
       :items="selectData(productExpenseCategorySelectItems)"
       label="Escolha a Natureza"
+      show-id
     />
 
     <v-text-field

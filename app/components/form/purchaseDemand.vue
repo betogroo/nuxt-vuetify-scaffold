@@ -73,6 +73,7 @@
     />
     <generic-form-select
       v-model="contractingAgentId"
+      :composite-title="false"
       :error-messages="contractingAgentIdError"
       :items="selectData(memberOption)"
       label="Escolha o Agente de Contratação"

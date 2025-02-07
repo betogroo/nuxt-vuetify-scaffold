@@ -7,11 +7,13 @@
     errorMessages?: string | readonly string[] | null | undefined
     label: string
     compositeTitle?: boolean
+    showId?: boolean
   }
 
   const props = withDefaults(defineProps<Props>(), {
     compositeTitle: false,
     errorMessages: null,
+    showId: false,
   })
 
   defineEmits<{
@@ -19,6 +21,12 @@
   }>()
 
   const modelValue = defineModel<string | number>()
+
+  const formattedItems = computed(() =>
+    props.items.map((item) =>
+      typeof item === 'string' ? { name: item, value: item } : item,
+    ),
+  )
 
   const fetchItems = () => {
     // será usado quando a lista de items for muito extensa
@@ -28,12 +36,13 @@
 </script>
 
 <template>
-  <v-select
+  <v-autocomplete
     v-model="modelValue"
+    clearable
     density="compact"
     :error-messages="errorMessages"
-    item-title="name"
-    :items="items"
+    :item-title="showId ? 'value' : 'name'"
+    :items="formattedItems"
     :label="label"
     variant="outlined"
     @update:menu="fetchItems()"
@@ -42,9 +51,9 @@
       v-if="compositeTitle"
       #item="{ item, props: itemProps }"
     >
-      <v-list-item
-        :subtitle="item.value"
-        :title="item.title"
-        v-bind="itemProps" /></template
-  ></v-select>
+      <v-list-item v-bind="itemProps">
+        <template #append>{{ item.raw.name }}</template>
+      </v-list-item>
+    </template></v-autocomplete
+  >
 </template>
