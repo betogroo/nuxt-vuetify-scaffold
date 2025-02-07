@@ -1,61 +1,10 @@
-import {
-  productRowsSchema,
-  productInsertSchema,
-  purchasingDemandProductsInsert,
-  purchasingDemandProductsRows,
-  productClassRowsSchema,
-  productExpenseCategoryRowsSchema,
-} from '~/schemas'
-import type {
-  ProductRow,
-  ProductInsert,
-  TableColumn,
-  PurchasingDemandProductInsert,
-  PurchasingDemandProduct,
-  ProductClassRow,
-  ProductExpenseCategoryRow,
-} from '~/types'
+import type { TableColumn } from '~/types'
+
 const useProduct = () => {
-  // product
-  const {
-    data: products,
-    fetch: fetchProducts,
-    fetchPending: fetchPendingProducts,
-  } = useGenericFetch<ProductRow>('products', productRowsSchema)
-
-  const { insert: insertProduct, insertPending: insertProductPending } =
-    useGenericInsert<ProductInsert, ProductRow>('products', productInsertSchema)
-
-  const {
-    getWithFilters: getProductsByName,
-    data: productsByName,
-    getDataPending: productByNamePending,
-  } = useGenericGet<ProductRow[]>('products', productRowsSchema)
-
-  // demand_product
-  const { insert: insertProductsOnDemand } = useGenericInsert<
-    PurchasingDemandProductInsert,
-    PurchasingDemandProduct
-  >('purchasing_demand_products', purchasingDemandProductsInsert)
-
-  const { data: productOnDemand, getWithFilters: getProductsOnDemand } =
-    useGenericGet<PurchasingDemandProduct[]>(
-      'purchasing_demand_products',
-      purchasingDemandProductsRows,
-    )
-
-  //product classes
-  const { data: productClasses, fetch: fetchProductClasses } =
-    useGenericFetch<ProductClassRow>('product_classes', productClassRowsSchema)
-
-  // product expense category
-  const {
-    data: productExpenseCategories,
-    fetch: fetchProductExpenseCategories,
-  } = useGenericFetch<ProductExpenseCategoryRow>(
-    'expense_category',
-    productExpenseCategoryRowsSchema,
-  )
+  const products = useProducts()
+  const productOnDemand = useProductOnDemand()
+  const productClasses = useProductClasses()
+  const productExpenseCategories = useProductExpenseCategories()
 
   const tableColumns: TableColumn[] = [
     {
@@ -76,22 +25,11 @@ const useProduct = () => {
     },
   ]
   return {
-    products,
-    fetchProducts,
+    ...products,
+    ...productOnDemand,
+    ...productClasses,
+    ...productExpenseCategories,
     tableColumns,
-    fetchPendingProducts,
-    getProductsByName,
-    productByNamePending,
-    productsByName,
-    insertProductsOnDemand,
-    productOnDemand,
-    getProductsOnDemand,
-    insertProduct,
-    insertProductPending,
-    productClasses,
-    fetchProductClasses,
-    productExpenseCategories,
-    fetchProductExpenseCategories,
   }
 }
 

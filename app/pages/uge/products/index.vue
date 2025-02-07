@@ -32,9 +32,13 @@
   }
 
   onMounted(async () => {
-    await fetchProducts()
-    await fetchProductClasses()
-    await fetchProductExpenseCategories()
+    try {
+      await fetchProducts()
+      await fetchProductClasses()
+      await fetchProductExpenseCategories()
+    } catch (error) {
+      console.error(error)
+    }
   })
 </script>
 

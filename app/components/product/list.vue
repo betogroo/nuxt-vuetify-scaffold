@@ -4,7 +4,7 @@
   }
   const props = defineProps<Props>()
 
-  const { productsOnDemand, getProductsOnDemand } = useProductOnDemand()
+  const { productsOnDemand, getProductsOnDemand } = useProduct()
 
   onMounted(async () => {
     try {
