@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const productClassRowSchema = z.object({
-  id: z.number().positive(),
+  id: numberRequiredSchema,
   created_at: createdAtSchema,
   name: nameSchema,
 })

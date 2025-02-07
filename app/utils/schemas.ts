@@ -20,6 +20,13 @@ export const nameSchemaWithRefine = nameSchema.refine(
   },
 )
 
+export const numberRequiredSchema = z
+  .number({
+    required_error: 'Campo obrigatório',
+    invalid_type_error: 'Campo obrigatório',
+  })
+  .positive({ message: 'Não pode ser negativo' })
+
 export const createdAtSchema = z.string().datetime({ offset: true }) // Timestamp com fuso horário
 
 export const usernameSchema = z
