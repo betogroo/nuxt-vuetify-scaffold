@@ -18,6 +18,16 @@
     :items="rows"
     :loading="isPending"
   >
+    <template #item.cat_mat="{ item }">
+      <v-btn
+        density="compact"
+        flat
+        rounded
+        slim
+        :to="`/uge/products/${item.id}`"
+        >{{ `${item.cat_mat.toString().padStart(8, '0')}` }}</v-btn
+      >
+    </template>
     <template #loading>
       <v-skeleton-loader type="table-heading" />
       <v-skeleton-loader type="table-row@10" />

@@ -67,7 +67,7 @@
     onError: (message: string, error: unknown) => void,
   ) => {
     try {
-      const insertedData = await insertMember(data)
+      const insertedData: SupportTeam = await insertMember(data)
       if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
       await fetchPurchasingDemandRows()
       onSuccess('Membro adicionado à demanda com sucesso')

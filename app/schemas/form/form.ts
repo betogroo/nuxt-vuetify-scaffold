@@ -10,3 +10,8 @@ export const formActionsButtonSchema = z.object({
     .returns(z.union([z.void(), z.promise(z.void()), z.unknown()]))
     .optional(),
 })
+
+export const formSelectItemsSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  name: nameSchema,
+})

@@ -19,9 +19,11 @@ const useGenericInsert = <InsertType, RowType>(
           .from(tableName)
           .insert(parsedData)
           .select()
-          .returns<RowType[]>()
+          .returns<RowType>()
+          .single()
         if (error) throw error
-        return Array.isArray(data) ? newInsert : newInsert?.[0]
+        return newInsert
+        //return Array.isArray(data) ? newInsert : newInsert?.[0]
       },
       `add-${tableName}`,
       { delay: 2000 },

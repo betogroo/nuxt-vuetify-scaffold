@@ -37,6 +37,10 @@ export * from './product/insert'
 export * from './product/update'
 export * from './product/onDemand'
 
+export * from './product/class/row'
+
+export * from './product/expense-category/row'
+
 export * from './time-slot/row'
 export * from './time-slot/insert'
 export * from './time-slot/update'

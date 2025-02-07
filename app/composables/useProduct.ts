@@ -3,6 +3,8 @@ import {
   productInsertSchema,
   purchasingDemandProductsInsert,
   purchasingDemandProductsRows,
+  productClassRowsSchema,
+  productExpenseCategoryRowsSchema,
 } from '~/schemas'
 import type {
   ProductRow,
@@ -10,8 +12,11 @@ import type {
   TableColumn,
   PurchasingDemandProductInsert,
   PurchasingDemandProduct,
+  ProductClassRow,
+  ProductExpenseCategoryRow,
 } from '~/types'
 const useProduct = () => {
+  // product
   const {
     data: products,
     fetch: fetchProducts,
@@ -21,6 +26,13 @@ const useProduct = () => {
   const { insert: insertProduct, insertPending: insertProductPending } =
     useGenericInsert<ProductInsert, ProductRow>('products', productInsertSchema)
 
+  const {
+    getWithFilters: getProductsByName,
+    data: productsByName,
+    getDataPending: productByNamePending,
+  } = useGenericGet<ProductRow[]>('products', productRowsSchema)
+
+  // demand_product
   const { insert: insertProductsOnDemand } = useGenericInsert<
     PurchasingDemandProductInsert,
     PurchasingDemandProduct
@@ -32,11 +44,18 @@ const useProduct = () => {
       purchasingDemandProductsRows,
     )
 
+  //product classes
+  const { data: productClasses, fetch: fetchProductClasses } =
+    useGenericFetch<ProductClassRow>('product_classes', productClassRowsSchema)
+
+  // product expense category
   const {
-    getWithFilters: getProductsByName,
-    data: productsByName,
-    getDataPending: productByNamePending,
-  } = useGenericGet<ProductRow[]>('products', productRowsSchema)
+    data: productExpenseCategories,
+    fetch: fetchProductExpenseCategories,
+  } = useGenericFetch<ProductExpenseCategoryRow>(
+    'expense_category',
+    productExpenseCategoryRowsSchema,
+  )
 
   const tableColumns: TableColumn[] = [
     {
@@ -69,6 +88,10 @@ const useProduct = () => {
     getProductsOnDemand,
     insertProduct,
     insertProductPending,
+    productClasses,
+    fetchProductClasses,
+    productExpenseCategories,
+    fetchProductExpenseCategories,
   }
 }
 

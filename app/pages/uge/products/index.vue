@@ -10,6 +10,10 @@
     tableColumns: productTableColumns,
     insertProduct,
     insertProductPending,
+    productClasses,
+    fetchProductClasses,
+    productExpenseCategories,
+    fetchProductExpenseCategories,
   } = useProduct()
 
   const submitProduct = async (
@@ -29,23 +33,27 @@
 
   onMounted(async () => {
     await fetchProducts()
+    await fetchProductClasses()
+    await fetchProductExpenseCategories()
   })
 </script>
 
 <template>
   <div>
+    <FormProduct
+      :is-pending="insertProductPending.isLoading"
+      :product-classes-select-items="productClasses"
+      :product-expense-category-select-items="productExpenseCategories"
+      @on-submit="
+        (values, onSuccess, onError) =>
+          submitProduct(values, onSuccess, onError)
+      "
+    />
     <TableProducts
       :columns="productTableColumns"
       :is-pending="fetchPendingProducts.isLoading"
       :rows="products"
       title="Produtos Cadastrados"
-    />
-    <FormProduct
-      :is-pending="insertProductPending.isLoading"
-      @on-submit="
-        (values, onSuccess, onError) =>
-          submitProduct(values, onSuccess, onError)
-      "
     />
   </div>
 </template>
