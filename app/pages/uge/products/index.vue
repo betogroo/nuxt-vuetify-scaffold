@@ -7,7 +7,6 @@
     products,
     fetchProducts,
     fetchPendingProducts,
-    tableColumns: productTableColumns,
     insertProduct,
     insertProductPending,
     productClasses,
@@ -54,7 +53,6 @@
       "
     />
     <TableProducts
-      :columns="productTableColumns"
       :is-pending="fetchPendingProducts.isLoading"
       :rows="products"
       title="Produtos Cadastrados"

@@ -5,16 +5,43 @@
 
   interface Props {
     title: string
-    columns: TableColumn[]
+
     rows: ProductRow[]
     isPending?: boolean
   }
+
+  const tableColumns: TableColumn[] = [
+    {
+      key: 'cat_mat',
+      title: 'Cat Mat',
+    },
+    {
+      key: 'name',
+      title: 'Descrição',
+    },
+    {
+      key: 'bec_number',
+      title: 'BEC',
+    },
+    {
+      key: 'product_class_id',
+      title: 'Classe',
+    },
+    {
+      key: 'pdm_number',
+      title: 'PDM',
+    },
+    {
+      key: 'expense_category_id',
+      title: 'Natureza',
+    },
+  ]
 </script>
 
 <template>
   <v-data-table
     density="compact"
-    :headers="columns"
+    :headers="tableColumns"
     :items="rows"
     :loading="isPending"
   >
@@ -27,6 +54,12 @@
         :to="`/uge/products/${item.id}`"
         >{{ `${item.cat_mat.toString().padStart(8, '0')}` }}</v-btn
       >
+    </template>
+    <template #item.bec_number="{ value }">
+      <LinkProfileChip
+        :name="value"
+        :to="`https://www.bec.sp.gov.br/BEC_Catalogo_ui/CatalogDetalheNovo.aspx?chave=&cod_id=${value}`"
+      />
     </template>
     <template #loading>
       <v-skeleton-loader type="table-heading" />
