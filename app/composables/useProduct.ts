@@ -5,6 +5,7 @@ const useProduct = () => {
   const productOnDemand = useProductOnDemand()
   const productClasses = useProductClasses()
   const productExpenseCategories = useProductExpenseCategories()
+  const productUnit = useProductUnit()
 
   const { data: product, getById: getProduct } = useGenericGet<ProductRow>(
     'products',
@@ -16,6 +17,7 @@ const useProduct = () => {
     ...productOnDemand,
     ...productClasses,
     ...productExpenseCategories,
+    ...productUnit,
     product,
     getProduct,
   }
