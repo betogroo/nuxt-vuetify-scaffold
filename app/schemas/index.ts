@@ -41,6 +41,8 @@ export * from './product/class/row'
 
 export * from './product/expense-category/row'
 
+export * from './product/unit/row'
+
 export * from './time-slot/row'
 export * from './time-slot/insert'
 export * from './time-slot/update'
