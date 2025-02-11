@@ -55,10 +55,10 @@
         >{{ `${item.cat_mat.toString().padStart(8, '0')}` }}</v-btn
       >
     </template>
-    <template #item.bec_number="{ value }">
+    <template #item.bec_number="{ item }">
       <LinkProfileChip
-        :name="value"
-        :to="`https://www.bec.sp.gov.br/BEC_Catalogo_ui/CatalogDetalheNovo.aspx?chave=&cod_id=${value}`"
+        :name="item.bec_number.toString()"
+        :to="`https://www.bec.sp.gov.br/BEC_Catalogo_ui/CatalogDetalheNovo.aspx?chave=&cod_id=${item.bec_number}`"
       />
     </template>
     <template #loading>
