@@ -7,3 +7,5 @@ export const productUnitRowSchema = z.object({
   name: nameSchema,
   name_bec: nameSchema,
 })
+
+export const productUnitRowsSchema = z.array(productUnitRowSchema)

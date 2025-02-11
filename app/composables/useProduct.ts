@@ -7,10 +7,11 @@ const useProduct = () => {
   const productExpenseCategories = useProductExpenseCategories()
   const productUnit = useProductUnit()
 
-  const { data: product, getById: getProduct } = useGenericGet<ProductRow>(
-    'products',
-    productRowSchema,
-  )
+  const {
+    data: product,
+    getById: getProduct,
+    getDataPending: productPending,
+  } = useGenericGet<ProductRow>('products', productRowSchema)
 
   return {
     ...products,
@@ -19,6 +20,7 @@ const useProduct = () => {
     ...productExpenseCategories,
     ...productUnit,
     product,
+    productPending,
     getProduct,
   }
 }
