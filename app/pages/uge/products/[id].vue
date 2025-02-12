@@ -1,12 +1,21 @@
 <script setup lang="ts">
   const id = useValidateParam().id
 
-  const { product, units, unitsPending, getProduct, getUnits, productPending } =
-    useProduct()
+  const {
+    product,
+    units,
+    unitsPending,
+    getProduct,
+    getUnits,
+    productPending,
+    getAvailableUnits,
+    availableUnits,
+  } = useProduct()
   onMounted(async () => {
     if (id) {
       await getProduct(id)
       await getUnits(id)
+      await getAvailableUnits(id)
     }
   })
 </script>
@@ -37,6 +46,11 @@
           :title="unit.name"
         />
       </v-list>
+      <v-list-item
+        v-for="item in availableUnits"
+        :key="item.unit_id"
+        >{{ item.unit_id }}</v-list-item
+      >
     </div>
     <div v-else>Carregando</div>
   </v-container>

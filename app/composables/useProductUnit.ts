@@ -1,5 +1,5 @@
 import { productUnitRowSchema, productUnitRowsSchema } from '~/schemas'
-import type { ProductUnitRow, Database } from '~/types'
+import type { ProductUnitRow, Database, UnitRow } from '~/types'
 
 const useProductUnit = () => {
   const supabase = useSupabaseClient<Database>()
@@ -8,6 +8,7 @@ const useProductUnit = () => {
     useGenericFetch<ProductUnitRow>('product_classes', productUnitRowSchema)
 
   const units = ref<ProductUnitRow[]>([])
+  const availableUnits = ref<UnitRow[]>([])
 
   const getUnits = async (id: string) => {
     await setPendingState(async () => {
@@ -32,7 +33,25 @@ const useProductUnit = () => {
       }
     }, 'product_unit')
   }
-  return { productUnit, fetchProductUnit, getUnits, units, unitsPending }
+  const getAvailableUnits = async (product_id: string) => {
+    return setPendingState(async () => {
+      const { data, error } = await supabase.rpc('get_available_unit', {
+        product_id,
+      })
+      if (error) throw error
+      if (data) availableUnits.value = data
+    }, 'get-available-support_team')
+  }
+
+  return {
+    productUnit,
+    fetchProductUnit,
+    getUnits,
+    units,
+    unitsPending,
+    getAvailableUnits,
+    availableUnits,
+  }
 }
 
 export default useProductUnit
