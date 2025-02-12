@@ -8,4 +8,10 @@ export const productUnitRowSchema = z.object({
   name_bec: nameSchema,
 })
 
+export const unitRowSchema = productUnitRowSchema.omit({
+  id: true,
+  created_at: true,
+})
+
 export const productUnitRowsSchema = z.array(productUnitRowSchema)
+export const unitRowsSchema = z.array(unitRowSchema)
