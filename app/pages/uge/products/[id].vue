@@ -33,19 +33,18 @@
           >Número BEC: {{ product.bec_number }}</NuxtLink
         >
       </h3>
-      <v-list
-        density="compact"
-        lines="two"
-        variant="text"
-      >
-        <v-list-subheader>Unidades de Fornecimento</v-list-subheader>
-        <v-list-item
-          v-for="unit in units"
-          :key="unit.unit_id"
-          :subtitle="unit.name_bec"
-          :title="unit.name"
-        />
-      </v-list>
+      <UgeCard title="Unidades de Fornecimento">
+        <TablePackagingUnit :rows="units" />
+        <template #action>
+          <v-btn
+            color="red"
+            density="compact"
+            :icon="iconOutline.plus"
+            variant="text"
+          />
+        </template>
+      </UgeCard>
+
       <v-list-item
         v-for="item in availableUnits"
         :key="item.unit_id"
