@@ -618,6 +618,16 @@ export type Database = {
           name: string
         }[]
       }
+      get_available_unit: {
+        Args: {
+          product_id: string
+        }
+        Returns: {
+          unit_id: number
+          name: string
+          name_bec: string
+        }[]
+      }
       get_designed_support_team: {
         Args: {
           process_id: number
