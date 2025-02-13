@@ -19,7 +19,7 @@
   }>()
 
   const { isPending } = toRefs(props)
-  const { onHandleSuccess, onHandleError, selectData } = useHandleForm()
+  const { onHandleSuccess, onHandleError } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } =
     useForm<PurchasingDemandInsert>({
@@ -65,18 +65,19 @@
       variant="outlined"
     />
 
-    <generic-form-select
+    <GenericFormAutocomplete
       v-model="ptresNumber"
       :error-messages="ptresNumberError"
       :items="ptresNumbers"
       label="Escolha o PTRES"
     />
-    <generic-form-select
+    <GenericFormAutocomplete
       v-model="contractingAgentId"
-      :composite-title="false"
       :error-messages="contractingAgentIdError"
-      :items="selectData(memberOption)"
+      :items="memberOption"
       label="Escolha o Agente de Contratação"
+      title-key="name"
+      value-key="id"
     />
     <generic-form-action
       :cancel-button="{

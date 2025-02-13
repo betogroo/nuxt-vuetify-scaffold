@@ -18,6 +18,11 @@
       await getAvailableUnits(id)
     }
   })
+
+  const unit_id = ref<number>()
+  const test = () => {
+    console.log(unit_id.value)
+  }
 </script>
 
 <template>
@@ -25,14 +30,47 @@
     <div v-if="!productPending.isLoading && !unitsPending.isLoading && product">
       <h1>{{ product?.name }}({{ product.cat_mat }})</h1>
       <h2>Cadastrado em {{ timestampToDate(product.created_at) }}</h2>
-      <h3>Classe de Materiais: {{ product.product_class_id }}</h3>
-      <h3>Natureza da Despesa BEC: {{ product.expense_category_id }}</h3>
-      <h3>
-        <NuxtLink
-          :to="`https://www.bec.sp.gov.br/BEC_Catalogo_ui/CatalogDetalheNovo.aspx?chave=&cod_id=${product.bec_number}`"
-          >Número BEC: {{ product.bec_number }}</NuxtLink
+
+      <v-row
+        justify="center"
+        no-gutters
+      >
+        <v-col
+          cols="12"
+          md="4"
+          sm="6"
         >
-      </h3>
+          <UgeCard title="Classe de Materiais">{{
+            product.product_class_id
+          }}</UgeCard>
+        </v-col>
+        <v-col
+          cols="12"
+          md="4"
+          sm="6"
+        >
+          <UgeCard title="Natureza da Despesa BEC">
+            {{ product.expense_category_id }}
+          </UgeCard>
+        </v-col>
+        <v-col
+          cols="12"
+          md="4"
+          sm="6"
+        >
+          <UgeCard title="Item BEC">
+            <NuxtLink
+              class="text-decoration-none"
+              role="button"
+              target="_blank"
+              :to="`https://www.bec.sp.gov.br/BEC_Catalogo_ui/CatalogDetalheNovo.aspx?chave=&cod_id=${product.bec_number}`"
+            >
+              {{ product.bec_number.toString() }}
+            </NuxtLink>
+          </UgeCard>
+        </v-col>
+      </v-row>
+
       <UgeCard title="Unidades de Fornecimento">
         <TablePackagingUnit :rows="units" />
         <template #action>
@@ -45,11 +83,15 @@
         </template>
       </UgeCard>
 
-      <v-list-item
-        v-for="item in availableUnits"
-        :key="item.unit_id"
-        >{{ item.unit_id }}</v-list-item
-      >
+      <GenericFormAutocomplete
+        v-model.number="unit_id"
+        :items="availableUnits"
+        label="Pesquise pela unidade desejada"
+        title-key="name"
+        value-key="unit_id"
+      />
+
+      <v-btn @click="test">Teste</v-btn>
     </div>
     <div v-else>Carregando</div>
   </v-container>

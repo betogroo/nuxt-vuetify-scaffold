@@ -19,7 +19,7 @@
 
   const { isPending } = toRefs(props)
 
-  const { onHandleSuccess, onHandleError, selectData } = useHandleForm()
+  const { onHandleSuccess, onHandleError } = useHandleForm()
 
   const { values, handleSubmit, meta, handleReset } = useForm<SupportTeam>({
     validationSchema: validateSupportTeam,
@@ -53,11 +53,13 @@
     class="pa-2 ma-2"
     @submit.prevent="onSubmit"
   >
-    <generic-form-select
+    <generic-form-autocomplete
       v-model="member"
       :error-messages="memberError"
-      :items="selectData(memberOption)"
+      :items="memberOption"
       label="Selecione um Funcionário disponível"
+      title-key="name"
+      value-key="id"
     />
     <generic-form-action
       :cancel-button="{
