@@ -6,14 +6,15 @@
     label: string
     valueKey?: string
     titleKey?: string
+    compositeTitle?: boolean
   }
 
   const props = withDefaults(defineProps<Props>(), {
     compositeTitle: false,
     errorMessages: null,
     showId: false,
-    valueKey: 'value',
-    titleKey: 'title',
+    valueKey: 'id',
+    titleKey: 'name',
   })
   defineEmits<{
     'update:modelValue': []
@@ -57,5 +58,14 @@
     :label="label"
     variant="outlined"
     @update:menu="fetchItems()"
-  />
+  >
+    <template
+      v-if="compositeTitle"
+      #item="{ item, props: itemProps }"
+    >
+      <v-list-item v-bind="itemProps">
+        <template #append>{{ item.raw?.value }}</template>
+      </v-list-item>
+    </template>
+  </v-autocomplete>
 </template>
