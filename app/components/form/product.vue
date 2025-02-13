@@ -27,7 +27,7 @@
   const { isPending } = toRefs(props)
 
   // composables
-  const { onHandleError, onHandleSuccess, selectData } = useHandleForm()
+  const { onHandleError, onHandleSuccess } = useHandleForm()
   const { values, handleSubmit, meta, handleReset } = useForm<ProductInsert>({
     validationSchema: validateProduct,
   })
