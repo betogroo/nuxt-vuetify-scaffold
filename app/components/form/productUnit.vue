@@ -53,7 +53,7 @@
       v-model.number="unitId"
       :error-messages="unitIdError"
       :items="units"
-      label="Pesquise pela unidade desejada"
+      label="Adicione nova Unidade de Medida"
       title-key="name"
       value-key="unit_id" />
     <generic-form-action

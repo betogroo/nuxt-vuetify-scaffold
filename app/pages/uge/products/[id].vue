@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { ProductUnitInsert } from '~/types'
   const id = useValidateParam().id
 
   const {
@@ -10,6 +11,8 @@
     productPending,
     getAvailableUnits,
     availableUnits,
+    addUnitToProduct,
+    addUnitToProductPending,
   } = useProduct()
   onMounted(async () => {
     if (id) {
@@ -19,9 +22,14 @@
     }
   })
 
-  const unit_id = ref<number>()
-  const test = (values) => {
-    console.log(values)
+  const addUnit = async (values: ProductUnitInsert) => {
+    try {
+      await addUnitToProduct(values)
+      await getUnits(id!)
+      await getAvailableUnits(id!)
+    } catch (error) {
+      console.error(error)
+    }
   }
 </script>
 
@@ -73,31 +81,14 @@
 
       <UgeCard title="Unidades de Fornecimento">
         <TablePackagingUnit :rows="units" />
-        <template #action>
-          <v-btn
-            color="red"
-            density="compact"
-            :icon="iconOutline.plus"
-            variant="text"
-          />
-        </template>
+
+        <FormProductUnit
+          :is-pending="addUnitToProductPending.isLoading"
+          :product-id="id!"
+          :units="availableUnits"
+          @on-submit="(values) => addUnit(values)"
+        />
       </UgeCard>
-
-      <FormProductUnit
-        :product-id="id!"
-        :units="availableUnits"
-        @on-submit="(values) => test(values)"
-      />
-
-      <GenericFormAutocomplete
-        v-model.number="unit_id"
-        :items="availableUnits"
-        label="Pesquise pela unidade desejada"
-        title-key="name"
-        value-key="unit_id"
-      />
-
-      <v-btn @click="test">Teste</v-btn>
     </div>
     <div v-else>Carregando</div>
   </v-container>

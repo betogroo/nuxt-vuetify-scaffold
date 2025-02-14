@@ -16,7 +16,7 @@
     valueKey: 'id',
     titleKey: 'name',
   })
-  defineEmits<{
+  const $emit = defineEmits<{
     'update:modelValue': []
   }>()
 
@@ -44,28 +44,36 @@
   const fetchItems = () => {
     // será usado quando a lista de items for muito extensa
     // ainda não foi programado
-    if (!props.items.length) console.log('update-menu')
+    if (!props.items.length) {
+      console.log('update-menu')
+      $emit('update:modelValue')
+    }
   }
 </script>
 
 <template>
-  <v-autocomplete
-    v-model="modelValue"
-    clearable
-    density="compact"
-    :error-messages="errorMessages"
-    :items="formattedItems"
-    :label="label"
-    variant="outlined"
-    @update:menu="fetchItems()"
-  >
-    <template
-      v-if="compositeTitle"
-      #item="{ item, props: itemProps }"
+  <div>
+    <v-autocomplete
+      v-model="modelValue"
+      clearable
+      density="compact"
+      :error-messages="errorMessages"
+      :items="formattedItems"
+      :label="label"
+      variant="outlined"
+      @update:menu="fetchItems()"
     >
-      <v-list-item v-bind="itemProps">
-        <template #append>{{ item.raw?.value }}</template>
-      </v-list-item>
-    </template>
-  </v-autocomplete>
+      <template
+        v-if="compositeTitle"
+        #item="{ item, props: itemProps }"
+      >
+        <v-list-item
+          v-bind="itemProps"
+          :key="item.title"
+        >
+          <template #append>{{ item.raw?.value }}</template>
+        </v-list-item>
+      </template>
+    </v-autocomplete>
+  </div>
 </template>

@@ -1,5 +1,14 @@
-import { productUnitRowSchema, productUnitRowsSchema } from '~/schemas'
-import type { ProductUnitRow, Database, UnitRow } from '~/types'
+import {
+  productUnitInsertSchema,
+  productUnitRowSchema,
+  productUnitRowsSchema,
+} from '~/schemas'
+import type {
+  ProductUnitRow,
+  Database,
+  UnitRow,
+  ProductUnitInsert,
+} from '~/types'
 
 const useProductUnit = () => {
   const supabase = useSupabaseClient<Database>()
@@ -43,6 +52,12 @@ const useProductUnit = () => {
     }, 'get-available-support_team')
   }
 
+  const { insert: addUnitToProduct, insertPending: addUnitToProductPending } =
+    useGenericInsert<ProductUnitInsert, ProductUnitRow>(
+      'product_unit',
+      productUnitInsertSchema,
+    )
+
   return {
     productUnit,
     fetchProductUnit,
@@ -51,6 +66,8 @@ const useProductUnit = () => {
     unitsPending,
     getAvailableUnits,
     availableUnits,
+    addUnitToProduct,
+    addUnitToProductPending,
   }
 }
 
