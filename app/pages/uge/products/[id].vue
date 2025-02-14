@@ -20,8 +20,8 @@
   })
 
   const unit_id = ref<number>()
-  const test = () => {
-    console.log(unit_id.value)
+  const test = (values) => {
+    console.log(values)
   }
 </script>
 
@@ -82,6 +82,12 @@
           />
         </template>
       </UgeCard>
+
+      <FormProductUnit
+        :product-id="id!"
+        :units="availableUnits"
+        @on-submit="(values) => test(values)"
+      />
 
       <GenericFormAutocomplete
         v-model.number="unit_id"
