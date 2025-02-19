@@ -11,7 +11,7 @@ const useGenericGet = <RowType>(
   const { isPending: getDataPending, setPendingState } = useHelpers()
   const data = ref<RowType | null>(null)
 
-  const getById = async (id: string) => {
+  const getById = async (id: string | number) => {
     return setPendingState(async () => {
       const { data: newData, error } = await supabase
         .from(tableName)
