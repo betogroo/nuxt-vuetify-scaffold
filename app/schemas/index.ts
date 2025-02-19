@@ -38,6 +38,8 @@ export * from './product/update'
 export * from './product/onDemand'
 
 export * from './product/class/row'
+export * from './product/class/insert'
+export * from './product/class/update'
 
 export * from './product/expense-category/row'
 
