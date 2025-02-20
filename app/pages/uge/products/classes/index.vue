@@ -1,17 +1,12 @@
 <script setup lang="ts">
-  const router = useRouter()
   const { productClasses, fetchProductClasses } = useProductClasses()
-
-  const goTo = (id: number) => {
-    if (id !== undefined && id !== null)
-      router.push({ name: 'uge-products-classes-id', params: { id } })
-    else console.warn('Código de Classe errado', id)
-  }
+  const { onHandleError } = useHandleForm()
 
   onMounted(async () => {
     try {
       await fetchProductClasses({ column: 'id' })
     } catch (error) {
+      onHandleError('Não foi possível carregar as classes', error)
       console.error(error)
     }
   })
