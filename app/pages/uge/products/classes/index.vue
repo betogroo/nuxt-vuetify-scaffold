@@ -21,14 +21,21 @@
   <v-container>
     <h1>Classes de Produtos</h1>
     <v-list
+      dense
       density="compact"
-      item-title="name"
-      item-value="id"
-      :items="productClasses"
+      lines="one"
       nav
-      @click:select="(item: any) => goTo(item.id)"
     >
-      <template #prepend="{ item }">({{ item.id }})</template>
+      <v-list-item
+        v-for="item in productClasses"
+        :key="item.id"
+        density="compact"
+        nav
+        :to="`/uge/products/classes/${item.id}`"
+      >
+        <template #subtitle>{{ item.id }}</template>
+        <template #title>{{ item.name }}</template>
+      </v-list-item>
     </v-list>
   </v-container>
 </template>
