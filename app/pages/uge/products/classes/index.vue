@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const { productClasses, fetchProductClasses } = useProductClasses()
   const { onHandleError } = useHandleForm()
-  const { isActive, openModal, closeModal, props } = useModal()
+  const { isActive, openModal, props } = useModal()
 
   onMounted(async () => {
     try {

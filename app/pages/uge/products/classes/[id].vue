@@ -37,7 +37,7 @@
     <div v-if="productClass">
       <h1>{{ productClass.id }}</h1>
 
-      <FormProductClass
+      <FormProductClassUpdate
         :key="productClass.name"
         :initial-values="{ name: productClass.name }"
         :is-pending="updateProductClassPending.isLoading"
