@@ -63,6 +63,10 @@
         isPending,
         action: handleReset,
       }"
-      :submit-button="{ disabled: !meta.valid, isPending, label: 'Enviar' }"
+      :submit-button="{
+        disabled: !meta.valid,
+        isPending,
+        label: 'Enviar',
+      }"
   /></v-form>
 </template>
