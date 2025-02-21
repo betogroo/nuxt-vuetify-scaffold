@@ -19,7 +19,7 @@
       v-model="isActive"
       :title="props.title"
     >
-      mode: {{ props.mode }}
+      <FormProductClassInsert />
     </AppModal>
     <v-fab
       app
