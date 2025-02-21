@@ -14,6 +14,14 @@
 
 <template>
   <v-container>
+    <v-fab
+      app
+      class="mr-4"
+      color="green"
+      :icon="iconOutline.plus"
+      location="right bottom"
+      :style="{ zIndex: 1004 }"
+    />
     <h1>Classes de Produtos</h1>
     <v-list
       dense

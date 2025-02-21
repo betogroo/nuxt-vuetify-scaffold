@@ -129,15 +129,16 @@
           "
         />
       </AppModal>
-    </div>
 
-    <v-fab
-      absolute
-      class="mr-4"
-      color="green"
-      :icon="iconOutline.plus"
-      :loading="isActive"
-      @click="openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })"
-    />
+      <v-fab
+        app
+        color="green"
+        :icon="iconOutline.plus"
+        :loading="isActive"
+        location="right bottom"
+        :style="{ zIndex: 1004 }"
+        @click="openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })"
+      />
+    </div>
   </v-container>
 </template>
