@@ -1,6 +1,7 @@
 <script setup lang="ts">
   const { productClasses, fetchProductClasses } = useProductClasses()
   const { onHandleError } = useHandleForm()
+  const { isActive, openModal, closeModal, props } = useModal()
 
   onMounted(async () => {
     try {
@@ -14,6 +15,12 @@
 
 <template>
   <v-container>
+    <AppModal
+      v-model="isActive"
+      :title="props.title"
+    >
+      mode: {{ props.mode }}
+    </AppModal>
     <v-fab
       app
       class="mr-4"
@@ -21,6 +28,7 @@
       :icon="iconOutline.plus"
       location="right bottom"
       :style="{ zIndex: 1004 }"
+      @click="openModal({ title: 'Nova Classe de Produtos' })"
     />
     <h1>Classes de Produtos</h1>
     <v-list
