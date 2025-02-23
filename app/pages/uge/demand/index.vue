@@ -109,7 +109,7 @@
         v-model="isActive"
         :title="props.title"
       >
-        <FormPurchaseDemand
+        <UgeFormPurchaseDemand
           v-if="props.mode === 'purchasing-demand'"
           :is-pending="purchasingInsertPending.isLoading"
           :member-option="members"
