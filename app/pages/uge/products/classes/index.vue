@@ -1,7 +1,13 @@
 <script setup lang="ts">
+  import type { ProductClassInsert } from '~/types'
+
   const { productClasses, fetchProductClasses } = useProductClasses()
   const { onHandleError } = useHandleForm()
   const { isActive, openModal, props } = useModal()
+
+  const insertClass = (value: ProductClassInsert) => {
+    console.log(value)
+  }
 
   onMounted(async () => {
     try {
@@ -19,7 +25,7 @@
       v-model="isActive"
       :title="props.title"
     >
-      <UgeFormProductClassInsert />
+      <UgeFormProductClassInsert @on-submit="(value) => insertClass(value)" />
     </AppModal>
     <v-fab
       app
