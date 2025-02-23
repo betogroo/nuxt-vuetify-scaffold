@@ -158,7 +158,7 @@
         "
       />
     </AppModal>
-    <ProductCart
+    <UgeCart
       v-model="cartIsActive"
       :demand-id="+id!"
     />

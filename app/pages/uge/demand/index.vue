@@ -93,7 +93,7 @@
 <template>
   <v-container class="fill-height flex-column justify-space-between">
     <div class="w-100">
-      <TablePurchasingDemand
+      <UgeTablePurchasingDemand
         :columns="demandTableColumns"
         :is-pending="
           purchasingDemandDetailsPending.isLoading &&

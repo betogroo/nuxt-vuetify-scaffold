@@ -80,7 +80,7 @@
       </v-row>
 
       <UgeCard title="Unidades de Fornecimento">
-        <TablePackagingUnit :rows="units" />
+        <UgeTableProductsUnits :rows="units" />
 
         <UgeFormProductUnit
           :is-pending="addUnitToProductPending.isLoading"

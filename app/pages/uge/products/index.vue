@@ -52,7 +52,7 @@
           submitProduct(values, onSuccess, onError)
       "
     />
-    <TableProducts
+    <UgeTableProducts
       :is-pending="fetchPendingProducts.isLoading"
       :rows="products"
       title="Produtos Cadastrados"
