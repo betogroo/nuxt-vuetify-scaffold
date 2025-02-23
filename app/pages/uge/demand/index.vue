@@ -119,7 +119,7 @@
           "
         />
 
-        <FormSupportTeam
+        <UgeFormSupportTeam
           v-if="props.mode === 'support-member'"
           :is-pending="insertMemberPending.isLoading"
           :member-option="availableSupportTeamMember"

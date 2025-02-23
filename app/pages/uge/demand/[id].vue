@@ -147,7 +147,7 @@
       v-model="insertMemberModal"
       :title="props.title"
     >
-      <FormSupportTeam
+      <UgeFormSupportTeam
         v-if="props.mode === 'insert-member-modal'"
         :is-pending="insertMemberPending.isLoading"
         :member-option="availableSupportTeamMember"
