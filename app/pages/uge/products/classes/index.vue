@@ -19,7 +19,7 @@
       v-model="isActive"
       :title="props.title"
     >
-      <FormProductClassInsert />
+      <UgeFormProductClassInsert />
     </AppModal>
     <v-fab
       app

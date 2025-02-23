@@ -82,7 +82,7 @@
       <UgeCard title="Unidades de Fornecimento">
         <TablePackagingUnit :rows="units" />
 
-        <FormProductUnit
+        <UgeFormProductUnit
           :is-pending="addUnitToProductPending.isLoading"
           :product-id="id!"
           :units="availableUnits"

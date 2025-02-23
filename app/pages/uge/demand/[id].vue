@@ -130,7 +130,7 @@
         </v-col>
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <ProductList :id="+id!" />
+            <UgeListProduct :id="+id!" />
             <template #action>
               <v-btn
                 density="compact"

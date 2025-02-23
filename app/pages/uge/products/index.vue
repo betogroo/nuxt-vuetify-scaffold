@@ -43,7 +43,7 @@
 
 <template>
   <div>
-    <FormProduct
+    <UgeFormProduct
       :is-pending="insertProductPending.isLoading"
       :product-classes-select-items="productClasses"
       :product-expense-category-select-items="productExpenseCategories"
