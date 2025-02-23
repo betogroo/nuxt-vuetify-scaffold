@@ -125,7 +125,7 @@
         :icon="iconOutline.plus"
         @click="openModal"
       />
-      <TableDocumentDemand
+      <IirgdTableDocumentDemand
         :columns="columns"
         :rows="tableDemandView"
         title="Documentos Cadastrados"
