@@ -15,14 +15,6 @@
     props,
   } = useModal()
 
-  const newRgModal = ref(false)
-  const openModal = () => {
-    newRgModal.value = true
-  }
-  const closeModal = () => {
-    newRgModal.value = false
-  }
-
   onMounted(async () => {
     await fetchDocumentDemands()
   })
@@ -36,7 +28,6 @@
       if (!newDocumentDemand) throw new Error('Erro ao cadastrar demanda')
       onSuccess(newDocumentDemand.id)
       closeInsertRgModal()
-      closeModal()
     } catch (error) {
       onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
     }
