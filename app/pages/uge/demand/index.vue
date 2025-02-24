@@ -131,14 +131,11 @@
         />
       </AppModal>
 
-      <v-fab
-        app
-        color="green"
-        :icon="iconOutline.plus"
-        :loading="isActive"
-        location="right bottom"
-        :style="{ zIndex: 1004 }"
-        @click="openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })"
+      <AppFab
+        :is-active="isActive"
+        @handle-click="
+          openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })
+        "
       />
     </div>
   </v-container>

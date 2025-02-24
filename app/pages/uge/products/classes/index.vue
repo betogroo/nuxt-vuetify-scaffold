@@ -50,16 +50,11 @@
         "
       />
     </AppModal>
-    <v-fab
-      app
-      class="mr-4"
-      color="green"
-      :disabled="isActive"
-      :icon="iconOutline.plus"
-      location="right bottom"
-      :style="{ zIndex: 1004 }"
-      @click="openModal({ title: 'Nova Classe de Produtos' })"
+    <AppFab
+      :is-active="isActive"
+      @handle-click="openModal({ title: 'Nova Classe de Produtos' })"
     />
+
     <h1>Classes de Produtos</h1>
     <v-list
       dense
