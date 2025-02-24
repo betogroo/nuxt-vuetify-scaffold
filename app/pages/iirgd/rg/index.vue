@@ -8,6 +8,13 @@
   } = useDocumentDemand()
   const { handleError } = useHelpers()
 
+  const {
+    isActive,
+    openModal: openInsertRgModal,
+    closeModal: closeInsertRgModal,
+    props,
+  } = useModal()
+
   const newRgModal = ref(false)
   const openModal = () => {
     newRgModal.value = true
@@ -28,6 +35,7 @@
       const newDocumentDemand = await insertDocumentDemand(documentDemand)
       if (!newDocumentDemand) throw new Error('Erro ao cadastrar demanda')
       onSuccess(newDocumentDemand.id)
+      closeInsertRgModal()
       closeModal()
     } catch (error) {
       onError(`Erro ao tentar inserir a demanda, ${handleError(error).message}`)
@@ -106,9 +114,10 @@
       </v-row>
     </section>
     <section>
-      <AppModal
-        v-model="newRgModal"
-        title="Cadastrar Documento"
+      <AppModalWithFabActivator
+        v-model="isActive"
+        :title="props.title!"
+        @open-modal="openInsertRgModal({ title: 'Novo Documento' })"
       >
         <FormDocumentDemand
           :is-pending="
@@ -120,11 +129,7 @@
               submitDocumentDemand(values, onSuccess, onError)
           "
         />
-      </AppModal>
-      <v-btn
-        :icon="iconOutline.plus"
-        @click="openModal"
-      />
+      </AppModalWithFabActivator>
       <IirgdTableDocumentDemand
         :columns="columns"
         :rows="tableDemandView"
