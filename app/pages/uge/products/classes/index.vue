@@ -1,12 +1,30 @@
 <script setup lang="ts">
-  import type { ProductClassInsert } from '~/types'
+  import type { ProductClassInsert, ProductClassRow } from '~/types'
 
-  const { productClasses, fetchProductClasses } = useProductClasses()
+  const {
+    productClasses,
+    fetchProductClasses,
+    insertProductClassPending,
+    insertedProductClass,
+  } = useProductClasses()
   const { onHandleError } = useHandleForm()
-  const { isActive, openModal, props } = useModal()
+  const { isActive, openModal, props, closeModal } = useModal()
 
-  const insertClass = (value: ProductClassInsert) => {
-    console.log(value)
+  const insertClass = async (
+    value: ProductClassInsert,
+    onSuccess: (name: string) => void,
+    onError: (message: string, error: unknown) => void,
+  ) => {
+    try {
+      const insertedData: ProductClassRow = await insertedProductClass(value)
+      if (!insertedData) throw Error('Erro ao tentar inserir o classe')
+      onSuccess(insertedData.name)
+      await fetchProductClasses({ column: 'id' })
+      closeModal()
+    } catch (error) {
+      onError('Erro ao tentar inserir a classe', error)
+      console.log(error)
+    }
   }
 
   onMounted(async () => {
@@ -25,12 +43,18 @@
       v-model="isActive"
       :title="props.title"
     >
-      <UgeFormProductClassInsert @on-submit="(value) => insertClass(value)" />
+      <UgeFormProductClassInsert
+        :is-pending="insertProductClassPending.isLoading"
+        @on-submit="
+          (value, onSuccess, onError) => insertClass(value, onSuccess, onError)
+        "
+      />
     </AppModal>
     <v-fab
       app
       class="mr-4"
       color="green"
+      :disabled="isActive"
       :icon="iconOutline.plus"
       location="right bottom"
       :style="{ zIndex: 1004 }"

@@ -2,7 +2,7 @@
   import { useField, useForm } from 'vee-validate'
   import { validateProductClassInsert } from '~/validate'
 
-  import type { ProductClassInsert, ProductClassRow } from '~/types'
+  import type { ProductClassInsert } from '~/types'
 
   interface Props {
     isPending?: boolean
@@ -12,7 +12,7 @@
   const $emit = defineEmits<{
     'on-submit': [
       values: ProductClassInsert,
-      onSuccess: (id: string | number) => void,
+      onSuccess: (id: string) => void,
       onError: (message: string) => void,
     ]
   }>()
@@ -36,8 +36,8 @@
     }
   })
 
-  const onSuccess = () => {
-    onHandleSuccess(`Editado com sucesso`, handleReset)
+  const onSuccess = (name: string) => {
+    onHandleSuccess(`${name}inserido com sucesso`, handleReset)
   }
   const onError = (message: string) => {
     handleReset()
@@ -65,6 +65,7 @@
       />
       <v-btn
         :disabled="!meta.valid"
+        :loading="isPending"
         type="submit"
         >Enviar</v-btn
       >

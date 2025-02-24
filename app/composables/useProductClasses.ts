@@ -1,9 +1,14 @@
 import {
+  productClassInsertSchema,
   productClassRowSchema,
   productClassRowsSchema,
   productClassUpdateSchema,
 } from '~/schemas'
-import type { ProductClassRow, ProductClassUpdate } from '~/types'
+import type {
+  ProductClassInsert,
+  ProductClassRow,
+  ProductClassUpdate,
+} from '~/types'
 
 const useProductClasses = () => {
   const { data: productClasses, fetch: fetchProductClasses } =
@@ -11,6 +16,14 @@ const useProductClasses = () => {
 
   const { getById: getProductClass, data: productClass } =
     useGenericGet<ProductClassRow>('product_classes', productClassRowSchema)
+
+  const {
+    insert: insertedProductClass,
+    insertPending: insertProductClassPending,
+  } = useGenericInsert<ProductClassInsert, ProductClassRow>(
+    'product_classes',
+    productClassInsertSchema,
+  )
 
   const {
     update: updateProductClass,
@@ -27,6 +40,8 @@ const useProductClasses = () => {
     fetchProductClasses,
     getProductClass,
     updateProductClass,
+    insertedProductClass,
+    insertProductClassPending,
   }
 }
 
