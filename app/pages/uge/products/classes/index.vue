@@ -39,9 +39,10 @@
 
 <template>
   <v-container>
-    <AppModal
+    <AppModalWithFabActivator
       v-model="isActive"
-      :title="props.title"
+      :title="props.title!"
+      @open-modal="openModal({ title: 'Nova Classe de Produtos' })"
     >
       <UgeFormProductClassInsert
         :is-pending="insertProductClassPending.isLoading"
@@ -49,11 +50,7 @@
           (value, onSuccess, onError) => insertClass(value, onSuccess, onError)
         "
       />
-    </AppModal>
-    <AppFab
-      :is-active="isActive"
-      @handle-click="openModal({ title: 'Nova Classe de Produtos' })"
-    />
+    </AppModalWithFabActivator>
 
     <h1>Classes de Produtos</h1>
     <v-list

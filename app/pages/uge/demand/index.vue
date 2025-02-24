@@ -105,9 +105,12 @@
         @add-member="openSupportMemberModal"
         @delete-member="deleteMember"
       />
-      <AppModal
+      <AppModalWithFabActivator
         v-model="isActive"
-        :title="props.title"
+        :title="props.title!"
+        @open-modal="
+          openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })
+        "
       >
         <UgeFormPurchaseDemand
           v-if="props.mode === 'purchasing-demand'"
@@ -129,14 +132,7 @@
               submitSupportMemberForm(values, onSuccess, onError)
           "
         />
-      </AppModal>
-
-      <AppFab
-        :is-active="isActive"
-        @handle-click="
-          openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })
-        "
-      />
+      </AppModalWithFabActivator>
     </div>
   </v-container>
 </template>
