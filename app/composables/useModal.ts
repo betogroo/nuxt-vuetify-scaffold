@@ -12,7 +12,7 @@ const useModal = (
 
   const props = ref<ModalProps>(modalPropsSchema.parse(defaultProps))
 
-  const openModal = (modalProps: Partial<ModalProps>) => {
+  const openModal = (modalProps?: Partial<ModalProps>) => {
     const parsedProps = modalPropsSchema.parse(modalProps)
     props.value = {
       ...props.value,

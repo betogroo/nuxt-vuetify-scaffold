@@ -2,6 +2,8 @@
   const { fetchPackagingUnits, fetchPackagingUnitsPending, packagingUnits } =
     usePackagingUnit()
 
+  const { isActive, props, openModal } = useModal()
+
   onMounted(async () => {
     try {
       await fetchPackagingUnits({ column: 'name' })
@@ -14,6 +16,17 @@
 <template>
   <v-container
     ><h1>Units</h1>
+    <AppModalWithFabActivator
+      v-model="isActive"
+      :title="props.title || ''"
+      @open-modal="
+        openModal({
+          title: 'Nova Unidade de Medida',
+        })
+      "
+    >
+      Formulario
+    </AppModalWithFabActivator>
 
     <v-list
       dense
