@@ -1,8 +1,24 @@
 <script setup lang="ts">
+  import type { PackagingUnitInsert } from '~/types'
+
   const { fetchPackagingUnits, fetchPackagingUnitsPending, packagingUnits } =
     usePackagingUnit()
 
   const { isActive, props, openModal } = useModal()
+
+  const submitPackagingUnit = async (
+    data: PackagingUnitInsert,
+    onSuccess: (name: string) => void,
+    onError: (message: string) => void,
+  ) => {
+    try {
+      console.log(data)
+      onSuccess('Deu certo')
+    } catch (error) {
+      onError(`Erro ao tentar inserir a unidade`)
+      console.error(error)
+    }
+  }
 
   onMounted(async () => {
     try {
@@ -25,7 +41,12 @@
         })
       "
     >
-      Formulario
+      <UgeFormPackagingUnitInsert
+        @on-submit="
+          (data, onSuccess, onError) =>
+            submitPackagingUnit(data, onSuccess, onError)
+        "
+      />
     </AppModalWithFabActivator>
 
     <v-list
