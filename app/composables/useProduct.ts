@@ -1,97 +1,27 @@
-import {
-  productRowsSchema,
-  productInsertSchema,
-  purchasingDemandProductsInsert,
-  purchasingDemandProductsRows,
-  productClassRowsSchema,
-  productExpenseCategoryRowsSchema,
-} from '~/schemas'
-import type {
-  ProductRow,
-  ProductInsert,
-  TableColumn,
-  PurchasingDemandProductInsert,
-  PurchasingDemandProduct,
-  ProductClassRow,
-  ProductExpenseCategoryRow,
-} from '~/types'
+import { productRowSchema } from '~/schemas'
+import type { ProductRow } from '~/types'
 const useProduct = () => {
-  // product
-  const {
-    data: products,
-    fetch: fetchProducts,
-    fetchPending: fetchPendingProducts,
-  } = useGenericFetch<ProductRow>('products', productRowsSchema)
-
-  const { insert: insertProduct, insertPending: insertProductPending } =
-    useGenericInsert<ProductInsert, ProductRow>('products', productInsertSchema)
+  const products = useProducts()
+  const productOnDemand = useProductOnDemand()
+  const productClasses = useProductClasses()
+  const productExpenseCategories = useProductExpenseCategories()
+  const productUnit = useProductUnit()
 
   const {
-    getWithFilters: getProductsByName,
-    data: productsByName,
-    getDataPending: productByNamePending,
-  } = useGenericGet<ProductRow[]>('products', productRowsSchema)
+    data: product,
+    getById: getProduct,
+    getDataPending: productPending,
+  } = useGenericGet<ProductRow>('products', productRowSchema)
 
-  // demand_product
-  const { insert: insertProductsOnDemand } = useGenericInsert<
-    PurchasingDemandProductInsert,
-    PurchasingDemandProduct
-  >('purchasing_demand_products', purchasingDemandProductsInsert)
-
-  const { data: productOnDemand, getWithFilters: getProductsOnDemand } =
-    useGenericGet<PurchasingDemandProduct[]>(
-      'purchasing_demand_products',
-      purchasingDemandProductsRows,
-    )
-
-  //product classes
-  const { data: productClasses, fetch: fetchProductClasses } =
-    useGenericFetch<ProductClassRow>('product_classes', productClassRowsSchema)
-
-  // product expense category
-  const {
-    data: productExpenseCategories,
-    fetch: fetchProductExpenseCategories,
-  } = useGenericFetch<ProductExpenseCategoryRow>(
-    'expense_category',
-    productExpenseCategoryRowsSchema,
-  )
-
-  const tableColumns: TableColumn[] = [
-    {
-      key: 'cat_mat',
-      title: 'Cat Mat',
-    },
-    {
-      key: 'name',
-      title: 'Descrição',
-    },
-    {
-      key: 'product_class_id',
-      title: 'Classe',
-    },
-    {
-      key: 'expense_category_id',
-      title: 'Natureza',
-    },
-  ]
   return {
-    products,
-    fetchProducts,
-    tableColumns,
-    fetchPendingProducts,
-    getProductsByName,
-    productByNamePending,
-    productsByName,
-    insertProductsOnDemand,
-    productOnDemand,
-    getProductsOnDemand,
-    insertProduct,
-    insertProductPending,
-    productClasses,
-    fetchProductClasses,
-    productExpenseCategories,
-    fetchProductExpenseCategories,
+    ...products,
+    ...productOnDemand,
+    ...productClasses,
+    ...productExpenseCategories,
+    ...productUnit,
+    product,
+    productPending,
+    getProduct,
   }
 }
 

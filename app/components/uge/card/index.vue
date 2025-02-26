@@ -6,7 +6,9 @@
 </script>
 
 <template>
-  <v-card variant="outlined"
+  <v-card
+    class="mb-2 mx-1 pa-1"
+    variant="outlined"
     ><slot />
     <template #title>
       <v-row align="center">

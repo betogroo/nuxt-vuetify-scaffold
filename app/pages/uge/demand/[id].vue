@@ -130,7 +130,7 @@
         </v-col>
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <ProductList :id="+id!" />
+            <UgeListProduct :id="+id!" />
             <template #action>
               <v-btn
                 density="compact"
@@ -147,7 +147,7 @@
       v-model="insertMemberModal"
       :title="props.title"
     >
-      <FormSupportTeam
+      <UgeFormSupportTeam
         v-if="props.mode === 'insert-member-modal'"
         :is-pending="insertMemberPending.isLoading"
         :member-option="availableSupportTeamMember"
@@ -158,7 +158,7 @@
         "
       />
     </AppModal>
-    <ProductCart
+    <UgeCart
       v-model="cartIsActive"
       :demand-id="+id!"
     />

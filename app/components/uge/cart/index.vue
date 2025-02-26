@@ -71,7 +71,7 @@
   <AppDrawer v-model="cartIsActive">
     <v-container>
       <AppCard title="Busque o Produto Desejado">
-        <FormProductSearch
+        <UgeFormProductSearch
           @on-reset="resetProductSearched"
           @on-submit="(values) => handleSearchForm(values)"
         />

@@ -73,17 +73,21 @@
       label="Nome (Como escrito no documento)"
       variant="outlined"
     />
-    <generic-form-select
+    <generic-form-autocomplete
       v-model="type"
       :error-messages="typeError"
       :items="demandTypes"
       label="Escolha o tipo do documento"
+      title-key="name"
+      value-key="value"
     />
-    <generic-form-select
+    <generic-form-autocomplete
       v-model="site"
       :error-messages="siteError"
       :items="demandSites"
       label="Escolha o posto de identificação"
+      title-key="name"
+      value-key="value"
     />
     <v-textarea
       v-model="note"

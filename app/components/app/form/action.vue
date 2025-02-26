@@ -5,7 +5,7 @@
 
   interface Props {
     submitButton: FormActionButton
-    cancelButton: FormActionButton
+    cancelButton?: FormActionButton
   }
 </script>
 
@@ -23,6 +23,7 @@
     </div>
     <div>
       <v-btn
+        v-if="cancelButton"
         color="error"
         :disabled="cancelButton.disabled"
         :loading="cancelButton.isPending"

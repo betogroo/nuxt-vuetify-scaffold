@@ -47,7 +47,7 @@
         :teacher="teacher"
       />
 
-      <table-time-slot
+      <ScheduleTableTimeSlot
         :columns="columns"
         :row-pending="upsertPending"
         :rows="teacherAvailability"

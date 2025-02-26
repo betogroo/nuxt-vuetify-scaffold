@@ -27,7 +27,7 @@
   const { isPending } = toRefs(props)
 
   // composables
-  const { onHandleError, onHandleSuccess, selectData } = useHandleForm()
+  const { onHandleError, onHandleSuccess } = useHandleForm()
   const { values, handleSubmit, meta, handleReset } = useForm<ProductInsert>({
     validationSchema: validateProduct,
   })
@@ -89,21 +89,19 @@
       variant="outlined"
     />
 
-    <generic-form-select
+    <generic-form-autocomplete
       v-model.number="productClassId"
       composite-title
       :error-messages="productClassIdError"
-      :items="selectData(productClassesSelectItems)"
+      :items="productClassesSelectItems"
       label="Escolha a classe"
-      show-id
     />
-    <generic-form-select
+    <generic-form-autocomplete
       v-model.number="expenseCategoryId"
       composite-title
       :error-messages="expenseCategoryIdError"
-      :items="selectData(productExpenseCategorySelectItems)"
+      :items="productExpenseCategorySelectItems"
       label="Escolha a Natureza"
-      show-id
     />
 
     <v-text-field
@@ -113,7 +111,7 @@
       label="PDM"
       variant="outlined"
     />
-    <generic-form-action
+    <AppFormAction
       :cancel-button="{
         label: 'Limpar',
         disabled: !meta.dirty,

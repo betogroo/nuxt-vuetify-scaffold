@@ -1,5 +1,13 @@
-import { productOnDemandRowsSchema } from '~/schemas'
-import type { Database, ProductOnDemandRow } from '~/types'
+import {
+  productOnDemandRowsSchema,
+  purchasingDemandProductsInsert,
+} from '~/schemas'
+import type {
+  Database,
+  ProductOnDemandRow,
+  PurchasingDemandProduct,
+  PurchasingDemandProductInsert,
+} from '~/types'
 
 const delay = 2000
 const useProductOnDemand = () => {
@@ -29,24 +37,18 @@ const useProductOnDemand = () => {
     )
   }
 
-  return { productsOnDemand, getProductsOnDemand }
+  const { insert: insertProductsOnDemand } = useGenericInsert<
+    PurchasingDemandProductInsert,
+    PurchasingDemandProduct
+  >('purchasing_demand_products', purchasingDemandProductsInsert)
+
+  /*  const { data: productOnDemand, getWithFilters: getProductsOnDemand } =
+      useGenericGet<PurchasingDemandProduct[]>(
+        'purchasing_demand_products',
+        purchasingDemandProductsRows,
+      ) */
+
+  return { productsOnDemand, getProductsOnDemand, insertProductsOnDemand }
 }
 
 export default useProductOnDemand
-
-/* const fetchPurchasingDemandRows = async () => {
-    await setPendingState(
-      async () => {
-        const { data: newData, error } = await supabase.rpc(
-          'fetch_purchasing_demands',
-        )
-        if (error) throw error
-        if (newData) {
-          const parsedData = purchasingDemandDetailsRowsSchema.parse(newData)
-          demands.value = parsedData
-        }
-      },
-      'fetch-purchasing-demand-details',
-      { delay: delay.value },
-    )
-  } */

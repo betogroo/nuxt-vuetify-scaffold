@@ -93,7 +93,7 @@
 <template>
   <v-container class="fill-height flex-column justify-space-between">
     <div class="w-100">
-      <TablePurchasingDemand
+      <UgeTablePurchasingDemand
         :columns="demandTableColumns"
         :is-pending="
           purchasingDemandDetailsPending.isLoading &&
@@ -105,11 +105,14 @@
         @add-member="openSupportMemberModal"
         @delete-member="deleteMember"
       />
-      <AppModal
+      <AppModalWithFabActivator
         v-model="isActive"
-        :title="props.title"
+        :title="props.title!"
+        @open-modal="
+          openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })
+        "
       >
-        <FormPurchaseDemand
+        <UgeFormPurchaseDemand
           v-if="props.mode === 'purchasing-demand'"
           :is-pending="purchasingInsertPending.isLoading"
           :member-option="members"
@@ -118,7 +121,8 @@
               submitDemand(values, onSuccess, onError)
           "
         />
-        <FormSupportTeam
+
+        <UgeFormSupportTeam
           v-if="props.mode === 'support-member'"
           :is-pending="insertMemberPending.isLoading"
           :member-option="availableSupportTeamMember"
@@ -128,16 +132,7 @@
               submitSupportMemberForm(values, onSuccess, onError)
           "
         />
-      </AppModal>
+      </AppModalWithFabActivator>
     </div>
-
-    <v-fab
-      absolute
-      class="mr-4"
-      color="green"
-      :icon="iconOutline.plus"
-      :loading="isActive"
-      @click="openModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })"
-    />
   </v-container>
 </template>
