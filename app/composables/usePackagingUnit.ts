@@ -1,5 +1,9 @@
-import { packagingUnitRowSchema, packagingUnitRowsSchema } from '~/schemas'
-import type { PackagingUnitRow } from '~/types'
+import {
+  packagingUnitInsertSchema,
+  packagingUnitRowSchema,
+  packagingUnitRowsSchema,
+} from '~/schemas'
+import type { PackagingUnitInsert, PackagingUnitRow } from '~/types'
 
 const usePackagingUnit = () => {
   const {
@@ -17,6 +21,14 @@ const usePackagingUnit = () => {
     getDataPending: packagingUnitPending,
   } = useGenericGet<PackagingUnitRow>('packaging_unit', packagingUnitRowSchema)
 
+  const {
+    insert: insertedPackagingUnit,
+    insertPending: insertedPackagingUnitPending,
+  } = useGenericInsert<PackagingUnitInsert, PackagingUnitRow>(
+    'packaging_unit',
+    packagingUnitInsertSchema,
+  )
+
   return {
     packagingUnits,
     packagingUnit,
@@ -24,6 +36,8 @@ const usePackagingUnit = () => {
     fetchPackagingUnitsPending,
     fetchPackagingUnits,
     getPackagingUnitById,
+    insertedPackagingUnit,
+    insertedPackagingUnitPending,
   }
 }
 

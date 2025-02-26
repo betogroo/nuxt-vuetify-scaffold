@@ -1,10 +1,15 @@
 <script setup lang="ts">
-  import type { PackagingUnitInsert } from '~/types'
+  import type { PackagingUnitInsert, PackagingUnitRow } from '~/types'
 
-  const { fetchPackagingUnits, fetchPackagingUnitsPending, packagingUnits } =
-    usePackagingUnit()
+  const {
+    fetchPackagingUnits,
+    fetchPackagingUnitsPending,
+    packagingUnits,
+    insertedPackagingUnit,
+    insertedPackagingUnitPending,
+  } = usePackagingUnit()
 
-  const { isActive, props, openModal } = useModal()
+  const { isActive, props, openModal, closeModal } = useModal()
 
   const submitPackagingUnit = async (
     data: PackagingUnitInsert,
@@ -12,8 +17,11 @@
     onError: (message: string) => void,
   ) => {
     try {
-      console.log(data)
-      onSuccess('Deu certo')
+      const insertedData: PackagingUnitRow = await insertedPackagingUnit(data)
+      if (!insertedData) throw Error('Erro ao tentar inserir')
+      onSuccess(insertedData.name)
+      await fetchPackagingUnits({ column: 'name' })
+      closeModal()
     } catch (error) {
       onError(`Erro ao tentar inserir a unidade`)
       console.error(error)
@@ -42,6 +50,7 @@
       "
     >
       <UgeFormPackagingUnitInsert
+        :is-pending="insertedPackagingUnitPending.isLoading"
         @on-submit="
           (data, onSuccess, onError) =>
             submitPackagingUnit(data, onSuccess, onError)
