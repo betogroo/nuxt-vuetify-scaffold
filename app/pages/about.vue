@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { version as vuetifyVersion } from 'vuetify'
+  import { version as vueVersion } from 'vue'
   definePageMeta({
     showInNavBar: true,
     requiresAuth: false,
@@ -50,6 +52,11 @@
         text="Abrir Modal"
         @click="openModal"
       />
+    </section>
+    <section>
+      <h1 class="page-title">Versões</h1>
+      <h6>Vuetify: {{ vuetifyVersion }}</h6>
+      <h6>Vue: {{ vueVersion }}</h6>
     </section>
   </div>
 </template>
