@@ -61,7 +61,7 @@
       title-key="name"
       value-key="id"
     />
-    <generic-form-action
+    <AppFormAction
       :cancel-button="{
         label: 'Limpar',
         disabled: !meta.dirty,

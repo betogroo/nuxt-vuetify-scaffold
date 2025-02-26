@@ -111,7 +111,7 @@
       label="PDM"
       variant="outlined"
     />
-    <generic-form-action
+    <AppFormAction
       :cancel-button="{
         label: 'Limpar',
         disabled: !meta.dirty,

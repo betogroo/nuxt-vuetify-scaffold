@@ -56,7 +56,7 @@
       label="Adicione nova Unidade de Medida"
       title-key="name"
       value-key="unit_id" />
-    <generic-form-action
+    <AppFormAction
       :cancel-button="{
         label: 'Limpar',
         disabled: !meta.dirty,
