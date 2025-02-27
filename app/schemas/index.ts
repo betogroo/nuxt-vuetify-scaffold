@@ -45,6 +45,7 @@ export * from './product/expense-category/row'
 
 export * from './packaging-unit/row'
 export * from './packaging-unit/insert'
+export * from './packaging-unit/update'
 
 export * from './product/unit/row'
 export * from './product/unit/insert'

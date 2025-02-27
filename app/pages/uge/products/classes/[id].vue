@@ -9,7 +9,7 @@
     updateProductClassPending,
   } = useProductClasses()
 
-  const submitForm = async (
+  const handleUpdateProductClass = async (
     values: ProductClassUpdate,
     onSuccess: () => void,
     onError: (message: string, error: unknown) => void,
@@ -42,7 +42,8 @@
         :initial-values="{ name: productClass.name }"
         :is-pending="updateProductClassPending.isLoading"
         @on-submit="
-          (values, onSuccess, onError) => submitForm(values, onSuccess, onError)
+          (values, onSuccess, onError) =>
+            handleUpdateProductClass(values, onSuccess, onError)
         "
       />
 

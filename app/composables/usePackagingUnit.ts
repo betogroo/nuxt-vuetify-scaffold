@@ -2,8 +2,13 @@ import {
   packagingUnitInsertSchema,
   packagingUnitRowSchema,
   packagingUnitRowsSchema,
+  packagingUnitUpdateSchema,
 } from '~/schemas'
-import type { PackagingUnitInsert, PackagingUnitRow } from '~/types'
+import type {
+  PackagingUnitInsert,
+  PackagingUnitRow,
+  PackagingUnitUpdate,
+} from '~/types'
 
 const usePackagingUnit = () => {
   const {
@@ -13,6 +18,14 @@ const usePackagingUnit = () => {
   } = useGenericFetch<PackagingUnitRow>(
     'packaging_unit',
     packagingUnitRowsSchema,
+  )
+
+  const {
+    update: updatePackagingUnit,
+    updatePending: updatePackagingUnitPending,
+  } = useGenericUpdate<PackagingUnitUpdate>(
+    'packaging_unit',
+    packagingUnitUpdateSchema,
   )
 
   const {
@@ -38,6 +51,8 @@ const usePackagingUnit = () => {
     getPackagingUnitById,
     insertedPackagingUnit,
     insertedPackagingUnitPending,
+    updatePackagingUnit,
+    updatePackagingUnitPending,
   }
 }
 
