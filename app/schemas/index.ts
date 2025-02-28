@@ -50,6 +50,10 @@ export * from './packaging-unit/update'
 export * from './product/unit/row'
 export * from './product/unit/insert'
 
+export * from './supplier/row'
+export * from './supplier/insert'
+export * from './supplier/update'
+
 export * from './time-slot/row'
 export * from './time-slot/insert'
 export * from './time-slot/update'
