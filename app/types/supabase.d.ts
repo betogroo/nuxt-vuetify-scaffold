@@ -140,6 +140,41 @@ export type Database = {
         }
         Relationships: []
       }
+      phones: {
+        Row: {
+          created_at: string
+          id: number
+          is_whatsapp: boolean | null
+          number: string
+          supplier_id: string | null
+          type: Database["public"]["Enums"]["phone_type"]
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_whatsapp?: boolean | null
+          number: string
+          supplier_id?: string | null
+          type: Database["public"]["Enums"]["phone_type"]
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_whatsapp?: boolean | null
+          number?: string
+          supplier_id?: string | null
+          type?: Database["public"]["Enums"]["phone_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "phones_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_classes: {
         Row: {
           created_at: string
@@ -440,6 +475,36 @@ export type Database = {
         }
         Relationships: []
       }
+      suppliers: {
+        Row: {
+          address: string | null
+          cnpj: string
+          created_at: string
+          id: string
+          name: string
+          representative: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string | null
+          cnpj: string
+          created_at?: string
+          id?: string
+          name: string
+          representative?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          cnpj?: string
+          created_at?: string
+          id?: string
+          name?: string
+          representative?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       support_team: {
         Row: {
           process_id: number
@@ -658,6 +723,7 @@ export type Database = {
       demand_site: "1062-9" | "1342-5"
       demand_status: "new" | "consulted" | "released" | "issued" | "error"
       demand_type: "1cin" | "2cin" | "1v" | "2v" | "2t" | "1ve" | "2ve"
+      phone_type: "landline" | "mobile"
       ptres_number: "180205" | "180211"
     }
     CompositeTypes: {
