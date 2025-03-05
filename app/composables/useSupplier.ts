@@ -1,5 +1,9 @@
 import type { SupplierInsert, SupplierRow } from '~/types'
-import { supplierInsertSchema, supplierRowsSchema } from '~/schemas'
+import {
+  supplierInsertSchema,
+  supplierRowSchema,
+  supplierRowsSchema,
+} from '~/schemas'
 const useSupplier = () => {
   const { insert: insertSupplier, insertPending: insertSupplierPending } =
     useGenericInsert<SupplierInsert, SupplierRow>(
@@ -13,12 +17,17 @@ const useSupplier = () => {
     fetchPending: fetchSuppliersPending,
   } = useGenericFetch<SupplierRow>('suppliers', supplierRowsSchema)
 
+  const { data: supplier, getById: getSupplierById } =
+    useGenericGet<SupplierRow>('suppliers', supplierRowSchema)
+
   return {
-    insertSupplier,
-    insertSupplierPending,
+    supplier,
     suppliers,
-    fetchSuppliers,
+    insertSupplierPending,
     fetchSuppliersPending,
+    getSupplierById,
+    fetchSuppliers,
+    insertSupplier,
   }
 }
 
