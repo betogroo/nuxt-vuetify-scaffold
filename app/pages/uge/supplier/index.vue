@@ -44,8 +44,9 @@
         }
       "
     />
-    <div>
-      {{ suppliers }}
-    </div>
+    <UgeTableSuppliers
+      :rows="suppliers"
+      title="Fornecedores"
+    />
   </v-container>
 </template>
