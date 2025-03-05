@@ -7,7 +7,8 @@
     title: 'Fornecedores',
   })
 
-  const { insertSupplier, insertSupplierPending } = useSupplier()
+  const { insertSupplier, insertSupplierPending, fetchSuppliers, suppliers } =
+    useSupplier()
 
   const submitSupplier = async (
     data: SupplierInsert,
@@ -22,6 +23,14 @@
       onError('Impossível cadastrar o fornecedor', error)
     }
   }
+
+  onMounted(async () => {
+    try {
+      await fetchSuppliers()
+    } catch (error) {
+      console.log(error)
+    }
+  })
 </script>
 
 <template>
@@ -35,5 +44,8 @@
         }
       "
     />
+    <div>
+      {{ suppliers }}
+    </div>
   </v-container>
 </template>
