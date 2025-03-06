@@ -6,7 +6,7 @@ export const supplierRowSchema = z.object({
   updated_at: createdAtSchema,
   name: nameSchema,
   cnpj: z.string().min(14, 'CNPJ Inválido').max(14, 'CNPJ Inválido'),
-  representative: nameSchemaWithRefine,
+  representative: nameSchemaWithRefine.optional(),
 })
 
 export const supplierRowsSchema = z.array(supplierRowSchema)

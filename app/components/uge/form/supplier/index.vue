@@ -48,29 +48,30 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
-    <v-text-field
-      v-model="name"
-      :error-messages="nameError"
-      label="Nome"
-    />
-    <v-text-field
-      v-model="cnpj"
-      :error-messages="cnpjError"
-      label="CNPJ"
-    />
-    <v-text-field
-      v-model="representative"
-      :error-messages="representativeError"
-      label="Nome do Representante"
-    />
-
-    <AppFormAction
-      :submit-button="{
-        disabled: !meta.valid,
-        isPending: isPending,
-        label: 'Salvar',
-      }"
-    />
-  </v-form>
+  <v-container>
+    <v-form @submit.prevent="onSubmit">
+      <v-text-field
+        v-model="name"
+        :error-messages="nameError"
+        label="Nome"
+      />
+      <v-text-field
+        v-model="cnpj"
+        :error-messages="cnpjError"
+        label="CNPJ"
+      />
+      <v-text-field
+        v-model="representative"
+        :error-messages="representativeError"
+        label="Nome do Representante"
+      />
+      <AppFormAction
+        :submit-button="{
+          disabled: !meta.valid,
+          isPending: isPending,
+          label: 'Salvar',
+        }"
+      />
+    </v-form>
+  </v-container>
 </template>
