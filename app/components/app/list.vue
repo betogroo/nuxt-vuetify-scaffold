@@ -10,9 +10,6 @@
   const $emit = defineEmits<{
     'handle-delete': [id: string]
   }>()
-  const handleDelete = (id: string) => {
-    $emit('handle-delete', id)
-  }
 </script>
 
 <template>
@@ -20,13 +17,11 @@
     :subtitle="item.email"
     :title="item.name"
   >
-    <template #append
-      ><v-btn
-        color="red"
-        :icon="iconOutline.trash"
-        :loading="isPending"
-        variant="text"
-        @click="handleDelete"
-    /></template>
+    <template #append>
+      <AppIconDelete
+        :is-pending="isPending"
+        @open-modal="$emit('handle-delete', item.id!)"
+      />
+    </template>
   </v-list-item>
 </template>

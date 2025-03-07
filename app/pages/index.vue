@@ -11,6 +11,11 @@
 
   const { addUser, deleteUser, fakeUsers, isPending } = useRegistration()
   const { profile, testProfile } = useAuth()
+  const {
+    isActive: deleteConfirmModal,
+    openModal: openDeleteConfirmModal,
+    closeModal: closeDeleteConfirmModal,
+  } = useModal()
   const formModal = ref(false)
   const openModal = () => {
     formModal.value = true
@@ -18,11 +23,6 @@
   const closeModal = () => {
     formModal.value = false
   }
-
-  onMounted(async () => {
-    fakeUsers.value = genFakeUsers(5)
-    await testProfile()
-  })
 
   //const toast = useToast()
 
@@ -40,12 +40,25 @@
       onError('Erro ao tentar inserir o usuário', error)
     }
   }
-  const deleteData = async (id: string) => {
+
+  const itemToDelete = ref<string | number>(-1)
+
+  const handleConfirmModal = (id: string | number) => {
+    itemToDelete.value = id
+    openDeleteConfirmModal()
+  }
+
+  const handleCloseModal = () => {
+    itemToDelete.value = -1
+    closeDeleteConfirmModal()
+  }
+
+  const deleteData = async () => {
     try {
-      await deleteUser(id)
+      await deleteUser(itemToDelete.value.toString())
       showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
-      closeModal()
+      handleCloseModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
@@ -53,6 +66,11 @@
       console.error(error)
     }
   }
+
+  onMounted(async () => {
+    fakeUsers.value = genFakeUsers(5)
+    await testProfile()
+  })
 </script>
 
 <template>
@@ -155,12 +173,17 @@
                   isPending.pendingItem === user.id
                 "
                 :item="user"
-                @handle-delete="deleteData(user.id!)"
+                @handle-delete="handleConfirmModal(user.id!)"
               />
             </TransitionGroup>
           </template>
         </ul>
       </AppCard>
+      <AppModalWithDeleteAction
+        v-model="deleteConfirmModal"
+        @on-cancel="handleCloseModal()"
+        @on-confirm="deleteData()"
+      />
     </section>
     <section>
       <AppCard title="Notification">
