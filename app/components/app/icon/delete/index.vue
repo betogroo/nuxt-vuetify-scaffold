@@ -1,6 +1,6 @@
 <script setup lang="ts">
   interface Props {
-    isPending: boolean
+    isPending?: boolean
   }
   withDefaults(defineProps<Props>(), {
     isPending: false,
@@ -17,6 +17,7 @@
     density="compact"
     :icon="iconOutline.trash"
     :loading="isPending"
+    :ripple="false"
     size="24"
     variant="text"
     @click="$emit('open-modal')"

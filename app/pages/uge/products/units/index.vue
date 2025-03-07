@@ -78,8 +78,15 @@
         :key="item.id"
         density="compact"
         nav
-        :to="`/uge/products/units/${item.id}`"
       >
+        <template #append>
+          <div class="d-flex align-center justify-center">
+            <AppIconDetails
+              :to="{ name: 'uge-products-units-id', params: { id: item.id } }"
+            />
+            <AppIconDelete />
+          </div>
+        </template>
         <template #subtitle>{{ item.name_bec }}</template>
         <template #title>{{ item.name }}</template>
       </v-list-item>
