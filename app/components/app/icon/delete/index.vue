@@ -5,15 +5,12 @@
 </script>
 
 <template>
-  <div>
-    <v-btn
-      color="error"
-      density="compact"
-      :icon="iconOutline.trash"
-      size="24"
-      variant="text"
-      @click="$emit('open-modal')"
-    />
-    <slot />
-  </div>
+  <v-btn
+    color="error"
+    density="compact"
+    :icon="iconOutline.trash"
+    size="24"
+    variant="text"
+    @click="$emit('open-modal')"
+  />
 </template>
