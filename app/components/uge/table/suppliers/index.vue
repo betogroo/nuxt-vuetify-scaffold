@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { SupplierRow, TableColumn } from '~/types'
+  import type { SupplierRow, TableColumn, PendingState } from '~/types'
 
   defineProps<Props>()
 
@@ -11,6 +11,7 @@
     title: string
     rows: SupplierRow[]
     isPending?: boolean
+    deleteIconPending?: PendingState
   }
 
   const tableColumns: TableColumn[] = [
@@ -47,7 +48,13 @@
         />
       </template>
       <template #item.actions="{ item }">
-        <AppIconDelete @open-modal="$emit('open-delete-modal', item.id)" />
+        <AppIconDelete
+          :is-pending="
+            deleteIconPending?.isLoading &&
+            deleteIconPending.pendingItem === item.id
+          "
+          @open-modal="$emit('open-delete-modal', item.id)"
+        />
       </template>
       <template #loading>
         <v-skeleton-loader type="table-heading" />
