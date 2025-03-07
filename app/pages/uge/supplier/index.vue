@@ -10,7 +10,29 @@
   const { insertSupplier, insertSupplierPending, fetchSuppliers, suppliers } =
     useSupplier()
 
-  const { isActive, openModal, closeModal, props } = useModal()
+  const { isActive, openModal, closeModal, props } = useModal() // modal fab
+  const {
+    isActive: deleteModal,
+    openModal: openDeleteModal,
+    closeModal: closeDeleteModal,
+  } = useModal() // modal delete
+
+  const idToDelete = ref<string | number | null>(null)
+
+  const openDeleteItemModal = (id: string | number) => {
+    idToDelete.value = id
+    openDeleteModal()
+  }
+
+  const _closeDeleteModal = () => {
+    console.log('Zerando tudo')
+    idToDelete.value = null
+    closeDeleteModal()
+  }
+
+  const confirmDeleteSupplier = async () => {
+    console.log(idToDelete.value)
+  }
 
   const submitSupplier = async (
     data: SupplierInsert,
@@ -44,10 +66,11 @@
       :is-pending="insertSupplierPending.isLoading"
       :rows="suppliers"
       title="Fornecedores"
+      @open-delete-modal="(id) => openDeleteItemModal(id)"
     />
     <AppModalWithFabActivator
       v-model="isActive"
-      :title="props.title || ''"
+      :title="props?.title || ''"
       @open-modal="openModal({ title: 'Cadastro de Fornecedor' })"
     >
       <UgeFormSupplier
@@ -59,5 +82,10 @@
         "
       />
     </AppModalWithFabActivator>
+    <AppFormDelete
+      v-model="deleteModal"
+      @on-cancel="_closeDeleteModal()"
+      @on-confirm="confirmDeleteSupplier"
+    />
   </v-container>
 </template>
