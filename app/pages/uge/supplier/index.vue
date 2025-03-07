@@ -82,7 +82,7 @@
         "
       />
     </AppModalWithFabActivator>
-    <AppFormDelete
+    <AppModalWithDeleteAction
       v-model="deleteModal"
       @on-cancel="_closeDeleteModal()"
       @on-confirm="confirmDeleteSupplier"
