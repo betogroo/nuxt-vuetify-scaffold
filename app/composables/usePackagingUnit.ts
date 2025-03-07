@@ -42,6 +42,9 @@ const usePackagingUnit = () => {
     packagingUnitInsertSchema,
   )
 
+  const { deleteDataById: deleteUnitById, deletePending: isDeletingUnit } =
+    useGenericDelete('packaging_unit')
+
   return {
     packagingUnits,
     packagingUnit,
@@ -53,6 +56,8 @@ const usePackagingUnit = () => {
     insertedPackagingUnitPending,
     updatePackagingUnit,
     updatePackagingUnitPending,
+    deleteUnitById,
+    isDeletingUnit,
   }
 }
 

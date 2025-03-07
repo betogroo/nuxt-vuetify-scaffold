@@ -1,15 +1,24 @@
 <script setup lang="ts">
   import type { PackagingUnitInsert, PackagingUnitRow } from '~/types'
 
+  const itemToDelete = ref<string | number>(-1)
+
   const {
     fetchPackagingUnits,
     fetchPackagingUnitsPending,
     packagingUnits,
     insertedPackagingUnit,
     insertedPackagingUnitPending,
+    deleteUnitById,
+    isDeletingUnit,
   } = usePackagingUnit()
 
   const { isActive, props, openModal, closeModal } = useModal()
+  const {
+    isActive: isConfirmDeleteModalActive,
+    openModal: openConfirmDeleteModal,
+    closeModal: closeConfirmDeleteModal,
+  } = useModal()
 
   const submitPackagingUnit = async (
     data: PackagingUnitInsert,
@@ -24,6 +33,27 @@
       closeModal()
     } catch (error) {
       onError(`Erro ao tentar inserir a unidade`)
+      console.error(error)
+    }
+  }
+
+  const handleConfirmModal = (id: string | number) => {
+    console.log(id)
+    itemToDelete.value = id
+    openConfirmDeleteModal()
+  }
+
+  const handleCancelModal = () => {
+    itemToDelete.value = -1
+    closeConfirmDeleteModal()
+  }
+
+  const handleDeleteItem = async () => {
+    try {
+      const deletedItem = await deleteUnitById(itemToDelete.value)
+      if (!deletedItem) throw Error('O item não pôde ser excluído')
+      handleCancelModal()
+    } catch (error) {
       console.error(error)
     }
   }
@@ -84,12 +114,23 @@
             <AppIconDetails
               :to="{ name: 'uge-products-units-id', params: { id: item.id } }"
             />
-            <AppIconDelete />
+            <AppIconDelete
+              :is-pending="
+                isDeletingUnit.isLoading &&
+                isDeletingUnit.pendingItem === item.id
+              "
+              @open-modal="handleConfirmModal(item.id)"
+            />
           </div>
         </template>
         <template #subtitle>{{ item.name_bec }}</template>
         <template #title>{{ item.name }}</template>
       </v-list-item>
     </v-list>
+    <AppModalWithDeleteAction
+      v-model="isConfirmDeleteModalActive"
+      @on-cancel="handleCancelModal"
+      @on-confirm="handleDeleteItem"
+    />
   </v-container>
 </template>
