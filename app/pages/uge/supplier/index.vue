@@ -7,8 +7,14 @@
     title: 'Fornecedores',
   })
 
-  const { insertSupplier, insertSupplierPending, fetchSuppliers, suppliers } =
-    useSupplier()
+  const {
+    insertSupplier,
+    insertSupplierPending,
+    fetchSuppliers,
+    suppliers,
+    deleteSupplierById,
+    deleteSupplierPending,
+  } = useSupplier()
 
   const { isActive, openModal, closeModal, props } = useModal() // modal fab
   const {
@@ -17,7 +23,7 @@
     closeModal: closeDeleteModal,
   } = useModal() // modal delete
 
-  const idToDelete = ref<string | number | null>(null)
+  const idToDelete = ref<string | number | -1>(-1)
 
   const openDeleteItemModal = (id: string | number) => {
     idToDelete.value = id
@@ -26,12 +32,19 @@
 
   const _closeDeleteModal = () => {
     console.log('Zerando tudo')
-    idToDelete.value = null
+    idToDelete.value = -1
     closeDeleteModal()
   }
 
   const confirmDeleteSupplier = async () => {
-    console.log(idToDelete.value)
+    try {
+      closeDeleteModal()
+      console.log(idToDelete.value)
+      const test = await deleteSupplierById(idToDelete.value)
+      if (!test) throw Error('Não foi possível excluir')
+    } catch (error) {
+      console.error('Erro ao tentar excluir fornecedor', error)
+    }
   }
 
   const submitSupplier = async (
@@ -61,8 +74,8 @@
 <template>
   <v-container>
     <h1>Fornecedores</h1>
-
     <UgeTableSuppliers
+      :delete-icon-pending="deleteSupplierPending"
       :is-pending="insertSupplierPending.isLoading"
       :rows="suppliers"
       title="Fornecedores"
@@ -85,7 +98,8 @@
     <AppModalWithDeleteAction
       v-model="deleteModal"
       @on-cancel="_closeDeleteModal()"
-      @on-confirm="confirmDeleteSupplier"
+      @on-confirm="confirmDeleteSupplier()"
     />
+    <div>{{ deleteSupplierPending }} {{ idToDelete }}</div>
   </v-container>
 </template>

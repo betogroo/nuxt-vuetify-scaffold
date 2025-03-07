@@ -1,5 +1,7 @@
 import type { Database, Tables } from '~/types'
 
+const delay = ref(5000)
+
 const useGenericDelete = <T extends Record<string, string | number>>(
   tableName: Tables,
 ) => {
@@ -17,7 +19,7 @@ const useGenericDelete = <T extends Record<string, string | number>>(
         return deletedData
       },
       `delete-${tableName}`,
-      { pendingItem: id },
+      { pendingItem: id, delay: delay.value },
     )
   }
 
@@ -33,7 +35,7 @@ const useGenericDelete = <T extends Record<string, string | number>>(
         return data
       },
       `delete-${tableName}`,
-      { pendingItem: filters, delay: 5000 },
+      { pendingItem: filters, delay: delay.value },
     )
   }
   return { deleteDataById, deleteDataByFilters, deletePending }

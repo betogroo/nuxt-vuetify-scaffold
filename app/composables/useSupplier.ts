@@ -21,6 +21,11 @@ const useSupplier = () => {
   const { data: supplier, getById: getSupplierById } =
     useGenericGet<SupplierRow>('suppliers', supplierRowSchema)
 
+  const {
+    deleteDataById: deleteSupplierById,
+    deletePending: deleteSupplierPending,
+  } = useGenericDelete('suppliers')
+
   const channel = supabase.channel('custom-update-channel')
 
   channel
@@ -57,8 +62,10 @@ const useSupplier = () => {
   return {
     supplier,
     suppliers,
+    deleteSupplierPending,
     insertSupplierPending,
     fetchSuppliersPending,
+    deleteSupplierById,
     getSupplierById,
     fetchSuppliers,
     insertSupplier,
