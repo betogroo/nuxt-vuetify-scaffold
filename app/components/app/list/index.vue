@@ -8,6 +8,7 @@
 
   interface Props {
     items: ListItem[]
+    itemPage?: string | null
     titleKey?: string
     subtitleKey?: string
     isListPending?: boolean
@@ -18,6 +19,7 @@
     subtitleKey: 'description',
     isListPending: false,
     isItemPending: undefined,
+    itemPage: null,
   })
 
   const $emit = defineEmits<{
@@ -50,14 +52,20 @@
         <template #subtitle>{{ item[subtitleKey] }}</template>
         <template #title>{{ item[titleKey] }}</template>
         <template #append>
-          <AppIconDelete
-            :is-pending="
-              isItemPending &&
-              isItemPending.isLoading &&
-              isItemPending.pendingItem === item.id
-            "
-            @open-modal="$emit('on-delete-click', item.id)"
-          />
+          <div class="d-flex align-center justify-center">
+            <AppIconDetails
+              v-if="itemPage"
+              :to="{ name: itemPage, params: { id: item.id } }"
+            />
+            <AppIconDelete
+              :is-pending="
+                isItemPending &&
+                isItemPending.isLoading &&
+                isItemPending.pendingItem === item.id
+              "
+              @open-modal="$emit('on-delete-click', item.id)"
+            />
+          </div>
         </template>
       </v-list-item>
     </TransitionGroup>

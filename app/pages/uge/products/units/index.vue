@@ -90,6 +90,7 @@
     </AppModalWithFabActivator>
     <AppList
       :is-item-pending="isDeletingUnit"
+      item-page="uge-products-units-id"
       :items="packagingUnits"
       subtitle-key="name_bec"
       @on-delete-click="(id) => handleConfirmModal(id)"
