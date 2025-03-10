@@ -71,6 +71,7 @@
 <template>
   <v-container
     ><h1>Units</h1>
+
     <AppModalWithFabActivator
       v-model="isActive"
       :title="props.title || ''"
@@ -88,52 +89,16 @@
         "
       />
     </AppModalWithFabActivator>
+
     <AppList
       :is-item-pending="isDeletingUnit"
+      :is-list-pending="fetchPackagingUnitsPending.isLoading"
       item-page="uge-products-units-id"
       :items="packagingUnits"
       subtitle-key="name_bec"
       @on-delete-click="(id) => handleConfirmModal(id)"
     />
-    <v-list
-      dense
-      density="compact"
-      lines="one"
-      :loading="true"
-      nav
-    >
-      <div v-if="fetchPackagingUnitsPending.isLoading">
-        <v-skeleton-loader
-          v-for="item in 6"
-          :key="`skeleton${item}`"
-          type="list-item-two-line"
-        />
-      </div>
-      <v-list-item
-        v-for="item in packagingUnits"
-        v-else
-        :key="item.id"
-        density="compact"
-        nav
-      >
-        <template #append>
-          <div class="d-flex align-center justify-center">
-            <AppIconDetails
-              :to="{ name: 'uge-products-units-id', params: { id: item.id } }"
-            />
-            <AppIconDelete
-              :is-pending="
-                isDeletingUnit.isLoading &&
-                isDeletingUnit.pendingItem === item.id
-              "
-              @open-modal="handleConfirmModal(item.id)"
-            />
-          </div>
-        </template>
-        <template #subtitle>{{ item.name_bec }}</template>
-        <template #title>{{ item.name }}</template>
-      </v-list-item>
-    </v-list>
+
     <AppModalWithDeleteAction
       v-model="isConfirmDeleteModalActive"
       @on-cancel="handleCancelModal"
