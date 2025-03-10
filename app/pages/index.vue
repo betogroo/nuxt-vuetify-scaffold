@@ -149,33 +149,15 @@
         <ul>
           <template
             v-if="isPending.isLoading && isPending.action === 'addUser'"
-          >
-            <template
-              v-for="user in fakeUsers"
-              :key="user.email"
-            >
-              <li>
-                <v-skeleton-loader type="list-item-two-line" />
-              </li>
-            </template>
-          </template>
+          />
           <template v-else>
-            <TransitionGroup
-              name="fade-red"
-              tag="div"
-            >
-              <AppList
-                v-for="user in fakeUsers"
-                :key="user.id"
-                :is-pending="
-                  isPending.isLoading &&
-                  isPending.action === 'deleteUser' &&
-                  isPending.pendingItem === user.id
-                "
-                :item="user"
-                @handle-delete="handleConfirmModal(user.id!)"
-              />
-            </TransitionGroup>
+            <AppList
+              :is-item-pending="isPending"
+              :items="fakeUsers"
+              subtitle-key="email"
+              title-key="name"
+              @on-delete-click="(id) => handleConfirmModal(id)"
+            />
           </template>
         </ul>
       </AppCard>
@@ -218,22 +200,3 @@
     </section>
   </div>
 </template>
-<style type="css" scoped>
-  /* Defina as classes de transição */
-  .fade-red-enter-active,
-  .fade-red-leave-active {
-    transition: background-color 1s ease, opacity 1s ease;
-  }
-
-  .fade-red-enter-from,
-  .fade-red-leave-to {
-    opacity: 0;
-    background-color: red;
-  }
-
-  .fade-red-enter-to,
-  .fade-red-leave-from {
-    opacity: 1;
-    background-color: transparent;
-  }
-</style>
