@@ -14,8 +14,8 @@
     isItemPending?: PendingState
   }
   withDefaults(defineProps<Props>(), {
-    titleKey: 'title',
-    subtitleKey: 'title',
+    titleKey: 'name',
+    subtitleKey: 'description',
     isListPending: false,
     isItemPending: undefined,
   })

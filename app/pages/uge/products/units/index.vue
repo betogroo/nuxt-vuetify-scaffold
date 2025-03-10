@@ -52,6 +52,7 @@
     try {
       const deletedItem = await deleteUnitById(itemToDelete.value)
       if (!deletedItem) throw Error('O item não pôde ser excluído')
+      await fetchPackagingUnits({ column: 'name' })
       handleCancelModal()
     } catch (error) {
       console.error(error)
@@ -87,7 +88,12 @@
         "
       />
     </AppModalWithFabActivator>
-
+    <AppList
+      :is-item-pending="isDeletingUnit"
+      :items="packagingUnits"
+      subtitle-key="name_bec"
+      @on-delete-click="(id) => handleConfirmModal(id)"
+    />
     <v-list
       dense
       density="compact"
