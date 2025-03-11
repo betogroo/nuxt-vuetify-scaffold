@@ -11,8 +11,14 @@ import type {
 } from '~/types'
 
 const useProductClasses = () => {
-  const { data: productClasses, fetch: fetchProductClasses } =
-    useGenericFetch<ProductClassRow>('product_classes', productClassRowsSchema)
+  const {
+    data: productClasses,
+    fetch: fetchProductClasses,
+    fetchPending: isProductClassesPending,
+  } = useGenericFetch<ProductClassRow>(
+    'product_classes',
+    productClassRowsSchema,
+  )
 
   const { getById: getProductClass, data: productClass } =
     useGenericGet<ProductClassRow>('product_classes', productClassRowSchema)
@@ -33,6 +39,9 @@ const useProductClasses = () => {
     productClassUpdateSchema,
   )
 
+  const { deleteDataById: deleteClassById, deletePending: isClassDeleting } =
+    useGenericDelete<ProductClassRow>('product_classes')
+
   return {
     productClass,
     productClasses,
@@ -42,6 +51,9 @@ const useProductClasses = () => {
     updateProductClass,
     insertedProductClass,
     insertProductClassPending,
+    isProductClassesPending,
+    deleteClassById,
+    isClassDeleting,
   }
 }
 
