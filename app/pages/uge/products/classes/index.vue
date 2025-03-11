@@ -102,22 +102,5 @@
       subtitle-key="id"
       @delete-click="(id) => handleConfirmModal(id)"
     />
-    <v-list
-      dense
-      density="compact"
-      lines="one"
-      nav
-    >
-      <v-list-item
-        v-for="item in productClasses"
-        :key="item.id"
-        density="compact"
-        nav
-        :to="`/uge/products/classes/${item.id}`"
-      >
-        <template #subtitle>{{ item.id }}</template>
-        <template #title>{{ item.name }}</template>
-      </v-list-item>
-    </v-list>
   </v-container>
 </template>
