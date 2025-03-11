@@ -156,7 +156,7 @@
               :items="fakeUsers"
               subtitle-key="email"
               title-key="name"
-              @on-delete-click="(id) => handleConfirmModal(id)"
+              @delete-click="(id) => handleConfirmModal(id)"
             />
           </template>
         </ul>

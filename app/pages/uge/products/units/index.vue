@@ -38,7 +38,6 @@
   }
 
   const handleConfirmModal = (id: string | number) => {
-    console.log(id)
     itemToDelete.value = id
     openConfirmDeleteModal()
   }
@@ -96,7 +95,7 @@
       item-page="uge-products-units-id"
       :items="packagingUnits"
       subtitle-key="name_bec"
-      @on-delete-click="(id) => handleConfirmModal(id)"
+      @delete-click="(id) => handleConfirmModal(id)"
     />
 
     <AppModalWithDeleteAction

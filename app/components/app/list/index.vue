@@ -23,7 +23,7 @@
   })
 
   const $emit = defineEmits<{
-    'on-delete-click': [id: string | number]
+    'delete-click': [id: string | number]
   }>()
 </script>
 
@@ -32,7 +32,6 @@
     dense
     density="compact"
     lines="one"
-    :loading="true"
     nav
   >
     <div v-if="isListPending">
@@ -44,13 +43,15 @@
       tag="div"
     >
       <v-list-item
-        v-for="item in items"
-        :key="item.id"
+        v-for="(item, i) in items"
+        :key="
+          item.id ? `item-${String(item.id)}` : `fallback-${i}` // evitar duplicidade de chave
+        "
         density="compact"
         nav
       >
-        <template #subtitle>{{ item[subtitleKey] }}</template>
-        <template #title>{{ item[titleKey] }}</template>
+        <template #subtitle>{{ item[subtitleKey] ?? '' }}</template>
+        <template #title>{{ item[titleKey] ?? 'Sem título' }}</template>
         <template #append>
           <div class="d-flex align-center justify-center">
             <AppIconDetails
@@ -63,7 +64,7 @@
                 isItemPending.isLoading &&
                 isItemPending.pendingItem === item.id
               "
-              @open-modal="$emit('on-delete-click', item.id)"
+              @open-modal="$emit('delete-click', item.id)"
             />
           </div>
         </template>
