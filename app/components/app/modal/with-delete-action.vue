@@ -1,6 +1,6 @@
 <script setup lang="ts">
   interface Props {
-    isPending: boolean
+    isPending?: boolean
   }
   withDefaults(defineProps<Props>(), {
     isPending: false,
