@@ -14,7 +14,7 @@ export const ptresNumberSchema = z
 export const purchasingDemandsRowSchema = z.object({
   id: z.number(),
   contracting_agent_id: z.string().uuid(),
-  created_by: z.string().nullable().optional(),
+  created_by: z.string().optional(),
   created_at: z.string().optional(),
   ptres_number: ptresNumberSchema,
   description: z.string(),

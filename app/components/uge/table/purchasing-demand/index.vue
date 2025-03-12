@@ -1,14 +1,23 @@
 <script setup lang="ts">
   //<script setup lang="ts">
-  import type { PurchasingDemandDetails, TableColumn } from '~/types'
+  import type {
+    PendingState,
+    PurchasingDemandDetails,
+    TableColumn,
+  } from '~/types'
 
   defineProps<Props>()
+
+  const $emit = defineEmits<{
+    'delete-row': [id: string | number]
+  }>()
 
   interface Props {
     title: string
     columns: TableColumn[]
     rows: PurchasingDemandDetails[]
     isPending?: boolean
+    isDeletingItemPending?: PendingState
   }
 
   const { demandNumber } = usePurchasingDemand()
@@ -55,6 +64,16 @@
           :to="{ name: 'uge-profile-id', params: { id: member.id } }"
         />
       </div>
+    </template>
+
+    <template #item.actions="{ item }">
+      <AppIconDelete
+        :is-pending="
+          isDeletingItemPending?.isLoading &&
+          isDeletingItemPending.pendingItem === item.id
+        "
+        @open-modal="$emit('delete-row', item.id)"
+      />
     </template>
   </v-data-table>
 </template>

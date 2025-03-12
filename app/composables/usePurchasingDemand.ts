@@ -26,6 +26,9 @@ const usePurchasingDemand = () => {
   const demands = ref<PurchasingDemandDetails[]>([])
   const agentWithDemands = ref<AgentWithDemands>()
 
+  const { deleteDataById: deleteDemandById, deletePending: isDeletingDemand } =
+    useGenericDelete<PurchasingDemand>('purchasing_demands')
+
   const {
     insertPending: purchasingInsertPending,
     insert: insertPurchasingDemand,
@@ -126,6 +129,9 @@ const usePurchasingDemand = () => {
       title: 'Equipe de apoio',
       key: 'support_team',
     },
+    {
+      key: 'actions',
+    },
   ]
 
   return {
@@ -142,6 +148,8 @@ const usePurchasingDemand = () => {
     subtitle,
     demandNumber,
     purchasingInsertPending,
+    deleteDemandById,
+    isDeletingDemand,
   }
 }
 
