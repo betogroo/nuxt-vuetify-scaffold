@@ -22,7 +22,7 @@
   } = useModal()
 
   const {
-    demands,
+    //demands,
     demandTableColumns,
     purchasingDemandDetailsPending,
     purchasingInsertPending,
@@ -38,6 +38,9 @@
     fetchMembers,
   } = useMemberTeam()
 
+  //store
+  const demandStore = usePurchasingDemandStore()
+
   const itemToDelete = ref<number | string | null>(null)
   const handleOpenConfirmDeleteModal = (id: string | number) => {
     itemToDelete.value = id
@@ -52,8 +55,6 @@
       if (!itemToDelete.value) throw Error('Item inválido ao tentar excluir')
       const deletedItem = await deleteDemandById(itemToDelete.value)
       if (!deletedItem) throw Error('Não foi possível excluir a demanda')
-      await fetchPurchasingDemandRows()
-      await fetchMembers(undefined, ['id, name'])
     } catch (error) {
       console.error(error)
     }
@@ -94,12 +95,13 @@
           purchasingDemandDetailsPending.action ===
             'fetch-purchasing-demand-details'
         "
-        :rows="demands"
+        :rows="demandStore.demands"
         title="Demandas"
         @delete-row="(id) => handleOpenConfirmDeleteModal(id)"
       />
       <AppModalWithDeleteAction
         v-model="isConfirmDeleteModalActive"
+        :is-pending="isDeletingDemand.isLoading"
         @on-cancel="handleCloseConfirmDeleteModal"
         @on-confirm="deleteItem"
       />

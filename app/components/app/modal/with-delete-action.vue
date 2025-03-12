@@ -1,4 +1,11 @@
 <script setup lang="ts">
+  interface Props {
+    isPending: boolean
+  }
+  withDefaults(defineProps<Props>(), {
+    isPending: false,
+  })
+
   const $emit = defineEmits<{
     'on-cancel': []
     'on-confirm': [id: string | number]
@@ -18,7 +25,7 @@
     title="Confirmar a exclusão?"
     @on-close="$emit('on-cancel')"
   >
-    <v-card>
+    <v-card :loading="isPending">
       <v-card-text>Tem certeza que deseja excluir </v-card-text>
       <v-card-actions class="d-flex justify-center">
         <v-btn
@@ -29,6 +36,7 @@
         >
         <v-btn
           color="error"
+          :loading="isPending"
           min-width="140"
           variant="tonal"
           @click="onConfirm"

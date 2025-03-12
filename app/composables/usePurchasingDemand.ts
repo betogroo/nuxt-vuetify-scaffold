@@ -19,6 +19,7 @@ const delay = ref(0)
 
 const usePurchasingDemand = () => {
   const supabase = useSupabaseClient<Database>()
+  const demandStore = usePurchasingDemandStore()
   const { setPendingState, isPending: purchasingDemandDetailsPending } =
     useHelpers()
 
@@ -46,7 +47,8 @@ const usePurchasingDemand = () => {
         if (error) throw error
         if (newData) {
           const parsedData = purchasingDemandDetailsRowsSchema.parse(newData)
-          demands.value = parsedData
+          //demands.value = parsedData
+          demandStore.setDemands(parsedData)
         }
       },
       'fetch-purchasing-demand-details',
@@ -133,6 +135,18 @@ const usePurchasingDemand = () => {
       key: 'actions',
     },
   ]
+
+  const channel = supabase.channel('custom-demand-channel')
+
+  channel
+    .on(
+      'postgres_changes',
+      { event: 'DELETE', schema: 'public', table: 'purchasing_demands' },
+      (payload) => {
+        demandStore.removeDemandById(payload.old.id)
+      },
+    )
+    .subscribe()
 
   return {
     demand,
