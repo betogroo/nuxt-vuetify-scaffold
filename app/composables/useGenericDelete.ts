@@ -2,9 +2,8 @@ import type { Database, Tables } from '~/types'
 
 const delay = ref(5000)
 
-const useGenericDelete = <T extends { id: string | number }>(
-  tableName: Tables,
-) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const useGenericDelete = <T extends Record<string, any>>(tableName: Tables) => {
   const supabase = useSupabaseClient<Database>()
   const { isPending: deletePending, setPendingState } = useHelpers()
   const deleteDataById = async (id: string | number) => {

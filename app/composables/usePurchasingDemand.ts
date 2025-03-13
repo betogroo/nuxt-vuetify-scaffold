@@ -8,7 +8,8 @@ import type {
   Ptres,
 } from '~/types'
 import {
-  purchasingDemandDetailsRowSchema,
+  //purchasingDemandDetailsRowSchema,
+  purchasingDemandsRowSchema,
   purchasingDemandDetailsRowsSchema,
   purchasingDemandsWithMembersSchema,
   purchasingDemandsInsertSchema,
@@ -81,7 +82,7 @@ const usePurchasingDemand = () => {
     }, 'fetch-purchasing-demands-by-member')
   }
 
-  const getPurchasingDemand = async (demand_id: number) => {
+  /* const getPurchasingDemand = async (demand_id: number) => {
     await setPendingState(
       async () => {
         const { data: newData, error } = await supabase
@@ -98,7 +99,17 @@ const usePurchasingDemand = () => {
       'get-purchasing-demand',
       { delay: delay.value },
     )
-  }
+  } */
+
+  const {
+    data: purchasingDemand,
+    getById: getPurchasingDemandById,
+    getDataPending: isPurchasingDemandPending,
+  } = useGenericGet<PurchasingDemand>(
+    'purchasing_demands',
+    purchasingDemandsRowSchema,
+  )
+
   const demandNumber = (demand: number | string, createdAt: string): string =>
     `${demand.toString().padStart(5, '0')}/${getYear(createdAt)}`
 
@@ -153,7 +164,7 @@ const usePurchasingDemand = () => {
     demands,
     demandTableColumns: tableColumns,
     purchasingDemandDetailsPending,
-    getPurchasingDemand,
+    //getPurchasingDemand,
     fetchPurchasingDemandRows,
     fetchPurchasingDemandsByMember,
     insertPurchasingDemand,
@@ -164,6 +175,9 @@ const usePurchasingDemand = () => {
     purchasingInsertPending,
     deleteDemandById,
     isDeletingDemand,
+    purchasingDemand,
+    getPurchasingDemandById,
+    isPurchasingDemandPending,
   }
 }
 

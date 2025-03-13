@@ -1,18 +1,23 @@
 <script setup lang="ts">
   import type { SupportTeam } from '~/types'
+
   const { id } = useValidateParam()
-  const { areObjectsEqual } = useHelpers()
+  const isEditing = ref(false)
+
   const {
     isActive: insertMemberModal,
-    openModal,
+
     closeModal,
     props,
   } = useModal()
 
   const { isActive: cartIsActive, open: openCart } = useDrawer()
 
-  const { demand, getPurchasingDemand, purchasingDemandDetailsPending } =
-    usePurchasingDemand()
+  const {
+    purchasingDemand,
+    getPurchasingDemandById,
+    isPurchasingDemandPending,
+  } = usePurchasingDemand()
 
   const {
     availableSupportTeamMember,
@@ -20,25 +25,19 @@
     insertMember,
     getAvailableSupportTeam,
     deleteMember: _deleteMember,
-    deletePending: deleteMemberPending,
   } = useMemberTeam()
-
-  const openSupportMemberModal = async () => {
-    if (availableMemberToInsert.value) return
-    if (!availableSupportTeamMember.value.length) return
-    openModal({
-      title: 'Inserir membro em equipe de apoio',
-      mode: 'insert-member-modal',
-    })
-  }
 
   const openProductsDrawer = () => {
     openCart()
   }
 
+  const toggleEditMode = () => {
+    isEditing.value = !isEditing.value
+  }
+
   const updateData = async (id: number | string) => {
     if (!id) return
-    await getPurchasingDemand(+id)
+    await getPurchasingDemandById(+id)
     await getAvailableSupportTeam(+id)
   }
 
@@ -59,20 +58,6 @@
     }
   }
 
-  const availableMemberToInsert = computed(
-    () => !availableSupportTeamMember.value.length,
-  )
-
-  const deleteMember = async (process_id: number, profile_id: string) => {
-    try {
-      const deletedData = await _deleteMember({ process_id, profile_id })
-      await updateData(id!)
-      console.log(deletedData)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   onMounted(async () => {
     await updateData(id!)
   })
@@ -81,53 +66,22 @@
 <template>
   <v-container>
     <AppCard
-      v-if="demand"
-      :loading="purchasingDemandDetailsPending.isLoading"
-      :subtitle="`PTRES ${demand.ptres_number}`"
-      :title="`Processo ${demand.id} - (${demand.description})`"
+      v-if="purchasingDemand"
+      :loading="isPurchasingDemandPending.isLoading"
+      :subtitle="`PTRES ${purchasingDemand.ptres_number}`"
+      :title="`Detalhes do Processo ${purchasingDemand.id} - (${purchasingDemand.description})`"
     >
       <v-row>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <UgeCard title="Agente de Contratação">
-            <LinkProfileChip
-              :id="demand.contracting_agent_id"
-              :name="demand.contracting_agent_name || ''"
-              :to="{
-                name: 'uge-profile-id',
-                params: { id: demand.contracting_agent_id },
-              }"
+        <v-col cols="12">
+          <UgeCard title="Dados da Demanda">
+            <UgeFormPurchaseDemandUpdate
+              :initial-values="purchasingDemand"
+              :is-editing="isEditing"
+              @edit="toggleEditMode"
             />
           </UgeCard>
         </v-col>
-        <v-col>
-          <UgeCard title="Equipe de Apoio">
-            <LinkProfileChip
-              v-for="member in demand.support_team"
-              :key="member.id"
-              deletable
-              :is-pending="
-                  deleteMemberPending.isLoading 
-                  &&
-                  areObjectsEqual(deleteMemberPending.pendingItem as SupportTeam, {process_id: demand.id, profile_id: member.id})
-                "
-              :name="member.name || ''"
-              :to="{ name: 'uge-profile-id', params: { id: member.id } }"
-              @on-delete="deleteMember(demand.id, member.id)"
-            />
-            <template #action>
-              <v-btn
-                color="red"
-                density="compact"
-                :disabled="availableMemberToInsert"
-                :icon="iconOutline.plus"
-                variant="text"
-                @click="openSupportMemberModal"
-            /></template>
-          </UgeCard>
-        </v-col>
+
         <v-col cols="12">
           <UgeCard title="Produtos">
             <UgeListProduct :id="+id!" />
