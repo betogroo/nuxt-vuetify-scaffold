@@ -2,7 +2,7 @@ import type { Database, Tables } from '~/types'
 
 const delay = ref(5000)
 
-const useGenericDelete = <T extends Record<string, string | number>>(
+const useGenericDelete = <T extends { id: string | number }>(
   tableName: Tables,
 ) => {
   const supabase = useSupabaseClient<Database>()
