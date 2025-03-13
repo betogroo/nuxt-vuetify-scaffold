@@ -14,9 +14,13 @@ export const ptresNumberSchema = z
 export const purchasingDemandsRowSchema = z.object({
   id: z.number(),
   contracting_agent_id: z.string().uuid(),
-  created_by: z.string().optional(),
+  created_by: z.string().nullable(),
   created_at: z.string().optional(),
   ptres_number: ptresNumberSchema,
-  description: z.string(),
+  external_process_number: z
+    .string()
+    .min(1, 'O campo não pode ser vazio')
+    .nullable(),
+  description: z.string().min(1, 'O campo não pode ser vazio'),
 })
 export const purchasingDemandsRowsSchema = z.array(purchasingDemandsRowSchema)
