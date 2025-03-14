@@ -38,6 +38,9 @@
         external_process_number: props.initialValues.external_process_number
           ? props.initialValues.external_process_number
           : 'Favor Preencher,',
+        ac_number: props.initialValues.ac_number
+          ? props.initialValues.ac_number
+          : 'Favor Preencher,',
       },
     })
 
@@ -49,6 +52,8 @@
   } = useField<PurchasingDemandUpdate['external_process_number']>(
     'external_process_number',
   )
+  const { value: acNumber, errorMessage: acNumberError } =
+    useField<PurchasingDemandUpdate['ac_number']>('ac_number')
 
   // only dirty fields
   const getDirtyValues = () => {
@@ -109,6 +114,15 @@
       :error-messages="externalProcessNumberError"
       label="Processo Externo"
       :readonly="!isEditing"
+      :variant="isEditing ? 'outlined' : 'plain'"
+    />
+    <v-text-field
+      v-model="acNumber"
+      density="compact"
+      :error-messages="acNumberError"
+      label="Número do Aviso de Contratação"
+      :readonly="!isEditing"
+      type="number"
       :variant="isEditing ? 'outlined' : 'plain'"
     />
 
