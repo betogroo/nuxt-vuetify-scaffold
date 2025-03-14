@@ -14,7 +14,9 @@
   })
   const $emit = defineEmits<{
     submit: [
-      values: PurchasingDemandUpdate,
+      values: Partial<
+        Record<keyof PurchasingDemandUpdate, string | number | null | undefined>
+      >,
       onSuccess: (id: string | number) => void,
       onError: (message: string) => void,
     ]
@@ -24,7 +26,7 @@
   const { isPending } = toRefs(props)
   const { onHandleSuccess, onHandleError } = useHandleForm()
 
-  const { values, handleSubmit, meta, handleReset } =
+  const { values, handleSubmit, meta, handleReset, isFieldDirty } =
     useForm<PurchasingDemandUpdate>({
       validationSchema: validatePurchasingDemandUpdate,
       initialValues: {
@@ -46,9 +48,27 @@
     'external_process_number',
   )
 
+  // only dirty fields
+  const getDirtyValues = () => {
+    const fieldKeys = Object.keys(props.initialValues) as Array<
+      keyof PurchasingDemandUpdate
+    >
+    const dirtyValues: Partial<
+      Record<keyof PurchasingDemandUpdate, string | number | null | undefined>
+    > = {}
+    fieldKeys.forEach((key) => {
+      if (isFieldDirty(key)) {
+        dirtyValues[key] = values[key]
+      }
+    })
+
+    return dirtyValues
+  }
+
   const onSubmit = handleSubmit(async () => {
     try {
-      $emit('submit', values, onSuccess, onError)
+      const dirtyValues = getDirtyValues()
+      $emit('submit', dirtyValues, onSuccess, onError)
     } catch (error) {
       console.error(error)
       throw error

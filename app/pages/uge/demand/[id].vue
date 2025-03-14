@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { SupportTeam } from '~/types'
+  import type { PurchasingDemandUpdate, SupportTeam } from '~/types'
 
   const { id } = useValidateParam()
   const isEditing = ref(false)
@@ -35,7 +35,11 @@
     isEditing.value = !isEditing.value
   }
 
-  const updateData = async (id: number | string) => {
+  const updateData = (data: PurchasingDemandUpdate) => {
+    console.log(id, data)
+  }
+
+  const loadData = async (id: number | string) => {
     if (!id) return
     await getPurchasingDemandById(+id)
     await getAvailableSupportTeam(+id)
@@ -49,7 +53,7 @@
     try {
       const insertedData = await insertMember(data)
       if (!insertedData) throw Error('Erro ao tentar inserir a demanda')
-      await updateData(id!)
+      await loadData(id!)
       onSuccess('Membro adicionado à demanda com sucesso')
       closeModal()
     } catch (error) {
@@ -59,7 +63,7 @@
   }
 
   onMounted(async () => {
-    await updateData(id!)
+    await loadData(id!)
   })
 </script>
 
@@ -78,6 +82,7 @@
               :initial-values="purchasingDemand"
               :is-editing="isEditing"
               @edit="toggleEditMode"
+              @submit="(data) => updateData(data)"
             />
           </UgeCard>
         </v-col>
