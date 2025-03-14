@@ -163,6 +163,14 @@ const usePurchasingDemand = () => {
         demandStore.removeDemandById(payload.old.id)
       },
     )
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'purchasing_demands' },
+      (payload) => {
+        const parsedData = purchasingDemandsRowSchema.parse(payload.new)
+        purchasingDemand.value = parsedData
+      },
+    )
     .subscribe()
 
   return {
