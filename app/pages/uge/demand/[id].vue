@@ -17,6 +17,8 @@
     purchasingDemand,
     getPurchasingDemandById,
     isPurchasingDemandPending,
+    updatePurchasingDemand,
+    isPurchasingDemandUpdating,
   } = usePurchasingDemand()
 
   const {
@@ -35,8 +37,12 @@
     isEditing.value = !isEditing.value
   }
 
-  const updateData = (data: PurchasingDemandUpdate) => {
-    console.log(id, data)
+  const updateData = async (data: PurchasingDemandUpdate) => {
+    try {
+      await updatePurchasingDemand(id!, data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const loadData = async (id: number | string) => {
@@ -79,8 +85,10 @@
         <v-col cols="12">
           <UgeCard title="Dados da Demanda">
             <UgeFormPurchaseDemandUpdate
+              :key="purchasingDemand.id"
               :initial-values="purchasingDemand"
               :is-editing="isEditing"
+              :is-pending="isPurchasingDemandUpdating.isLoading"
               @edit="toggleEditMode"
               @submit="(data) => updateData(data)"
             />

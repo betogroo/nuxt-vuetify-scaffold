@@ -13,6 +13,7 @@ import {
   purchasingDemandDetailsRowsSchema,
   purchasingDemandsWithMembersSchema,
   purchasingDemandsInsertSchema,
+  purchasingDemandsUpdateSchema,
 } from '~/schemas'
 
 // for test
@@ -27,6 +28,11 @@ const usePurchasingDemand = () => {
   const demand = ref<PurchasingDemandDetails>()
   const demands = ref<PurchasingDemandDetails[]>([])
   const agentWithDemands = ref<AgentWithDemands>()
+
+  const {
+    update: updatePurchasingDemand,
+    updatePending: isPurchasingDemandUpdating,
+  } = useGenericUpdate('purchasing_demands', purchasingDemandsUpdateSchema)
 
   const { deleteDataById: deleteDemandById, deletePending: isDeletingDemand } =
     useGenericDelete<PurchasingDemand>('purchasing_demands')
@@ -178,6 +184,8 @@ const usePurchasingDemand = () => {
     purchasingDemand,
     getPurchasingDemandById,
     isPurchasingDemandPending,
+    updatePurchasingDemand,
+    isPurchasingDemandUpdating,
   }
 }
 
