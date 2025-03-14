@@ -15,6 +15,7 @@ export const purchasingDemandsRowSchema = z.object({
   id: z.number(),
   contracting_agent_id: z.string().uuid(),
   created_by: z.string().nullable(),
+  updated_at: z.string().optional(),
   created_at: z.string().optional(),
   ptres_number: ptresNumberSchema,
   external_process_number: z

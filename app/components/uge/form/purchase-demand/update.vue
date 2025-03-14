@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import type { PurchasingDemand, PurchasingDemandUpdate } from '~/types'
+  import type {
+    PurchasingDemand,
+    PurchasingDemandUpdate,
+    DirtyPurchasingDemandUpdate,
+  } from '~/types'
   import { validatePurchasingDemandUpdate } from '~/validate'
 
   interface Props {
@@ -14,10 +18,8 @@
   })
   const $emit = defineEmits<{
     submit: [
-      values: Partial<
-        Record<keyof PurchasingDemandUpdate, string | number | null | undefined>
-      >,
-      onSuccess: (id: string | number) => void,
+      values: DirtyPurchasingDemandUpdate,
+      onSuccess: () => void,
       onError: (message: string) => void,
     ]
     edit: []
@@ -53,9 +55,7 @@
     const fieldKeys = Object.keys(props.initialValues) as Array<
       keyof PurchasingDemandUpdate
     >
-    const dirtyValues: Partial<
-      Record<keyof PurchasingDemandUpdate, string | number | null | undefined>
-    > = {}
+    const dirtyValues: DirtyPurchasingDemandUpdate = {}
     fieldKeys.forEach((key) => {
       if (isFieldDirty(key)) {
         dirtyValues[key] = values[key]
@@ -80,10 +80,12 @@
     $emit('edit')
   }
 
-  const onSuccess = (id: string | number) => {
-    onHandleSuccess(`Demanda ${id} cadastrada com sucesso`, handleReset)
+  const onSuccess = () => {
+    $emit('edit')
+    onHandleSuccess(`Editado com sucesso`, handleReset)
   }
   const onError = (message: string) => {
+    handleReset()
     onHandleError(message)
   }
 </script>
@@ -104,9 +106,9 @@
     <v-text-field
       v-model="externalProcessNumber"
       density="compact"
-      :disabled="!isEditing"
       :error-messages="externalProcessNumberError"
       label="Processo Externo"
+      :readonly="!isEditing"
       :variant="isEditing ? 'outlined' : 'plain'"
     />
 
@@ -117,7 +119,11 @@
         isPending,
         action: onReset,
       }"
-      :submit-button="{ disabled: !meta.valid, isPending, label: 'Salvar' }"
+      :submit-button="{
+        disabled: !meta.valid || !meta.dirty,
+        isPending,
+        label: 'Salvar',
+      }"
     />
     <v-btn
       v-else

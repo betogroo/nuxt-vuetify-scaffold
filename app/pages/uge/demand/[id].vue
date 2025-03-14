@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { PurchasingDemandUpdate, SupportTeam } from '~/types'
+  import type { DirtyPurchasingDemandUpdate, SupportTeam } from '~/types'
 
   const { id } = useValidateParam()
   const isEditing = ref(false)
@@ -37,11 +37,18 @@
     isEditing.value = !isEditing.value
   }
 
-  const updateData = async (data: PurchasingDemandUpdate) => {
+  const handleUpdatePurchasingDemand = async (
+    values: DirtyPurchasingDemandUpdate,
+    onSuccess: () => void,
+    onError: (message: string, error: unknown) => void,
+  ) => {
     try {
-      await updatePurchasingDemand(id!, data)
+      if (!id) throw Error('Número de demanda inválido')
+      await updatePurchasingDemand(id!, values)
+      onSuccess()
+      await getPurchasingDemandById(+id)
     } catch (error) {
-      console.log(error)
+      onError('Erro ao tentar editar a classe', error)
     }
   }
 
@@ -85,12 +92,15 @@
         <v-col cols="12">
           <UgeCard title="Dados da Demanda">
             <UgeFormPurchaseDemandUpdate
-              :key="purchasingDemand.id"
+              :key="purchasingDemand.updated_at"
               :initial-values="purchasingDemand"
               :is-editing="isEditing"
               :is-pending="isPurchasingDemandUpdating.isLoading"
               @edit="toggleEditMode"
-              @submit="(data) => updateData(data)"
+              @submit="
+                (data, onSuccess, onError) =>
+                  handleUpdatePurchasingDemand(data, onSuccess, onError)
+              "
             />
           </UgeCard>
         </v-col>

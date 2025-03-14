@@ -376,6 +376,7 @@ export type Database = {
           external_process_number: string | null
           id: number
           ptres_number: Database["public"]["Enums"]["ptres_number"]
+          updated_at: string
         }
         Insert: {
           contracting_agent_id: string
@@ -385,6 +386,7 @@ export type Database = {
           external_process_number?: string | null
           id?: number
           ptres_number: Database["public"]["Enums"]["ptres_number"]
+          updated_at?: string
         }
         Update: {
           contracting_agent_id?: string
@@ -394,6 +396,7 @@ export type Database = {
           external_process_number?: string | null
           id?: number
           ptres_number?: Database["public"]["Enums"]["ptres_number"]
+          updated_at?: string
         }
         Relationships: [
           {
