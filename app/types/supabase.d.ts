@@ -370,6 +370,7 @@ export type Database = {
       purchasing_demands: {
         Row: {
           ac_number: string | null
+          bidding_number: string | null
           contracting_agent_id: string
           created_at: string
           created_by: string | null
@@ -381,6 +382,7 @@ export type Database = {
         }
         Insert: {
           ac_number?: string | null
+          bidding_number?: string | null
           contracting_agent_id: string
           created_at?: string
           created_by?: string | null
@@ -392,6 +394,7 @@ export type Database = {
         }
         Update: {
           ac_number?: string | null
+          bidding_number?: string | null
           contracting_agent_id?: string
           created_at?: string
           created_by?: string | null
