@@ -41,11 +41,16 @@
         ac_number: props.initialValues.ac_number
           ? props.initialValues.ac_number
           : 'Favor Preencher,',
+        bidding_number: props.initialValues.bidding_number
+          ? props.initialValues.bidding_number
+          : 'Favor Preencher,',
       },
     })
 
   const { value: description, errorMessage: descriptionError } =
     useField<PurchasingDemandUpdate['description']>('description')
+  const { value: biddingNumber, errorMessage: biddingNumberError } =
+    useField<PurchasingDemandUpdate['bidding_number']>('bidding_number')
   const {
     value: externalProcessNumber,
     errorMessage: externalProcessNumberError,
@@ -123,6 +128,14 @@
       label="Número do Aviso de Contratação"
       :readonly="!isEditing"
       type="number"
+      :variant="isEditing ? 'outlined' : 'plain'"
+    />
+    <v-text-field
+      v-model="biddingNumber"
+      density="compact"
+      :error-messages="biddingNumberError"
+      label="Número da Disputa"
+      :readonly="!isEditing"
       :variant="isEditing ? 'outlined' : 'plain'"
     />
 
