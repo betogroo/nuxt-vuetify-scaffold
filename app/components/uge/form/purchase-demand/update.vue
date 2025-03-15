@@ -44,6 +44,9 @@
         bidding_number: props.initialValues.bidding_number
           ? props.initialValues.bidding_number
           : 'Favor Preencher,',
+        pncp_number: props.initialValues.pncp_number
+          ? props.initialValues.pncp_number
+          : 'Favor Preencher,',
       },
     })
 
@@ -51,6 +54,8 @@
     useField<PurchasingDemandUpdate['description']>('description')
   const { value: biddingNumber, errorMessage: biddingNumberError } =
     useField<PurchasingDemandUpdate['bidding_number']>('bidding_number')
+  const { value: pncpNumber, errorMessage: pncpNumberError } =
+    useField<PurchasingDemandUpdate['pncp_number']>('pncp_number')
   const {
     value: externalProcessNumber,
     errorMessage: externalProcessNumberError,
@@ -135,6 +140,14 @@
       density="compact"
       :error-messages="biddingNumberError"
       label="Número da Disputa"
+      :readonly="!isEditing"
+      :variant="isEditing ? 'outlined' : 'plain'"
+    />
+    <v-text-field
+      v-model="pncpNumber"
+      density="compact"
+      :error-messages="pncpNumberError"
+      label="Número do PNCP"
       :readonly="!isEditing"
       :variant="isEditing ? 'outlined' : 'plain'"
     />

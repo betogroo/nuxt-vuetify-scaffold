@@ -377,6 +377,7 @@ export type Database = {
           description: string
           external_process_number: string | null
           id: number
+          pncp_number: string | null
           ptres_number: Database["public"]["Enums"]["ptres_number"]
           updated_at: string
         }
@@ -389,6 +390,7 @@ export type Database = {
           description: string
           external_process_number?: string | null
           id?: number
+          pncp_number?: string | null
           ptres_number: Database["public"]["Enums"]["ptres_number"]
           updated_at?: string
         }
@@ -401,6 +403,7 @@ export type Database = {
           description?: string
           external_process_number?: string | null
           id?: number
+          pncp_number?: string | null
           ptres_number?: Database["public"]["Enums"]["ptres_number"]
           updated_at?: string
         }
