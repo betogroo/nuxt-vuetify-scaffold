@@ -51,6 +51,8 @@
     useField<PurchasingDemandUpdate['siafem_number']>('siafem_number')
   const { value: contractingNumber, errorMessage: contractingNumberError } =
     useField<PurchasingDemandUpdate['contracting_number']>('contracting_number')
+  const { value: biddingDate, errorMessage: biddingDateError } =
+    useField<PurchasingDemandUpdate['bidding_date']>('bidding_date')
   const {
     value: externalProcessNumber,
     errorMessage: externalProcessNumberError,
@@ -182,6 +184,20 @@
           :error-messages="contractingNumberError"
           label="Número da Contratação"
           :readonly="!isEditing"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="biddingDate"
+          density="compact"
+          :error-messages="biddingDateError"
+          label="Data da Disputa"
+          :readonly="!isEditing"
+          type="date"
           :variant="isEditing ? 'outlined' : 'plain'"
         />
       </v-col>

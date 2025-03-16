@@ -22,6 +22,11 @@ export const purchasingDemandsRowSchema = z.object({
   bidding_number: z.string().min(1, 'O campo não pode ser vazio').nullable(),
   pncp_number: z.string().min(1, 'O campo não pode ser vazio').nullable(),
   siafem_number: z.string().min(1, 'O campo não pode ser vazio').nullable(),
+  bidding_date: z
+    .string()
+    .date('Data inválida')
+    .min(1, 'O campo não pode ser vazio')
+    .nullable(),
   contracting_number: z
     .string()
     .min(1, 'O campo não pode ser vazio')
