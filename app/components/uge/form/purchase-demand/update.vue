@@ -31,7 +31,7 @@
   const initialValues = Object.fromEntries(
     Object.entries(props.initialValues).map(([key, value]) => [
       key,
-      value || 'Favor Preencher,',
+      value || '',
     ]),
   )
 
@@ -53,6 +53,8 @@
     useField<PurchasingDemandUpdate['contracting_number']>('contracting_number')
   const { value: biddingDate, errorMessage: biddingDateError } =
     useField<PurchasingDemandUpdate['bidding_date']>('bidding_date')
+  const { value: biddenOpenTime, errorMessage: biddenOpenTimeError } =
+    useField<PurchasingDemandUpdate['bidding_open_time']>('bidding_open_time')
   const {
     value: externalProcessNumber,
     errorMessage: externalProcessNumberError,
@@ -198,6 +200,20 @@
           label="Data da Disputa"
           :readonly="!isEditing"
           type="date"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="biddenOpenTime"
+          density="compact"
+          :error-messages="biddenOpenTimeError"
+          label="Hora da Divulgação"
+          :readonly="!isEditing"
+          type="time"
           :variant="isEditing ? 'outlined' : 'plain'"
         />
       </v-col>
