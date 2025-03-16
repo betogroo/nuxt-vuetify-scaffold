@@ -82,6 +82,7 @@
   const onSubmit = handleSubmit(async () => {
     try {
       const dirtyValues = getDirtyValues()
+      console.log(dirtyValues, values)
       $emit('submit', dirtyValues, onSuccess, onError)
     } catch (error) {
       console.error(error)
@@ -213,6 +214,7 @@
           :error-messages="biddenOpenTimeError"
           label="Hora da Divulgação"
           :readonly="!isEditing"
+          step="1"
           type="time"
           :variant="isEditing ? 'outlined' : 'plain'"
         />

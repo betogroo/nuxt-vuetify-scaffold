@@ -29,7 +29,7 @@ export const purchasingDemandsRowSchema = z.object({
     .nullable(),
   bidding_open_time: z
     .string()
-    .time({ precision: 0 })
+
     .min(1, 'O campo não pode ser vazio')
     .nullable()
     .optional(),
