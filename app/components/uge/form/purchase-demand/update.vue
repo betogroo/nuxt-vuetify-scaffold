@@ -28,26 +28,17 @@
   const { isPending } = toRefs(props)
   const { onHandleSuccess, onHandleError } = useHandleForm()
 
+  const initialValues = Object.fromEntries(
+    Object.entries(props.initialValues).map(([key, value]) => [
+      key,
+      value || 'Favor Preencher,',
+    ]),
+  )
+
   const { values, handleSubmit, meta, handleReset, isFieldDirty } =
     useForm<PurchasingDemandUpdate>({
       validationSchema: validatePurchasingDemandUpdate,
-      initialValues: {
-        description: props.initialValues.description
-          ? props.initialValues.description
-          : 'Favor Preencher,',
-        external_process_number: props.initialValues.external_process_number
-          ? props.initialValues.external_process_number
-          : 'Favor Preencher,',
-        ac_number: props.initialValues.ac_number
-          ? props.initialValues.ac_number
-          : 'Favor Preencher,',
-        bidding_number: props.initialValues.bidding_number
-          ? props.initialValues.bidding_number
-          : 'Favor Preencher,',
-        pncp_number: props.initialValues.pncp_number
-          ? props.initialValues.pncp_number
-          : 'Favor Preencher,',
-      },
+      initialValues,
     })
 
   const { value: description, errorMessage: descriptionError } =
@@ -56,6 +47,10 @@
     useField<PurchasingDemandUpdate['bidding_number']>('bidding_number')
   const { value: pncpNumber, errorMessage: pncpNumberError } =
     useField<PurchasingDemandUpdate['pncp_number']>('pncp_number')
+  const { value: siafemNumber, errorMessage: siafemNumberError } =
+    useField<PurchasingDemandUpdate['siafem_number']>('siafem_number')
+  const { value: contractingNumber, errorMessage: contractingNumberError } =
+    useField<PurchasingDemandUpdate['contracting_number']>('contracting_number')
   const {
     value: externalProcessNumber,
     errorMessage: externalProcessNumberError,
@@ -110,47 +105,100 @@
     class="pa-2 ma-2"
     @submit.prevent="onSubmit"
   >
-    <v-text-field
-      v-model="description"
-      density="compact"
-      :error-messages="descriptionError"
-      label="Descrição"
-      :readonly="!isEditing"
-      :variant="isEditing ? 'outlined' : 'plain'"
-    />
-    <v-text-field
-      v-model="externalProcessNumber"
-      density="compact"
-      :error-messages="externalProcessNumberError"
-      label="Processo Externo"
-      :readonly="!isEditing"
-      :variant="isEditing ? 'outlined' : 'plain'"
-    />
-    <v-text-field
-      v-model="acNumber"
-      density="compact"
-      :error-messages="acNumberError"
-      label="Número do Aviso de Contratação"
-      :readonly="!isEditing"
-      type="number"
-      :variant="isEditing ? 'outlined' : 'plain'"
-    />
-    <v-text-field
-      v-model="biddingNumber"
-      density="compact"
-      :error-messages="biddingNumberError"
-      label="Número da Disputa"
-      :readonly="!isEditing"
-      :variant="isEditing ? 'outlined' : 'plain'"
-    />
-    <v-text-field
-      v-model="pncpNumber"
-      density="compact"
-      :error-messages="pncpNumberError"
-      label="Número do PNCP"
-      :readonly="!isEditing"
-      :variant="isEditing ? 'outlined' : 'plain'"
-    />
+    <v-row>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="description"
+          density="compact"
+          :error-messages="descriptionError"
+          label="Descrição"
+          :readonly="!isEditing"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="externalProcessNumber"
+          density="compact"
+          :error-messages="externalProcessNumberError"
+          label="Processo Externo"
+          :readonly="!isEditing"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="acNumber"
+          density="compact"
+          :error-messages="acNumberError"
+          label="Número do Aviso de Contratação"
+          :readonly="!isEditing"
+          type="number"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="biddingNumber"
+          density="compact"
+          :error-messages="biddingNumberError"
+          label="Número da Disputa"
+          :readonly="!isEditing"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="siafemNumber"
+          density="compact"
+          :error-messages="siafemNumberError"
+          label="Número do SIAFEM"
+          :readonly="!isEditing"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="contractingNumber"
+          density="compact"
+          :error-messages="contractingNumberError"
+          label="Número da Contratação"
+          :readonly="!isEditing"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="pncpNumber"
+          density="compact"
+          :error-messages="pncpNumberError"
+          label="Número do PNCP"
+          :readonly="!isEditing"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+    </v-row>
 
     <AppFormAction
       v-if="isEditing"

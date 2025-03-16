@@ -372,6 +372,7 @@ export type Database = {
           ac_number: string | null
           bidding_number: string | null
           contracting_agent_id: string
+          contracting_number: string | null
           created_at: string
           created_by: string | null
           description: string
@@ -379,12 +380,14 @@ export type Database = {
           id: number
           pncp_number: string | null
           ptres_number: Database["public"]["Enums"]["ptres_number"]
+          siafem_number: string | null
           updated_at: string
         }
         Insert: {
           ac_number?: string | null
           bidding_number?: string | null
           contracting_agent_id: string
+          contracting_number?: string | null
           created_at?: string
           created_by?: string | null
           description: string
@@ -392,12 +395,14 @@ export type Database = {
           id?: number
           pncp_number?: string | null
           ptres_number: Database["public"]["Enums"]["ptres_number"]
+          siafem_number?: string | null
           updated_at?: string
         }
         Update: {
           ac_number?: string | null
           bidding_number?: string | null
           contracting_agent_id?: string
+          contracting_number?: string | null
           created_at?: string
           created_by?: string | null
           description?: string
@@ -405,6 +410,7 @@ export type Database = {
           id?: number
           pncp_number?: string | null
           ptres_number?: Database["public"]["Enums"]["ptres_number"]
+          siafem_number?: string | null
           updated_at?: string
         }
         Relationships: [
