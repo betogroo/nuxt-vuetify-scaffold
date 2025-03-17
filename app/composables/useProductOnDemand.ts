@@ -48,6 +48,23 @@ const useProductOnDemand = () => {
         purchasingDemandProductsRows,
       ) */
 
+  supabase
+    .channel('custom-insert-channel')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'purchasing_demand_products',
+      },
+      (payload) => {
+        console.log('Change received!', payload)
+        if (payload.new.purchasing_demand_id)
+          getProductsOnDemand(payload.new.purchasing_demand_id)
+      },
+    )
+    .subscribe()
+
   return { productsOnDemand, getProductsOnDemand, insertProductsOnDemand }
 }
 
