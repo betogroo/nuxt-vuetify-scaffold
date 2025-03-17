@@ -53,7 +53,9 @@
     useField<PurchasingDemandUpdate['contracting_number']>('contracting_number')
   const { value: biddingDate, errorMessage: biddingDateError } =
     useField<PurchasingDemandUpdate['bidding_date']>('bidding_date')
-  const { value: biddenOpenTime, errorMessage: biddenOpenTimeError } =
+  const { value: biddingOpenDate, errorMessage: biddingOpenDateError } =
+    useField<PurchasingDemandUpdate['bidding_open_date']>('bidding_open_date')
+  const { value: biddingOpenTime, errorMessage: biddingOpenTimeError } =
     useField<PurchasingDemandUpdate['bidding_open_time']>('bidding_open_time')
   const {
     value: externalProcessNumber,
@@ -209,13 +211,27 @@
         sm="6"
       >
         <v-text-field
-          v-model="biddenOpenTime"
+          v-model="biddingOpenTime"
           density="compact"
-          :error-messages="biddenOpenTimeError"
+          :error-messages="biddingOpenTimeError"
           label="Hora da Divulgação"
           :readonly="!isEditing"
           step="1"
           type="time"
+          :variant="isEditing ? 'outlined' : 'plain'"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-text-field
+          v-model="biddingOpenDate"
+          density="compact"
+          :error-messages="biddingOpenDateError"
+          label="Data da Divulgação"
+          :readonly="!isEditing"
+          type="date"
           :variant="isEditing ? 'outlined' : 'plain'"
         />
       </v-col>

@@ -27,6 +27,11 @@ export const purchasingDemandsRowSchema = z.object({
     .date('Data inválida')
     .min(1, 'O campo não pode ser vazio')
     .nullable(),
+  bidding_open_date: z
+    .string()
+    .date('Data inválida')
+    .min(1, 'O campo não pode ser vazio')
+    .nullable(),
   bidding_open_time: z
     .string()
     .time({ message: 'Hora Inválida' })
