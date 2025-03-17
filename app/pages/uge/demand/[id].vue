@@ -116,7 +116,17 @@
 
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <UgeListProductsOnDemand :id="+id!" />
+            <UgeListProductsOnDemand :id="+id!">
+              <template #offer_value="{ item }">
+                <div v-if="item.offer_value">
+                  {{ item.offer_value }}
+                </div>
+                <div v-else>botão</div>
+              </template>
+              <template #offer_total_value="{ item }">{{
+                200 * item.quantity
+              }}</template>
+            </UgeListProductsOnDemand>
             <template #action>
               <v-btn
                 density="compact"

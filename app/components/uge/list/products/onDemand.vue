@@ -37,6 +37,14 @@
       key: 'total_price',
       title: 'Valor Total',
     },
+    {
+      key: 'offer_value',
+      title: 'Valor Ofertado',
+    },
+    {
+      key: 'offer_total_value',
+      title: 'Valor Total Ofertado',
+    },
   ]
 </script>
 
@@ -51,5 +59,16 @@
     <template #item.total_price="{ value }">
       {{ formatCurrency(value) }}
     </template>
+
+    <template #item.offer_value="{ item }">
+      <slot
+        :item="item"
+        name="offer_value"
+    /></template>
+    <template #item.offer_total_value="{ item }">
+      <slot
+        :item="item"
+        name="offer_total_value"
+    /></template>
   </v-data-table>
 </template>
