@@ -2,8 +2,11 @@
   import type { DirtyPurchasingDemandUpdate, SupportTeam } from '~/types'
 
   const { id } = useValidateParam()
+
+  // details
   const isEditing = ref(false)
 
+  //members
   const {
     isActive: insertMemberModal,
 
@@ -11,8 +14,10 @@
     props,
   } = useModal()
 
+  //cart
   const { isActive: cartIsActive, open: openCart } = useDrawer()
 
+  //details
   const {
     purchasingDemand,
     getPurchasingDemandById,
@@ -21,6 +26,7 @@
     isPurchasingDemandUpdating,
   } = usePurchasingDemand()
 
+  //member
   const {
     availableSupportTeamMember,
     insertMemberPending,
@@ -29,14 +35,17 @@
     deleteMember: _deleteMember,
   } = useMemberTeam()
 
+  // cart
   const openProductsDrawer = () => {
     openCart()
   }
 
+  // details
   const toggleEditMode = () => {
     isEditing.value = !isEditing.value
   }
 
+  //details
   const handleUpdatePurchasingDemand = async (
     values: DirtyPurchasingDemandUpdate,
     onSuccess: () => void,
@@ -107,7 +116,7 @@
 
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <UgeListProduct :id="+id!" />
+            <UgeListProductsOnDemand :id="+id!" />
             <template #action>
               <v-btn
                 density="compact"
