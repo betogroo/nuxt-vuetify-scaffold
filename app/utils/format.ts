@@ -7,3 +7,12 @@ export const timestampToDate = (date: string) =>
   new Date(date).toLocaleDateString('pt-BR')
 
 export const getYear = (date: string) => new Date(date).getUTCFullYear()
+
+export const formatCurrency = (value: number, decimalPlaces: number = 2) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  }).format(value)
+}
