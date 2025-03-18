@@ -54,6 +54,10 @@ export * from './supplier/row'
 export * from './supplier/insert'
 export * from './supplier/update'
 
+export * from './offer/row'
+export * from './offer/insert'
+export * from './offer/update'
+
 export * from './time-slot/row'
 export * from './time-slot/insert'
 export * from './time-slot/update'

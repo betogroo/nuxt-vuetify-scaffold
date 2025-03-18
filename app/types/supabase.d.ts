@@ -119,6 +119,48 @@ export type Database = {
         }
         Relationships: []
       }
+      offers: {
+        Row: {
+          created_at: string
+          id: string
+          offer_value: number | null
+          purchasing_demand_product_id: string
+          supplier_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          offer_value?: number | null
+          purchasing_demand_product_id: string
+          supplier_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          offer_value?: number | null
+          purchasing_demand_product_id?: string
+          supplier_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "offers_purchasing_demand_product_id_fkey"
+            columns: ["purchasing_demand_product_id"]
+            isOneToOne: false
+            referencedRelation: "purchasing_demand_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "offers_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       packaging_unit: {
         Row: {
           created_at: string
@@ -689,7 +731,6 @@ export type Database = {
           quantity: number
           price: number
           total_price: number
-          offer_value: number
           item_number: number
         }[]
       }
