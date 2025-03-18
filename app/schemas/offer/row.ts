@@ -12,7 +12,7 @@ export const offerRowSchema = z.object({
       required_error: 'o Valor é obrigatório',
       invalid_type_error: 'O valor deve ser um número maior que ZERO',
     })
-    .nonnegative('O valor deve ser maior que ZERO'),
+    .positive(),
 })
 
 export const offerRowsSchema = z.array(offerRowSchema)
