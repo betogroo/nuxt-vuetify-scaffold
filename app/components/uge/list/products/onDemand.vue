@@ -61,14 +61,13 @@
     </template>
 
     <template #item.offer_value="{ item }">
-      <slot
-        :item="item"
-        name="offer_value"
-    /></template>
-    <template #item.offer_total_value="{ item }">
-      <slot
-        :item="item"
-        name="offer_total_value"
-    /></template>
+      <div v-if="item.offer_value">
+        {{ formatCurrency(item.offer_value, 4) }}
+      </div>
+      <div v-else>botão</div>
+    </template>
+    <template #item.offer_total_value="{ item }">{{
+      item.offer_value ? formatCurrency(item.quantity * item.offer_value) : ''
+    }}</template>
   </v-data-table>
 </template>
