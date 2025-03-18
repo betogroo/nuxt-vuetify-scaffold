@@ -60,11 +60,8 @@
       {{ formatCurrency(value) }}
     </template>
 
-    <template #item.offer_value="{ item }">
-      <div v-if="item.offer_value">
-        {{ formatCurrency(item.offer_value, 4) }}
-      </div>
-      <div v-else>
+    <template #item.offer_value>
+      <div>
         <v-btn
           color="red"
           density="compact"
@@ -73,8 +70,6 @@
         />
       </div>
     </template>
-    <template #item.offer_total_value="{ item }">{{
-      item.offer_value ? formatCurrency(item.quantity * item.offer_value) : ''
-    }}</template>
+    <template #item.offer_total_value> offer total </template>
   </v-data-table>
 </template>

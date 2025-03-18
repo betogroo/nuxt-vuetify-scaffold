@@ -10,7 +10,6 @@ export const productOnDemandRowSchema = z.object({
   quantity: z.number(),
   price: z.number(),
   total_price: z.number(),
-  offer_value: z.number().nullable(),
   item_number: z.number(),
 })
 
