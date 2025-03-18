@@ -64,7 +64,14 @@
       <div v-if="item.offer_value">
         {{ formatCurrency(item.offer_value, 4) }}
       </div>
-      <div v-else>botão</div>
+      <div v-else>
+        <v-btn
+          color="red"
+          density="compact"
+          :icon="iconOutline.plus"
+          variant="text"
+        />
+      </div>
     </template>
     <template #item.offer_total_value="{ item }">{{
       item.offer_value ? formatCurrency(item.quantity * item.offer_value) : ''
