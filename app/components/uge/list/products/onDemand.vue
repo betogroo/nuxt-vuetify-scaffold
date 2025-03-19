@@ -6,6 +6,10 @@
   }
   const props = defineProps<Props>()
 
+  const $emit = defineEmits<{
+    'offer-value-click': [id: string]
+  }>()
+
   const { productsOnDemand, getProductsOnDemand } = useProduct()
 
   onMounted(async () => {
@@ -60,13 +64,14 @@
       {{ formatCurrency(value) }}
     </template>
 
-    <template #item.offer_value>
+    <template #item.offer_value="{ item }">
       <div>
         <v-btn
           color="red"
           density="compact"
           :icon="iconOutline.plus"
           variant="text"
+          @click="$emit('offer-value-click', item.id)"
         />
       </div>
     </template>

@@ -1,5 +1,10 @@
 <script setup lang="ts">
-  import type { DirtyPurchasingDemandUpdate, SupportTeam } from '~/types'
+  import { offerInsertSchema } from '~/schemas'
+  import type {
+    DirtyPurchasingDemandUpdate,
+    OfferInsert,
+    SupportTeam,
+  } from '~/types'
 
   const { id } = useValidateParam()
 
@@ -9,7 +14,7 @@
   //members
   const {
     isActive: insertMemberModal,
-
+    openModal,
     closeModal,
     props,
   } = useModal()
@@ -34,6 +39,9 @@
     getAvailableSupportTeam,
     deleteMember: _deleteMember,
   } = useMemberTeam()
+
+  //supplier
+  const { suppliers, fetchSuppliers } = useSupplier()
 
   // cart
   const openProductsDrawer = () => {
@@ -87,6 +95,39 @@
   onMounted(async () => {
     await loadData(id!)
   })
+
+  const { insertOfferOnProductDemand, isOfferInserting } = useOffer()
+  const productToInsert = ref<string>('')
+  const handleInsertOfferProductDemand = async (
+    values: OfferInsert,
+    onSuccess: () => void,
+    onError: (message: string, error: unknown) => void,
+  ) => {
+    try {
+      const newValue: OfferInsert = offerInsertSchema.parse({
+        ...values,
+        purchasing_demand_product_id: productToInsert.value,
+      })
+      console.log(newValue)
+      const insertedData: OfferInsert = await insertOfferOnProductDemand(
+        newValue,
+      )
+      if (!insertedData) throw Error('Erro ao tentar inserir o produto')
+      console.log('inserted', insertedData, productToInsert.value)
+      onSuccess()
+      closeModal()
+    } catch (error) {
+      onError('Erro ao tentar inserir o produto', error)
+    }
+  }
+
+  const test = async (id: string) => {
+    await fetchSuppliers()
+    productToInsert.value = id
+    openModal({ mode: 'insertOfferForm', title: 'Inserir Oferta' })
+    console.log(suppliers)
+    console.log(id)
+  }
 </script>
 
 <template>
@@ -116,7 +157,11 @@
 
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <UgeListProductsOnDemand :id="+id!" />
+            <UgeListProductsOnDemand
+              :id="+id!"
+              @offer-value-click="(id) => test(id)"
+            />
+
             <template #action>
               <v-btn
                 density="compact"
@@ -133,6 +178,15 @@
       v-model="insertMemberModal"
       :title="props.title"
     >
+      <UgeFormProductOffer
+        v-if="props.mode === 'insertOfferForm'"
+        :is-pending="isOfferInserting.isLoading"
+        :suppliers-select-items="suppliers"
+        @submit="
+          (values, onSuccess, onError) =>
+            handleInsertOfferProductDemand(values, onSuccess, onError)
+        "
+      />
       <UgeFormSupportTeam
         v-if="props.mode === 'insert-member-modal'"
         :is-pending="insertMemberPending.isLoading"
