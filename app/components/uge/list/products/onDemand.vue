@@ -11,6 +11,7 @@
   }>()
 
   const { productsOnDemand, getProductsOnDemand } = useProduct()
+  const { fetchOfferOnPurchasingDemand, purchasingDemandOffers } = useOffer()
 
   onMounted(async () => {
     try {
@@ -50,12 +51,18 @@
       title: 'Valor Total Ofertado',
     },
   ]
+
+  const expandRow = async (id: string) => {
+    console.log(id)
+    await fetchOfferOnPurchasingDemand(id)
+  }
 </script>
 
 <template>
   <v-data-table
     :headers="headers"
     :items="productsOnDemand"
+    show-expand
   >
     <template #item.price="{ value }">
       {{ formatCurrency(value, 4) }}
@@ -76,5 +83,24 @@
       </div>
     </template>
     <template #item.offer_total_value> offer total </template>
+    <template
+      #item.data-table-expand="{ isExpanded, toggleExpand, internalItem, item }"
+    >
+      <v-icon
+        @click="toggleExpand(internalItem), $nextTick(() => expandRow(item.id))"
+      >
+        {{ isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+      </v-icon>
+    </template>
+    <template #expanded-row="{ columns }">
+      <tr>
+        <td
+          class="py-2"
+          :colspan="columns.length"
+        >
+          {{ purchasingDemandOffers }}
+        </td>
+      </tr>
+    </template>
   </v-data-table>
 </template>

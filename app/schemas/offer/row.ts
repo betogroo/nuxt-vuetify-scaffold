@@ -16,3 +16,13 @@ export const offerRowSchema = z.object({
 })
 
 export const offerRowsSchema = z.array(offerRowSchema)
+
+export const offerOnPurchasingDemandSchema = z.object({
+  purchasing_demand_product: uuidSchema,
+  supplier_id: uuidSchema,
+  offer_value: z.number(),
+})
+
+export const offersOnPurchasingDemandSchema = z.array(
+  offerOnPurchasingDemandSchema,
+)

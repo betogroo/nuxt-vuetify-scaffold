@@ -717,6 +717,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      fetch_offers_on_purchasing_demand: {
+        Args: {
+          purchasing_demand_product_id: string
+        }
+        Returns: {
+          purchasing_demand_product: string
+          supplier_id: string
+          offer_value: number
+        }[]
+      }
       fetch_products_demand: {
         Args: {
           purchasing_demand_id: number
