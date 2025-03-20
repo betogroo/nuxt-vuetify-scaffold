@@ -70,13 +70,11 @@
   ]
 
   const expandedRowItem = ref<OfferOnPurchasingDemandRow[] | null>([])
-  const sortBy = [{ key: 'offer_value' }]
 
   const expandRow = async (id: string) => {
-    console.log(id)
-    const filteredOffers = offersOnPurchasingDemand.value.filter(
-      (item) => item.purchasing_demand_product === id,
-    )
+    const filteredOffers = offersOnPurchasingDemand.value
+      .filter((item) => item.purchasing_demand_product === id)
+      .sort((a, b) => (a.offer_value ?? 0) - (b.offer_value ?? 0))
     expandedRowItem.value = filteredOffers || null
   }
 </script>
@@ -129,10 +127,10 @@
             v-if="expandedRowItem"
             color="red"
             density="compact"
+            disable-sort
             :headers="offersOnDemandHeaders"
             hide-default-footer
             :items="expandedRowItem"
-            :sort-by="sortBy"
           />
         </td>
       </tr>
