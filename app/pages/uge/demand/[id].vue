@@ -3,6 +3,7 @@
   import type {
     DirtyPurchasingDemandUpdate,
     OfferInsert,
+    OfferOnProductDemandRow,
     SupportTeam,
   } from '~/types'
 
@@ -37,6 +38,13 @@
     getProductsOnDemand,
     productsOnDemandTableHeaders,
   } = useProduct()
+
+  //offers
+  const {
+    fetchOffersOnProductDemand,
+    offersOnProductDemand,
+    offersOnDemandHeaders,
+  } = useOffer()
 
   //member
   const {
@@ -80,6 +88,16 @@
     if (!id) return
     await getPurchasingDemandById(+id)
     await getAvailableSupportTeam(+id)
+    await fetchOffersOnProductDemand({}, [
+      `
+    purchasing_demand_product:purchasing_demand_product_id,
+    supplier_id,
+    offer_value,
+    ...suppliers!inner(
+      supplier_name:name
+    )
+    `,
+    ])
   }
 
   const submitSupportMemberForm = async (
@@ -129,12 +147,22 @@
     }
   }
 
-  const test = async (id: string) => {
+  const openInsertOfferFormModal = async (id: string) => {
     await fetchSuppliers()
     productToInsert.value = id
     openModal({ mode: 'insertOfferForm', title: 'Inserir Oferta' })
     console.log(suppliers)
     console.log(id)
+  }
+
+  const expandedRowItem = ref<OfferOnProductDemandRow[] | null>([])
+
+  const expandRow = async (id: string) => {
+    const filteredOffers: OfferOnProductDemandRow[] | null =
+      offersOnProductDemand.value
+        .filter((item) => item.purchasing_demand_product === id)
+        .sort((a, b) => (a.offer_value ?? 0) - (b.offer_value ?? 0))
+    expandedRowItem.value = filteredOffers || null
   }
 </script>
 
@@ -166,11 +194,18 @@
         <v-col cols="12">
           <UgeCard title="Produtos">
             <UgeTableProductsOnDemand
-              :id="+id!"
               :products-on-demand="productsOnDemand"
               :table-header="productsOnDemandTableHeaders"
-              @add-offer="(id) => test(id)"
-            />
+              @add-offer="(id) => openInsertOfferFormModal(id)"
+              @expand-row="(id) => expandRow(id)"
+            >
+              <template #offers-table>
+                <uge-table-offers-on-product-demand
+                  :offers="expandedRowItem"
+                  :table-header="offersOnDemandHeaders"
+                />
+              </template>
+            </UgeTableProductsOnDemand>
 
             <template #action>
               <v-btn

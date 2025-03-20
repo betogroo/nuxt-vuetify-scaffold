@@ -1,12 +1,7 @@
 <script setup lang="ts">
-  import type {
-    TableColumn,
-    OfferOnProductDemandRow,
-    ProductOnDemandRow,
-  } from '~/types'
+  import type { TableColumn, ProductOnDemandRow } from '~/types'
 
   interface Props {
-    id: number
     productsOnDemand: ProductOnDemandRow[]
     tableHeader: TableColumn[]
   }
@@ -14,48 +9,8 @@
 
   const $emit = defineEmits<{
     'add-offer': [id: string]
+    'expand-row': [id: string]
   }>()
-
-  const { fetchOffersOnProductDemand, offersOnProductDemand } = useOffer()
-
-  onMounted(async () => {
-    try {
-      await fetchOffersOnProductDemand({}, [
-        `
-    purchasing_demand_product:purchasing_demand_product_id,
-    supplier_id,
-    offer_value,
-    ...suppliers!inner(
-      supplier_name:name
-    )
-    `,
-      ])
-      console.log(offersOnProductDemand)
-    } catch (error) {
-      console.log(error)
-    }
-  })
-
-  const offersOnDemandHeaders: TableColumn[] = [
-    {
-      key: 'supplier_name',
-      title: 'Fornecedor',
-    },
-    {
-      key: 'offer_value',
-      title: 'Valor ofertado',
-    },
-  ]
-
-  const expandedRowItem = ref<OfferOnProductDemandRow[] | null>([])
-
-  const expandRow = async (id: string) => {
-    const filteredOffers: OfferOnProductDemandRow[] | null =
-      offersOnProductDemand.value
-        .filter((item) => item.purchasing_demand_product === id)
-        .sort((a, b) => (a.offer_value ?? 0) - (b.offer_value ?? 0))
-    expandedRowItem.value = filteredOffers || null
-  }
 </script>
 
 <template>
@@ -88,7 +43,8 @@
           size="small"
           variant="outlined"
           @click="
-            toggleExpand(internalItem), $nextTick(() => expandRow(item.id))
+            toggleExpand(internalItem),
+              $nextTick(() => $emit('expand-row', item.id))
           "
           >Ofertas</v-btn
         >
@@ -102,15 +58,7 @@
           class="py-2"
           :colspan="columns.length"
         >
-          <v-data-table
-            v-if="expandedRowItem"
-            color="red"
-            density="compact"
-            disable-sort
-            :headers="offersOnDemandHeaders"
-            hide-default-footer
-            :items="expandedRowItem"
-          />
+          <slot name="offers-table" />
         </td>
       </tr>
     </template>

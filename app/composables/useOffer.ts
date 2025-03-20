@@ -4,6 +4,7 @@ import type {
   Database,
   OfferInsert,
   OfferRow,
+  TableColumn,
 } from '~/types'
 
 const useOffer = () => {
@@ -46,6 +47,17 @@ const useOffer = () => {
     )
   }
 
+  const offersOnDemandHeaders: TableColumn[] = [
+    {
+      key: 'supplier_name',
+      title: 'Fornecedor',
+    },
+    {
+      key: 'offer_value',
+      title: 'Valor ofertado',
+    },
+  ]
+
   return {
     insertOfferOnProductDemand,
     isOfferInserting,
@@ -53,6 +65,7 @@ const useOffer = () => {
     bestPurchasingDemandOffers,
     offersOnProductDemand,
     fetchOffersOnProductDemand,
+    offersOnDemandHeaders,
   }
 }
 
