@@ -7,6 +7,7 @@ import type {
   ProductOnDemandRow,
   PurchasingDemandProduct,
   PurchasingDemandProductInsert,
+  TableColumn,
 } from '~/types'
 
 const delay = 2000
@@ -42,12 +43,31 @@ const useProductOnDemand = () => {
     PurchasingDemandProduct
   >('purchasing_demand_products', purchasingDemandProductsInsert)
 
-  /*  const { data: productOnDemand, getWithFilters: getProductsOnDemand } =
-      useGenericGet<PurchasingDemandProduct[]>(
-        'purchasing_demand_products',
-        purchasingDemandProductsRows,
-      ) */
-
+  const productsOnDemandTableHeaders: TableColumn[] = [
+    {
+      key: 'item_number',
+      title: '#',
+    },
+    {
+      key: 'name',
+      title: 'Produto',
+    },
+    {
+      key: 'quantity',
+      title: 'quantidade',
+    },
+    {
+      key: 'price',
+      title: 'Valor Referência',
+    },
+    {
+      key: 'total_price',
+      title: 'Valor Total',
+    },
+    {
+      key: 'actions',
+    },
+  ]
   supabase
     .channel('custom-insert-channel')
     .on(
@@ -65,7 +85,12 @@ const useProductOnDemand = () => {
     )
     .subscribe()
 
-  return { productsOnDemand, getProductsOnDemand, insertProductsOnDemand }
+  return {
+    productsOnDemand,
+    getProductsOnDemand,
+    insertProductsOnDemand,
+    productsOnDemandTableHeaders,
+  }
 }
 
 export default useProductOnDemand

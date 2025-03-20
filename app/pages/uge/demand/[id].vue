@@ -32,7 +32,11 @@
   } = usePurchasingDemand()
 
   //products
-  const { productsOnDemand, getProductsOnDemand } = useProduct()
+  const {
+    productsOnDemand,
+    getProductsOnDemand,
+    productsOnDemandTableHeaders,
+  } = useProduct()
 
   //member
   const {
@@ -164,6 +168,7 @@
             <UgeListProductsOnDemand
               :id="+id!"
               :products-on-demand="productsOnDemand"
+              :table-header="productsOnDemandTableHeaders"
               @add-offer="(id) => test(id)"
             />
 
