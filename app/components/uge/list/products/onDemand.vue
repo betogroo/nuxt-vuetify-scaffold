@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { TableColumn } from '~/types'
+  import type { TableColumn, OfferOnPurchasingDemandRow } from '~/types'
 
   interface Props {
     id: number
@@ -11,17 +11,39 @@
   }>()
 
   const { productsOnDemand, getProductsOnDemand } = useProduct()
-  const { fetchOfferOnPurchasingDemand, purchasingDemandOffers } = useOffer()
+  const { fetchOffersOnPurchasingDemand, offersOnPurchasingDemand } = useOffer()
 
   onMounted(async () => {
     try {
       await getProductsOnDemand(props.id)
+      await fetchOffersOnPurchasingDemand({}, [
+        `
+    purchasing_demand_product:purchasing_demand_product_id,
+    supplier_id,
+    offer_value,
+    ...suppliers!inner(
+      supplier_name:name
+    )
+    `,
+      ])
+      console.log(offersOnPurchasingDemand)
     } catch (error) {
       console.log(error)
     }
   })
 
-  const headers: TableColumn[] = [
+  const offersOnDemandHeaders: TableColumn[] = [
+    {
+      key: 'supplier_name',
+      title: 'Fornecedor',
+    },
+    {
+      key: 'offer_value',
+      title: 'Valor ofertado',
+    },
+  ]
+
+  const productsOnDemandHeaders: TableColumn[] = [
     {
       key: 'item_number',
       title: '#',
@@ -43,24 +65,25 @@
       title: 'Valor Total',
     },
     {
-      key: 'offer_value',
-      title: 'Valor Ofertado',
-    },
-    {
-      key: 'offer_total_value',
-      title: 'Valor Total Ofertado',
+      key: 'actions',
     },
   ]
 
+  const expandedRowItem = ref<OfferOnPurchasingDemandRow[] | null>([])
+
   const expandRow = async (id: string) => {
     console.log(id)
-    await fetchOfferOnPurchasingDemand(id)
+    const filteredOffers = offersOnPurchasingDemand.value.filter(
+      (item) => item.purchasing_demand_product === id,
+    )
+    console.log(filteredOffers)
+    expandedRowItem.value = filteredOffers || null
   }
 </script>
 
 <template>
   <v-data-table
-    :headers="headers"
+    :headers="productsOnDemandHeaders"
     :items="productsOnDemand"
     show-expand
   >
@@ -71,7 +94,7 @@
       {{ formatCurrency(value) }}
     </template>
 
-    <template #item.offer_value="{ item }">
+    <template #item.actions="{ item }">
       <div>
         <v-btn
           color="red"
@@ -98,7 +121,14 @@
           class="py-2"
           :colspan="columns.length"
         >
-          {{ purchasingDemandOffers }}
+          <v-data-table
+            v-if="expandedRowItem"
+            density="compact"
+            disable-sort
+            :headers="offersOnDemandHeaders"
+            hide-default-footer
+            :items="expandedRowItem"
+          />
         </td>
       </tr>
     </template>

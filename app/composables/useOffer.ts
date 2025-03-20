@@ -8,14 +8,22 @@ import type {
 
 const useOffer = () => {
   const { setPendingState } = useHelpers()
-  const purchasingDemandOffers = ref<OfferOnPurchasingDemandRow[]>([])
+  const bestPurchasingDemandOffers = ref<OfferOnPurchasingDemandRow[]>([])
   const supabase = useSupabaseClient<Database>()
   const {
     insert: insertOfferOnProductDemand,
     insertPending: isOfferInserting,
   } = useGenericInsert<OfferInsert, OfferRow>('offers', offerInsertSchema)
 
-  const fetchOfferOnPurchasingDemand = async (
+  const {
+    data: offersOnPurchasingDemand,
+    fetch: fetchOffersOnPurchasingDemand,
+  } = useGenericFetch<OfferOnPurchasingDemandRow>(
+    'offers',
+    offersOnPurchasingDemandSchema,
+  )
+
+  const fetchBestOfferOnPurchasingDemand = async (
     purchasing_demand_product_id: string,
   ): Promise<OfferOnPurchasingDemandRow[] | null> => {
     return await setPendingState(
@@ -30,7 +38,7 @@ const useOffer = () => {
         console.log(error, newData)
         if (newData) {
           const parsedData = offersOnPurchasingDemandSchema.parse(newData)
-          purchasingDemandOffers.value = parsedData
+          bestPurchasingDemandOffers.value = parsedData
           return parsedData
         }
         return null
@@ -43,8 +51,10 @@ const useOffer = () => {
   return {
     insertOfferOnProductDemand,
     isOfferInserting,
-    fetchOfferOnPurchasingDemand,
-    purchasingDemandOffers,
+    fetchBestOfferOnPurchasingDemand,
+    bestPurchasingDemandOffers,
+    offersOnPurchasingDemand,
+    fetchOffersOnPurchasingDemand,
   }
 }
 
