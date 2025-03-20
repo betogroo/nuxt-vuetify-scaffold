@@ -165,7 +165,7 @@
 
         <v-col cols="12">
           <UgeCard title="Produtos">
-            <UgeListProductsOnDemand
+            <UgeTableProductsOnDemand
               :id="+id!"
               :products-on-demand="productsOnDemand"
               :table-header="productsOnDemandTableHeaders"
