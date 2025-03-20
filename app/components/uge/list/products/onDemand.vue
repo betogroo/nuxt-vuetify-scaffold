@@ -70,13 +70,13 @@
   ]
 
   const expandedRowItem = ref<OfferOnPurchasingDemandRow[] | null>([])
+  const sortBy = [{ key: 'offer_value' }]
 
   const expandRow = async (id: string) => {
     console.log(id)
     const filteredOffers = offersOnPurchasingDemand.value.filter(
       (item) => item.purchasing_demand_product === id,
     )
-    console.log(filteredOffers)
     expandedRowItem.value = filteredOffers || null
   }
 </script>
@@ -94,8 +94,8 @@
       {{ formatCurrency(value) }}
     </template>
 
-    <template #item.actions="{ item }">
-      <div>
+    <template #item.actions="{ item, isExpanded, internalItem, toggleExpand }">
+      <div class="d-flex align-center">
         <v-btn
           color="red"
           density="compact"
@@ -103,18 +103,22 @@
           variant="text"
           @click="$emit('offer-value-click', item.id)"
         />
+        <v-btn
+          :append-icon="
+            isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'
+          "
+          density="compact"
+          size="small"
+          variant="outlined"
+          @click="
+            toggleExpand(internalItem), $nextTick(() => expandRow(item.id))
+          "
+          >Ofertas</v-btn
+        >
       </div>
     </template>
     <template #item.offer_total_value> offer total </template>
-    <template
-      #item.data-table-expand="{ isExpanded, toggleExpand, internalItem, item }"
-    >
-      <v-icon
-        @click="toggleExpand(internalItem), $nextTick(() => expandRow(item.id))"
-      >
-        {{ isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
-      </v-icon>
-    </template>
+    <template #item.data-table-expand />
     <template #expanded-row="{ columns }">
       <tr>
         <td
@@ -123,11 +127,12 @@
         >
           <v-data-table
             v-if="expandedRowItem"
+            color="red"
             density="compact"
-            disable-sort
             :headers="offersOnDemandHeaders"
             hide-default-footer
             :items="expandedRowItem"
+            :sort-by="sortBy"
           />
         </td>
       </tr>
