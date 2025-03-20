@@ -8,6 +8,7 @@
   interface Props {
     id: number
     productsOnDemand: ProductOnDemandRow[]
+    tableHeader: TableColumn[]
   }
   defineProps<Props>()
 
@@ -46,32 +47,6 @@
     },
   ]
 
-  const productsOnDemandHeaders: TableColumn[] = [
-    {
-      key: 'item_number',
-      title: '#',
-    },
-    {
-      key: 'name',
-      title: 'Produto',
-    },
-    {
-      key: 'quantity',
-      title: 'quantidade',
-    },
-    {
-      key: 'price',
-      title: 'Valor Referência',
-    },
-    {
-      key: 'total_price',
-      title: 'Valor Total',
-    },
-    {
-      key: 'actions',
-    },
-  ]
-
   const expandedRowItem = ref<OfferOnProductDemandRow[] | null>([])
 
   const expandRow = async (id: string) => {
@@ -85,7 +60,7 @@
 
 <template>
   <v-data-table
-    :headers="productsOnDemandHeaders"
+    :headers="tableHeader"
     :items="productsOnDemand"
     show-expand
   >
