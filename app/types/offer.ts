@@ -3,13 +3,11 @@ import type {
   offerRowSchema,
   offerInsertSchema,
   offerUpdateSchema,
-  offerOnPurchasingDemandSchema,
+  offerOnProductDemandSchema,
 } from '~/schemas'
 
 export type OfferRow = z.infer<typeof offerRowSchema>
-export type OfferOnPurchasingDemandRow = z.infer<
-  typeof offerOnPurchasingDemandSchema
->
+export type OfferOnProductDemandRow = z.infer<typeof offerOnProductDemandSchema>
 
 export type OfferInsert = z.infer<typeof offerInsertSchema>
 export type OfferUpdate = z.infer<typeof offerUpdateSchema>

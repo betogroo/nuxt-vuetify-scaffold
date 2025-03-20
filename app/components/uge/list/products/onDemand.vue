@@ -1,22 +1,25 @@
 <script setup lang="ts">
-  import type { TableColumn, OfferOnPurchasingDemandRow } from '~/types'
+  import type {
+    TableColumn,
+    OfferOnProductDemandRow,
+    ProductOnDemandRow,
+  } from '~/types'
 
   interface Props {
     id: number
+    productsOnDemand: ProductOnDemandRow[]
   }
-  const props = defineProps<Props>()
+  defineProps<Props>()
 
   const $emit = defineEmits<{
-    'offer-value-click': [id: string]
+    'add-offer': [id: string]
   }>()
 
-  const { productsOnDemand, getProductsOnDemand } = useProduct()
-  const { fetchOffersOnPurchasingDemand, offersOnPurchasingDemand } = useOffer()
+  const { fetchOffersOnProductDemand, offersOnProductDemand } = useOffer()
 
   onMounted(async () => {
     try {
-      await getProductsOnDemand(props.id)
-      await fetchOffersOnPurchasingDemand({}, [
+      await fetchOffersOnProductDemand({}, [
         `
     purchasing_demand_product:purchasing_demand_product_id,
     supplier_id,
@@ -26,7 +29,7 @@
     )
     `,
       ])
-      console.log(offersOnPurchasingDemand)
+      console.log(offersOnProductDemand)
     } catch (error) {
       console.log(error)
     }
@@ -69,12 +72,13 @@
     },
   ]
 
-  const expandedRowItem = ref<OfferOnPurchasingDemandRow[] | null>([])
+  const expandedRowItem = ref<OfferOnProductDemandRow[] | null>([])
 
   const expandRow = async (id: string) => {
-    const filteredOffers = offersOnPurchasingDemand.value
-      .filter((item) => item.purchasing_demand_product === id)
-      .sort((a, b) => (a.offer_value ?? 0) - (b.offer_value ?? 0))
+    const filteredOffers: OfferOnProductDemandRow[] | null =
+      offersOnProductDemand.value
+        .filter((item) => item.purchasing_demand_product === id)
+        .sort((a, b) => (a.offer_value ?? 0) - (b.offer_value ?? 0))
     expandedRowItem.value = filteredOffers || null
   }
 </script>
@@ -99,7 +103,7 @@
           density="compact"
           :icon="iconOutline.plus"
           variant="text"
-          @click="$emit('offer-value-click', item.id)"
+          @click="$emit('add-offer', item.id)"
         />
         <v-btn
           :append-icon="

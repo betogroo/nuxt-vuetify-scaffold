@@ -1,6 +1,6 @@
-import { offerInsertSchema, offersOnPurchasingDemandSchema } from '~/schemas'
+import { offerInsertSchema, offersOnProductDemandSchema } from '~/schemas'
 import type {
-  OfferOnPurchasingDemandRow,
+  OfferOnProductDemandRow,
   Database,
   OfferInsert,
   OfferRow,
@@ -8,24 +8,22 @@ import type {
 
 const useOffer = () => {
   const { setPendingState } = useHelpers()
-  const bestPurchasingDemandOffers = ref<OfferOnPurchasingDemandRow[]>([])
+  const bestPurchasingDemandOffers = ref<OfferOnProductDemandRow[]>([])
   const supabase = useSupabaseClient<Database>()
   const {
     insert: insertOfferOnProductDemand,
     insertPending: isOfferInserting,
   } = useGenericInsert<OfferInsert, OfferRow>('offers', offerInsertSchema)
 
-  const {
-    data: offersOnPurchasingDemand,
-    fetch: fetchOffersOnPurchasingDemand,
-  } = useGenericFetch<OfferOnPurchasingDemandRow>(
-    'offers',
-    offersOnPurchasingDemandSchema,
-  )
+  const { data: offersOnProductDemand, fetch: fetchOffersOnProductDemand } =
+    useGenericFetch<OfferOnProductDemandRow>(
+      'offers',
+      offersOnProductDemandSchema,
+    )
 
   const fetchBestOfferOnPurchasingDemand = async (
     purchasing_demand_product_id: string,
-  ): Promise<OfferOnPurchasingDemandRow[] | null> => {
+  ): Promise<OfferOnProductDemandRow[] | null> => {
     return await setPendingState(
       async () => {
         const { data: newData, error } = await supabase.rpc(
@@ -37,7 +35,7 @@ const useOffer = () => {
         if (error) throw error
         console.log(error, newData)
         if (newData) {
-          const parsedData = offersOnPurchasingDemandSchema.parse(newData)
+          const parsedData = offersOnProductDemandSchema.parse(newData)
           bestPurchasingDemandOffers.value = parsedData
           return parsedData
         }
@@ -53,8 +51,8 @@ const useOffer = () => {
     isOfferInserting,
     fetchBestOfferOnPurchasingDemand,
     bestPurchasingDemandOffers,
-    offersOnPurchasingDemand,
-    fetchOffersOnPurchasingDemand,
+    offersOnProductDemand,
+    fetchOffersOnProductDemand,
   }
 }
 

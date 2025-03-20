@@ -31,6 +31,9 @@
     isPurchasingDemandUpdating,
   } = usePurchasingDemand()
 
+  //products
+  const { productsOnDemand, getProductsOnDemand } = useProduct()
+
   //member
   const {
     availableSupportTeamMember,
@@ -94,6 +97,7 @@
 
   onMounted(async () => {
     await loadData(id!)
+    getProductsOnDemand(+id!)
   })
 
   const { insertOfferOnProductDemand, isOfferInserting } = useOffer()
@@ -159,7 +163,8 @@
           <UgeCard title="Produtos">
             <UgeListProductsOnDemand
               :id="+id!"
-              @offer-value-click="(id) => test(id)"
+              :products-on-demand="productsOnDemand"
+              @add-offer="(id) => test(id)"
             />
 
             <template #action>
