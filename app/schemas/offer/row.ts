@@ -20,6 +20,7 @@ export const offerRowsSchema = z.array(offerRowSchema)
 export const offerOnPurchasingDemandSchema = z.object({
   purchasing_demand_product: uuidSchema,
   supplier_id: uuidSchema,
+  supplier_name: z.string(),
   offer_value: z.number(),
 })
 
