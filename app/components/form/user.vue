@@ -36,7 +36,7 @@
   const { value: email, errorMessage: emailError } = useField<string>('email')
 
   const onSuccess = (id: string | number) => {
-    onHandleSuccess(`Professor ${id} cadastrado com sucesso`, handleReset)
+    onHandleSuccess(`Usuário ${id} cadastrado com sucesso`, handleReset)
   }
   const onError = (message: string) => {
     onHandleError(message)
