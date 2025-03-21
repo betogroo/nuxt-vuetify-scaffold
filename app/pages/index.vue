@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { AddUser } from '~/types'
-  const { handleError, genFakeUsers, showToast } = useHelpers()
+  const { handleError, genFakeUsers, showToast, getRandomBoolean } =
+    useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -15,7 +16,9 @@
     isActive: deleteConfirmModal,
     openModal: openDeleteConfirmModal,
     closeModal: closeDeleteConfirmModal,
+    props: deleteProps,
   } = useModal()
+
   const formModal = ref(false)
   const openModal = () => {
     formModal.value = true
@@ -24,14 +27,14 @@
     formModal.value = false
   }
 
-  //const toast = useToast()
-
   const addData = async (
     user: AddUser,
     onSuccess: (id: string | number) => void,
     onError: (message: string, error?: unknown) => void,
   ) => {
     try {
+      if (getRandomBoolean())
+        throw Error('Erro aleatório para demonstrar toast!')
       const newUser = await addUser(user)
       if (!newUser) throw Error('Erro ao cadastrar usuário')
       onSuccess(newUser.id!)
@@ -41,21 +44,19 @@
     }
   }
 
-  const itemToDelete = ref<string | number>(-1)
-
   const handleConfirmModal = (id: string | number) => {
-    itemToDelete.value = id
-    openDeleteConfirmModal()
+    //itemToDelete.value = id
+    openDeleteConfirmModal({ id })
   }
 
   const handleCloseModal = () => {
-    itemToDelete.value = -1
     closeDeleteConfirmModal()
   }
 
   const deleteData = async () => {
     try {
-      await deleteUser(itemToDelete.value.toString())
+      if (deleteProps.value.id)
+        await deleteUser(deleteProps.value.id.toString())
       showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       handleCloseModal()
