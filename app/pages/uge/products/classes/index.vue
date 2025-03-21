@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import type { ProductClassInsert, ProductClassRow } from '~/types'
 
-  const itemToDelete = ref<string | number | null>(null)
-
   const {
     productClasses,
     fetchProductClasses,
@@ -14,10 +12,12 @@
   } = useProductClasses()
   const { onHandleError } = useHandleForm()
   const { isActive, openModal, props, closeModal } = useModal()
+
   const {
     isActive: isConfirmDeleteModalActive,
-    openModal: openDeleteModal,
-    closeModal: closeDeleteModal,
+    openModal: openConfirmDeleteClassModal,
+    closeModal: closeConfirmDeleteClassModal,
+    props: confirmDeleteClassModalProps,
   } = useModal()
 
   const insertClass = async (
@@ -37,20 +37,20 @@
     }
   }
 
-  const handleConfirmModal = (id: string | number) => {
-    itemToDelete.value = id
-    openDeleteModal()
+  const handleOpenConfirmModal = (id: string | number) => {
+    openConfirmDeleteClassModal({ id })
   }
 
   const handleCancelModal = () => {
-    itemToDelete.value = null
-    closeDeleteModal()
+    closeConfirmDeleteClassModal()
   }
 
   const deleteClass = async () => {
-    if (itemToDelete.value !== null) {
+    if (confirmDeleteClassModalProps.value.id) {
       try {
-        const deletedClass = await deleteClassById(itemToDelete.value)
+        const deletedClass = await deleteClassById(
+          confirmDeleteClassModalProps.value.id,
+        )
         if (!deletedClass) throw Error('Não foi possível excluir a classe')
         handleCancelModal()
         await fetchProductClasses({ column: 'id' })
@@ -100,7 +100,7 @@
       item-page="uge-products-classes-id"
       :items="productClasses"
       subtitle-key="id"
-      @delete-click="(id) => handleConfirmModal(id)"
+      @delete-click="(id) => handleOpenConfirmModal(id)"
     />
   </v-container>
 </template>
