@@ -16,15 +16,22 @@
     isActive: deleteConfirmModal,
     openModal: openDeleteConfirmModal,
     closeModal: closeDeleteConfirmModal,
-    props: deleteProps,
+    props: deleteConfirmModalProps,
   } = useModal()
 
-  const formModal = ref(false)
+  const {
+    isActive: insertUserModalIsActive,
+    closeModal: closeInsertUserModal,
+    openModal: openInsertUserModal,
+    props: insertUserModalProps,
+  } = useModal()
+
+  // const formModal = ref(false)
   const openModal = () => {
-    formModal.value = true
+    openInsertUserModal({ title: 'Inserir Usuário' })
   }
   const closeModal = () => {
-    formModal.value = false
+    closeInsertUserModal()
   }
 
   const addData = async (
@@ -55,8 +62,8 @@
 
   const deleteData = async () => {
     try {
-      if (deleteProps.value.id)
-        await deleteUser(deleteProps.value.id.toString())
+      if (deleteConfirmModalProps.value.id)
+        await deleteUser(deleteConfirmModalProps.value.id.toString())
       showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       handleCloseModal()
@@ -125,8 +132,9 @@
           composable <code class="text-green-darken-3">useModal()</code>
         </p>
         <AppModal
-          v-model="formModal"
-          title="Formulário Modal"
+          v-model="insertUserModalIsActive"
+          :title="insertUserModalProps.title"
+          @on-close="closeModal"
         >
           <FormUser
             :is-pending="isPending.isLoading && isPending.action === 'addUser'"
@@ -134,8 +142,8 @@
           />
         </AppModal>
         <v-btn
-          :color="formModal ? 'red' : 'primary'"
-          :loading="formModal"
+          :color="insertUserModalIsActive ? 'red' : 'primary'"
+          :loading="insertUserModalIsActive"
           text="Abrir Modal"
           @click="openModal"
         />
