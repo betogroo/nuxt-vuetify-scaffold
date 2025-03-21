@@ -13,35 +13,33 @@
     fetchSuppliers,
     suppliers,
     deleteSupplierById,
-    deleteSupplierPending,
+    deleteSupplierPending: isDeleteSupplierPending,
   } = useSupplier()
 
-  const { isActive, openModal, closeModal, props } = useModal() // modal fab
+  const { isActive, openModal, closeModal, props } = useModal()
   const {
-    isActive: deleteModal,
-    openModal: openDeleteModal,
-    closeModal: closeDeleteModal,
+    isActive: isDeleteModalActive,
+    openModal: openConfirmDeleteModal,
+    closeModal: closeConfirmDeleteModal,
+    props: confirmDeleteModalProps,
   } = useModal() // modal delete
 
-  const idToDelete = ref<string | number | -1>(-1)
-
-  const openDeleteItemModal = (id: string | number) => {
-    idToDelete.value = id
-    openDeleteModal()
+  const handleOpenConfirmDeleteSupplierModal = (id: string | number) => {
+    openConfirmDeleteModal({ id })
   }
 
-  const _closeDeleteModal = () => {
-    console.log('Zerando tudo')
-    idToDelete.value = -1
-    closeDeleteModal()
+  const handleCloseConfirmDeleteSupplierModal = () => {
+    closeConfirmDeleteModal()
   }
 
   const confirmDeleteSupplier = async () => {
     try {
-      closeDeleteModal()
-      console.log(idToDelete.value)
-      const test = await deleteSupplierById(idToDelete.value)
-      if (!test) throw Error('Não foi possível excluir')
+      if (!confirmDeleteModalProps.value.id) throw Error('Id Inválido')
+      const deletedSupplier = await deleteSupplierById(
+        confirmDeleteModalProps.value.id,
+      )
+      if (!deletedSupplier) throw Error('Não foi possível excluir')
+      closeConfirmDeleteModal()
     } catch (error) {
       console.error('Erro ao tentar excluir fornecedor', error)
     }
@@ -75,11 +73,11 @@
   <v-container>
     <h1>Fornecedores</h1>
     <UgeTableSuppliers
-      :delete-icon-pending="deleteSupplierPending"
+      :delete-icon-pending="isDeleteSupplierPending"
       :is-pending="insertSupplierPending.isLoading"
       :rows="suppliers"
       title="Fornecedores"
-      @open-delete-modal="(id) => openDeleteItemModal(id)"
+      @open-delete-modal="(id) => handleOpenConfirmDeleteSupplierModal(id)"
     />
     <AppModalWithFabActivator
       v-model="isActive"
@@ -96,10 +94,11 @@
       />
     </AppModalWithFabActivator>
     <AppModalWithDeleteAction
-      v-model="deleteModal"
-      @on-cancel="_closeDeleteModal()"
+      v-model="isDeleteModalActive"
+      :is-pending="isDeleteSupplierPending.isLoading"
+      @on-cancel="handleCloseConfirmDeleteSupplierModal()"
       @on-confirm="confirmDeleteSupplier()"
     />
-    <div>{{ deleteSupplierPending }} {{ idToDelete }}</div>
+    <div>{{ isDeleteSupplierPending }} {{ confirmDeleteModalProps }}</div>
   </v-container>
 </template>
