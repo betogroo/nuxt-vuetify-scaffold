@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import type { PackagingUnitInsert, PackagingUnitRow } from '~/types'
 
-  const itemToDelete = ref<string | number>(-1)
-
   const {
     fetchPackagingUnits,
     fetchPackagingUnitsPending,
@@ -13,11 +11,18 @@
     isDeletingUnit,
   } = usePackagingUnit()
 
-  const { isActive, props, openModal, closeModal } = useModal()
+  const {
+    isActive: isInsertUnitModalFormActive,
+    openModal: openInsertUnitModalForm,
+    closeModal: closeInsertUnitModalForm,
+    props: insertUnitModalFormProps,
+  } = useModal()
+
   const {
     isActive: isConfirmDeleteModalActive,
-    openModal: openConfirmDeleteModal,
-    closeModal: closeConfirmDeleteModal,
+    openModal: openConfirmDeleteUnitModal,
+    closeModal: closeConfirmDeleteUnitModal,
+    props: confirmDeleteUnitModalProps,
   } = useModal()
 
   const submitPackagingUnit = async (
@@ -30,7 +35,7 @@
       if (!insertedData) throw Error('Erro ao tentar inserir')
       onSuccess(insertedData.name)
       await fetchPackagingUnits({ column: 'name' })
-      closeModal()
+      closeInsertUnitModalForm()
     } catch (error) {
       onError(`Erro ao tentar inserir a unidade`)
       console.error(error)
@@ -38,24 +43,25 @@
   }
 
   const handleConfirmModal = (id: string | number) => {
-    itemToDelete.value = id
-    openConfirmDeleteModal()
+    openConfirmDeleteUnitModal({ id })
   }
 
   const handleCancelModal = () => {
-    itemToDelete.value = -1
-    closeConfirmDeleteModal()
+    closeConfirmDeleteUnitModal()
   }
 
   const handleDeleteItem = async () => {
-    try {
-      const deletedItem = await deleteUnitById(itemToDelete.value)
-      if (!deletedItem) throw Error('O item não pôde ser excluído')
-      await fetchPackagingUnits({ column: 'name' })
-      handleCancelModal()
-    } catch (error) {
-      console.error(error)
-    }
+    if (confirmDeleteUnitModalProps.value.id)
+      try {
+        const deletedItem = await deleteUnitById(
+          confirmDeleteUnitModalProps.value.id,
+        )
+        if (!deletedItem) throw Error('O item não pôde ser excluído')
+        await fetchPackagingUnits({ column: 'name' })
+        handleCancelModal()
+      } catch (error) {
+        console.error(error)
+      }
   }
 
   onMounted(async () => {
@@ -72,10 +78,11 @@
     ><h1>Units</h1>
 
     <AppModalWithFabActivator
-      v-model="isActive"
-      :title="props.title || ''"
+      v-model="isInsertUnitModalFormActive"
+      :title="insertUnitModalFormProps.title || ''"
+      @close-modal="closeInsertUnitModalForm"
       @open-modal="
-        openModal({
+        openInsertUnitModalForm({
           title: 'Nova Unidade de Medida',
         })
       "
