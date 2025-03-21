@@ -11,7 +11,12 @@
     isClassDeleting,
   } = useProductClasses()
   const { onHandleError } = useHandleForm()
-  const { isActive, openModal, props, closeModal } = useModal()
+  const {
+    isActive: isInsertClassFormModalActive,
+    openModal: openInsertClassFormModal,
+    closeModal: closeInsertClassFormModal,
+    props: insertClassFormModalProps,
+  } = useModal()
 
   const {
     isActive: isConfirmDeleteModalActive,
@@ -30,7 +35,7 @@
       if (!insertedData) throw Error('Erro ao tentar inserir o classe')
       onSuccess(insertedData.name)
       await fetchProductClasses({ column: 'id' })
-      closeModal()
+      closeInsertClassFormModal()
     } catch (error) {
       onError('Erro ao tentar inserir a classe', error)
       console.log(error)
@@ -76,9 +81,12 @@
 <template>
   <v-container>
     <AppModalWithFabActivator
-      v-model="isActive"
-      :title="props.title!"
-      @open-modal="openModal({ title: 'Nova Classe de Produtos' })"
+      v-model="isInsertClassFormModalActive"
+      :title="insertClassFormModalProps.title!"
+      @close-modal="closeInsertClassFormModal"
+      @open-modal="
+        openInsertClassFormModal({ title: 'Nova Classe de Produtos' })
+      "
     >
       <UgeFormProductClassInsert
         :is-pending="insertProductClassPending.isLoading"
