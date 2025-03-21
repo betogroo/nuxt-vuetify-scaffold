@@ -186,6 +186,8 @@ const useHelpers = () => {
   }
 
   const capitalize = (s: string) => s.charAt(0).toLocaleUpperCase() + s.slice(1)
+
+  const getRandomBoolean = () => Math.random() < 0.5
   return {
     isPending,
     capitalize,
@@ -200,6 +202,7 @@ const useHelpers = () => {
     areObjectsEqual,
     showToast,
     simulateDelayInDevelopment,
+    getRandomBoolean,
   }
 }
 
