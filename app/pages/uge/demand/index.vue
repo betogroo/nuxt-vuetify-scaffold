@@ -19,6 +19,7 @@
     isActive: isConfirmDeleteModalActive,
     openModal: openConfirmDeleteModal,
     closeModal: closeConfirmDeleteModal,
+    props: confirmDeleteModalProps,
   } = useModal()
 
   const {
@@ -41,24 +42,24 @@
   //store
   const demandStore = usePurchasingDemandStore()
 
-  const itemToDelete = ref<number | string | null>(null)
   const handleOpenConfirmDeleteModal = (id: string | number) => {
-    itemToDelete.value = id
-    openConfirmDeleteModal()
+    openConfirmDeleteModal({ id })
   }
   const handleCloseConfirmDeleteModal = () => {
-    itemToDelete.value = null
     closeConfirmDeleteModal()
   }
   const deleteItem = async () => {
     try {
-      if (!itemToDelete.value) throw Error('Item inválido ao tentar excluir')
-      const deletedItem = await deleteDemandById(itemToDelete.value)
+      if (!confirmDeleteModalProps.value.id)
+        throw Error('Item inválido ao tentar excluir')
+      const deletedItem = await deleteDemandById(
+        confirmDeleteModalProps.value.id,
+      )
       if (!deletedItem) throw Error('Não foi possível excluir a demanda')
     } catch (error) {
       console.error(error)
     }
-    console.log(itemToDelete.value)
+    console.log(confirmDeleteModalProps.value.id)
     handleCloseConfirmDeleteModal()
   }
 

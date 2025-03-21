@@ -51,12 +51,11 @@
     }
   }
 
-  const handleConfirmModal = (id: string | number) => {
-    //itemToDelete.value = id
+  const handleOpenConfirmDeleteModal = (id: string | number) => {
     openDeleteConfirmModal({ id })
   }
 
-  const handleCloseModal = () => {
+  const handleCloseConfirmDeleteModal = () => {
     closeDeleteConfirmModal()
   }
 
@@ -66,7 +65,7 @@
         await deleteUser(deleteConfirmModalProps.value.id.toString())
       showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
-      handleCloseModal()
+      handleCloseConfirmDeleteModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
@@ -165,15 +164,15 @@
               :items="fakeUsers"
               subtitle-key="email"
               title-key="name"
-              @delete-click="(id) => handleConfirmModal(id)"
+              @delete-click="(id) => handleOpenConfirmDeleteModal(id)"
             />
           </template>
         </ul>
       </AppCard>
       <AppModalWithDeleteAction
         v-model="deleteConfirmModal"
-        @on-cancel="handleCloseModal()"
-        @on-confirm="deleteData()"
+        @on-cancel="handleCloseConfirmDeleteModal"
+        @on-confirm="deleteData"
       />
     </section>
     <section>
