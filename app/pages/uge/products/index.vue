@@ -2,7 +2,12 @@
   import type { ProductInsert, ProductRow } from '~/types'
 
   const { push } = useRouter()
-  const { isActive, openModal, closeModal, props } = useModal()
+  const {
+    isActive: isInsertProductModalActive,
+    openModal: openInsertProductModal,
+    closeModal: closeInsertProductModal,
+    props: insertProductModalProps,
+  } = useModal()
 
   const {
     products,
@@ -25,18 +30,18 @@
       const insertedData: ProductRow = await insertProduct(data)
       if (!insertedData) throw Error('Erro ao tentar inserir o produto')
       onSuccess(insertedData.id)
-      closeModal()
+      closeInsertProductModal()
       push(`/uge/products/${insertedData.id}`)
     } catch (error) {
       onError('Erro ao tentar inserir o produto', error)
     }
   }
 
-  const openInsertProductModal = async () => {
+  const handleInsertProductModal = async () => {
     try {
       await fetchProductClasses()
       await fetchProductExpenseCategories()
-      openModal({ title: 'Cadastrar novo Produto' })
+      openInsertProductModal({ title: 'Cadastrar novo Produto' })
     } catch (error) {
       console.log(error)
     }
@@ -45,8 +50,6 @@
   onMounted(async () => {
     try {
       await fetchProducts()
-      // await fetchProductClasses()
-      //await fetchProductExpenseCategories()
     } catch (error) {
       console.error(error)
     }
@@ -56,9 +59,10 @@
 <template>
   <div>
     <AppModalWithFabActivator
-      v-model="isActive"
-      :title="props.title!"
-      @open-modal="openInsertProductModal"
+      v-model="isInsertProductModalActive"
+      :title="insertProductModalProps.title!"
+      @close-modal="closeInsertProductModal"
+      @open-modal="handleInsertProductModal"
     >
       <UgeFormProduct
         :is-pending="insertProductPending.isLoading"
