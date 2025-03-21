@@ -1,6 +1,53 @@
 <script setup lang="ts">
-  import type { TeacherInsert } from '~/types'
-  const { insertTeacher, insertPending, fetchTeacher, teachers } = useTeacher()
+  import type { TeacherInsert, TeacherRow } from '~/types'
+
+  const itemToDelete = ref<string | number | null>(null)
+  const {
+    insertTeacher,
+    insertPending,
+    fetchTeacher,
+    teachers,
+    deleteTeacherById,
+    isDeletingTeacher,
+    fetchPending: isTeacherPending,
+  } = useTeacher()
+  const {
+    isActive: isDeleteConfirmModalActive,
+    openModal: openDeleteConfirmModal,
+    closeModal: closeDeleteConfirmModal,
+  } = useModal()
+  const {
+    isActive: isTeacherFormActive,
+    openModal: openTeacherFormModal,
+    closeModal: closeTeacherFormModal,
+  } = useModal()
+
+  const handleConfirmModal = (id: number | string) => {
+    itemToDelete.value = id
+    openDeleteConfirmModal()
+  }
+
+  const handleCloseModal = () => {
+    itemToDelete.value = null
+    closeDeleteConfirmModal()
+  }
+
+  const deleteTeacher = async () => {
+    try {
+      if (itemToDelete.value !== null) {
+        const deletedTeacher = await deleteTeacherById(itemToDelete.value)
+        if (!deletedTeacher) throw Error('Não foi possível excluir o professor')
+        handleCloseModal()
+        await fetchTeacher({ column: 'name' })
+      } else {
+        throw Error('Erro')
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      handleCloseModal()
+    }
+  }
 
   const handleSubmit = async (
     teacher: TeacherInsert,
@@ -8,9 +55,11 @@
     onError: (message: string, error?: unknown) => void,
   ) => {
     try {
-      const newTeacher = await insertTeacher(teacher)
+      const newTeacher: TeacherRow = await insertTeacher(teacher)
       if (!newTeacher) throw new Error('Erro ao Adicionar Professor')
       onSuccess(newTeacher.id)
+      closeTeacherFormModal()
+      await fetchTeacher({ column: 'name' })
     } catch (error) {
       onError('Erro ao tentar inserir a demanda', error)
     }
@@ -21,27 +70,39 @@
 </script>
 
 <template>
-  <div>
-    <div>Professores</div>
-    <FormTeacher
-      :is-pending="
-        insertPending.isLoading && insertPending.action === 'add-teachers'
-      "
-      @on-submit="
-        (values, onSuccess, onError) => handleSubmit(values, onSuccess, onError)
-      "
-    />
+  <v-container>
+    <h1>Professores</h1>
+
     <section>
-      <v-list nav>
-        <v-list-item
-          v-for="teacher in teachers"
-          :key="teacher.id"
-          nav
-          :to="{ name: 'schedule-teacher-id', params: { id: teacher.id } }"
-        >
-          {{ teacher.name }}
-        </v-list-item>
-      </v-list>
+      <AppModalWithFabActivator
+        v-model="isTeacherFormActive"
+        title="Cadastrar Professor"
+        @open-modal="openTeacherFormModal"
+      >
+        <FormTeacher
+          :is-pending="
+            insertPending.isLoading && insertPending.action === 'add-teachers'
+          "
+          @on-submit="
+            (values, onSuccess, onError) =>
+              handleSubmit(values, onSuccess, onError)
+          "
+        />
+      </AppModalWithFabActivator>
     </section>
-  </div>
+    <section>
+      <AppModalWithDeleteAction
+        v-model="isDeleteConfirmModalActive"
+        @on-cancel="handleCloseModal"
+        @on-confirm="deleteTeacher"
+      />
+      <AppList
+        :is-item-pending="isDeletingTeacher"
+        :is-list-pending="isTeacherPending.isLoading"
+        item-page="schedule-teacher-id"
+        :items="teachers"
+        @delete-click="(id) => handleConfirmModal(id)"
+      />
+    </section>
+  </v-container>
 </template>

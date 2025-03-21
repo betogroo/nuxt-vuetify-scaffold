@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const baseUserSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.string().uuid(),
   created_at: z.string().optional(),
   name: z.string().min(8, 'Campo Obrigatório'),
   email: z.string().min(1, 'Campo Obrigatório').email('Email Inválido'),

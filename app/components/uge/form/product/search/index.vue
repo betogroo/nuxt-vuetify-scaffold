@@ -69,7 +69,7 @@
         isPending,
         action: onReset,
       }"
-      :submit-button="{ disabled: !meta.valid, isPending, label: 'Enviar' }"
+      :submit-button="{ disabled: !meta.valid, isPending, label: 'Pesquisar' }"
     />
   </v-form>
 </template>

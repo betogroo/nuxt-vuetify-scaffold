@@ -3,6 +3,13 @@
   import { validatePackagingUnitInsert } from '~/validate'
   import type { PackagingUnitInsert, PackagingUnitRow } from '~/types'
 
+  interface Props {
+    isPending: boolean
+  }
+  withDefaults(defineProps<Props>(), {
+    isPending: false,
+  })
+
   const $emit = defineEmits<{
     'on-submit': [
       values: PackagingUnitInsert,
@@ -55,8 +62,8 @@
       <AppFormAction
         :submit-button="{
           disabled: !meta.valid,
-          isPending: false,
-          label: 'Nome',
+          isPending: isPending,
+          label: 'Salvar',
         }"
       />
     </v-form>

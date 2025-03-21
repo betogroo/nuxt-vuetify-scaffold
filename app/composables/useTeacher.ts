@@ -23,6 +23,11 @@ const useTeacher = () => {
     data: teacher,
   } = useGenericGet<TeacherRow>('teachers', teacherRowSchema)
 
+  const {
+    deleteDataById: deleteTeacherById,
+    deletePending: isDeletingTeacher,
+  } = useGenericDelete<TeacherRow>('teachers')
+
   return {
     insertPending,
     insertTeacher,
@@ -32,6 +37,8 @@ const useTeacher = () => {
     getById,
     teacher,
     getDataPending,
+    deleteTeacherById,
+    isDeletingTeacher,
   }
 }
 

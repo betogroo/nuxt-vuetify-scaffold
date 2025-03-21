@@ -4,6 +4,15 @@
   }
   defineProps<Props>()
 
+  const $emit = defineEmits<{
+    'on-close': []
+  }>()
+
+  const onClose = () => {
+    isActive.value = false
+    $emit('on-close')
+  }
+
   const isActive = defineModel<boolean>()
 </script>
 
@@ -11,6 +20,11 @@
   <v-dialog
     v-model="isActive"
     max-width="640px"
+    @update:model-value="
+      (value) => {
+        if (!value) $emit('on-close')
+      }
+    "
   >
     <v-card class="pa-0 ma-0">
       <template #title>
@@ -21,7 +35,7 @@
             :icon="iconOutline.close"
             size="x-small"
             variant="text"
-            @click="isActive = false"
+            @click="onClose()"
           />
         </div>
       </template>

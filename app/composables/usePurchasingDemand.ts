@@ -8,10 +8,12 @@ import type {
   Ptres,
 } from '~/types'
 import {
-  purchasingDemandDetailsRowSchema,
+  //purchasingDemandDetailsRowSchema,
+  purchasingDemandsRowSchema,
   purchasingDemandDetailsRowsSchema,
   purchasingDemandsWithMembersSchema,
   purchasingDemandsInsertSchema,
+  purchasingDemandsUpdateSchema,
 } from '~/schemas'
 
 // for test
@@ -19,12 +21,21 @@ const delay = ref(0)
 
 const usePurchasingDemand = () => {
   const supabase = useSupabaseClient<Database>()
+  const demandStore = usePurchasingDemandStore()
   const { setPendingState, isPending: purchasingDemandDetailsPending } =
     useHelpers()
 
   const demand = ref<PurchasingDemandDetails>()
   const demands = ref<PurchasingDemandDetails[]>([])
   const agentWithDemands = ref<AgentWithDemands>()
+
+  const {
+    update: updatePurchasingDemand,
+    updatePending: isPurchasingDemandUpdating,
+  } = useGenericUpdate('purchasing_demands', purchasingDemandsUpdateSchema)
+
+  const { deleteDataById: deleteDemandById, deletePending: isDeletingDemand } =
+    useGenericDelete<PurchasingDemand>('purchasing_demands')
 
   const {
     insertPending: purchasingInsertPending,
@@ -43,7 +54,8 @@ const usePurchasingDemand = () => {
         if (error) throw error
         if (newData) {
           const parsedData = purchasingDemandDetailsRowsSchema.parse(newData)
-          demands.value = parsedData
+          //demands.value = parsedData
+          demandStore.setDemands(parsedData)
         }
       },
       'fetch-purchasing-demand-details',
@@ -76,7 +88,7 @@ const usePurchasingDemand = () => {
     }, 'fetch-purchasing-demands-by-member')
   }
 
-  const getPurchasingDemand = async (demand_id: number) => {
+  /* const getPurchasingDemand = async (demand_id: number) => {
     await setPendingState(
       async () => {
         const { data: newData, error } = await supabase
@@ -93,7 +105,17 @@ const usePurchasingDemand = () => {
       'get-purchasing-demand',
       { delay: delay.value },
     )
-  }
+  } */
+
+  const {
+    data: purchasingDemand,
+    getById: getPurchasingDemandById,
+    getDataPending: isPurchasingDemandPending,
+  } = useGenericGet<PurchasingDemand>(
+    'purchasing_demands',
+    purchasingDemandsRowSchema,
+  )
+
   const demandNumber = (demand: number | string, createdAt: string): string =>
     `${demand.toString().padStart(5, '0')}/${getYear(createdAt)}`
 
@@ -126,14 +148,37 @@ const usePurchasingDemand = () => {
       title: 'Equipe de apoio',
       key: 'support_team',
     },
+    {
+      key: 'actions',
+    },
   ]
+
+  const channel = supabase.channel('custom-demand-channel')
+
+  channel
+    .on(
+      'postgres_changes',
+      { event: 'DELETE', schema: 'public', table: 'purchasing_demands' },
+      (payload) => {
+        demandStore.removeDemandById(payload.old.id)
+      },
+    )
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'purchasing_demands' },
+      (payload) => {
+        const parsedData = purchasingDemandsRowSchema.parse(payload.new)
+        purchasingDemand.value = parsedData
+      },
+    )
+    .subscribe()
 
   return {
     demand,
     demands,
     demandTableColumns: tableColumns,
     purchasingDemandDetailsPending,
-    getPurchasingDemand,
+    //getPurchasingDemand,
     fetchPurchasingDemandRows,
     fetchPurchasingDemandsByMember,
     insertPurchasingDemand,
@@ -142,6 +187,13 @@ const usePurchasingDemand = () => {
     subtitle,
     demandNumber,
     purchasingInsertPending,
+    deleteDemandById,
+    isDeletingDemand,
+    purchasingDemand,
+    getPurchasingDemandById,
+    isPurchasingDemandPending,
+    updatePurchasingDemand,
+    isPurchasingDemandUpdating,
   }
 }
 

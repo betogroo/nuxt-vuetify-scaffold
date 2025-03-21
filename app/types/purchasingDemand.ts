@@ -26,6 +26,10 @@ export type PurchasingDemandUpdate = z.infer<
   typeof purchasingDemandsUpdateSchema
 >
 
+export type DirtyPurchasingDemandUpdate = Partial<
+  Record<keyof PurchasingDemandUpdate, string | number | null | undefined>
+>
+
 export type DemandWithAgent = z.infer<
   typeof purchasingDemandWithContractingAgentSchema
 >

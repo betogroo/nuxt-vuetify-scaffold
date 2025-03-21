@@ -10,27 +10,27 @@
 </script>
 
 <template>
-  <div class="d-flex justify-space-around">
-    <div>
-      <v-btn
-        color="success"
-        :disabled="submitButton.disabled"
-        :loading="submitButton.isPending"
-        type="submit"
-      >
-        {{ submitButton.label }}
-      </v-btn>
-    </div>
-    <div>
-      <v-btn
-        v-if="cancelButton"
-        color="error"
-        :disabled="cancelButton.disabled"
-        :loading="cancelButton.isPending"
-        @click="cancelButton.action"
-      >
-        {{ cancelButton.label }}
-      </v-btn>
-    </div>
+  <div class="d-flex justify-end gap-4">
+    <v-btn
+      class="me-2"
+      color="success"
+      :disabled="submitButton.disabled"
+      :loading="submitButton.isPending"
+      min-width="120"
+      type="submit"
+    >
+      {{ submitButton.label }}
+    </v-btn>
+
+    <v-btn
+      v-if="cancelButton"
+      color="error"
+      :disabled="cancelButton.disabled"
+      :loading="cancelButton.isPending"
+      min-width="120"
+      @click="cancelButton.action"
+    >
+      {{ cancelButton.label }}
+    </v-btn>
   </div>
 </template>

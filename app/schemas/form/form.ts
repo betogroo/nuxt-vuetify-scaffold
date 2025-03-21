@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const formActionsButtonSchema = z.object({
   isPending: z.boolean(),
-  disabled: z.boolean(),
+  disabled: z.boolean().optional(),
   label: z.string(),
   action: z
     .function()

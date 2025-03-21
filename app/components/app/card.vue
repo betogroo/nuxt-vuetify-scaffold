@@ -16,7 +16,7 @@
     :loading="loading"
     variant="outlined"
   >
-    <v-card-title class="text-h5">{{ title }}</v-card-title>
+    <v-card-title class="text-h6">{{ title }}</v-card-title>
     <v-card-subtitle class="text-h6">{{ subtitle }}</v-card-subtitle>
     <slot />
   </v-card>
