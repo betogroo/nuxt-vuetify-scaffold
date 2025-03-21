@@ -6,6 +6,7 @@
 
   const $emit = defineEmits<{
     'open-modal': []
+    'close-modal': []
   }>()
   const openModal = () => {
     $emit('open-modal')
@@ -18,6 +19,7 @@
     <AppModal
       v-model="isActive"
       :title="title"
+      @on-close="$emit('close-modal')"
     >
       <slot />
     </AppModal>

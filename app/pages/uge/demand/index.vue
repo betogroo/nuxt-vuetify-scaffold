@@ -109,6 +109,7 @@
       <AppModalWithFabActivator
         v-model="isInsertModalActive"
         :title="insertModalProps.title!"
+        @close-modal="closeInsertModal"
         @open-modal="
           openInsertModal({ title: 'Nova Demanda', mode: 'purchasing-demand' })
         "
