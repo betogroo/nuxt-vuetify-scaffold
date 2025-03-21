@@ -16,7 +16,13 @@
     deleteSupplierPending: isDeleteSupplierPending,
   } = useSupplier()
 
-  const { isActive, openModal, closeModal, props } = useModal()
+  const {
+    isActive: isInsertSupplierModalActive,
+    openModal: openInsertSupplierModal,
+    closeModal: closeInsertSupplierModal,
+    props: insertSupplierModalProps,
+  } = useModal()
+
   const {
     isActive: isDeleteModalActive,
     openModal: openConfirmDeleteModal,
@@ -54,7 +60,7 @@
       const insertedData: SupplierRow = await insertSupplier(data)
       if (!insertedData) throw Error('Não foi possível inserir o fornecedor')
       onSuccess(insertedData.name)
-      closeModal()
+      closeInsertSupplierModal()
     } catch (error) {
       onError('Impossível cadastrar o fornecedor', error)
     }
@@ -80,9 +86,10 @@
       @open-delete-modal="(id) => handleOpenConfirmDeleteSupplierModal(id)"
     />
     <AppModalWithFabActivator
-      v-model="isActive"
-      :title="props?.title || ''"
-      @open-modal="openModal({ title: 'Cadastro de Fornecedor' })"
+      v-model="isInsertSupplierModalActive"
+      :title="insertSupplierModalProps.title || ''"
+      @close-modal="closeInsertSupplierModal"
+      @open-modal="openInsertSupplierModal({ title: 'Cadastro de Fornecedor' })"
     >
       <UgeFormSupplier
         :is-pending="insertSupplierPending.isLoading"
