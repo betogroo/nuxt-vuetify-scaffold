@@ -62,6 +62,7 @@
         v-model.number="offerValue"
         :error-messages="offerValueError"
         label="Valor da Oferta"
+        type="number"
       />
       <AppFormAction
         :cancel-button="{
