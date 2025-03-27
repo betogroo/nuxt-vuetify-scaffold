@@ -9,9 +9,15 @@
   })
 
   const { counter } = useCounterStore()
+  const {
+    openModal: openTestModal,
+    closeModal: closeTestModal,
+    isActive: isTestModalActive,
+    props: testModalProps,
+  } = useModal()
 
-  const openModal = () => {
-    console.log('Make a open modal composable')
+  const openModalOne = (mode: string) => {
+    openTestModal({ title: 'Modal de Teste', mode })
   }
 </script>
 
@@ -47,11 +53,38 @@
       </AppCard>
     </section>
     <section>
-      <h1 class="page-title">Teste Modal</h1>
-      <v-btn
-        text="Abrir Modal"
-        @click="openModal"
-      />
+      <AppCard
+        subtitle="Usando  o mesmo modal para dois assuntos distintos"
+        title="Modal"
+      >
+        <div class="d-flex justify-center mb-4">
+          <v-btn
+            text="Abrir Modal Um"
+            @click="openModalOne('modal-one')"
+          />
+          <v-btn
+            class="ml-2"
+            text="Abrir Modal Dois"
+            @click="openModalOne('modal-two')"
+          />
+        </div>
+        <code> {{ testModalProps }} </code>
+      </AppCard>
+      <AppModal
+        v-model="isTestModalActive"
+        :title="`${testModalProps.title} - (${testModalProps.mode})`"
+        @on-close="closeTestModal"
+      >
+        <v-container>
+          <div v-if="testModalProps.mode === 'modal-one'">
+            <h4>Conteúdo do Modal Um</h4>
+          </div>
+          <div v-if="testModalProps.mode === 'modal-two'">
+            <h4>Conteúdo do Modal Dois</h4>
+          </div>
+          <code> {{ testModalProps }} </code>
+        </v-container>
+      </AppModal>
     </section>
     <section>
       <h1 class="page-title">Versões</h1>
