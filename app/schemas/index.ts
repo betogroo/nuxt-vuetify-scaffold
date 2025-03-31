@@ -78,4 +78,6 @@ export * from './purchasing-demand/withMembers'
 export * from './purchasing-demand-products/row'
 export * from './purchasing-demand-products/insert'
 
+export * from './voting'
+
 export * from './user/user'
