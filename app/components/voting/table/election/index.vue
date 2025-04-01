@@ -4,6 +4,10 @@
 
   defineProps<Props>()
 
+  const $emit = defineEmits<{
+    'delete-click': [id: string | number]
+  }>()
+
   interface Props {
     items: Election[]
   }
@@ -33,8 +37,13 @@
     :headers="headers"
     :items="items"
   >
-    <template #item.actions="{ item }"
-      ><app-icon-details :to="{ name: 'voting-id', params: { id: item.id } }"
-    /></template>
+    <template #item.actions="{ item }">
+      <div>
+        <app-icon-details
+          :to="{ name: 'voting-id', params: { id: item.id } }"
+        />
+        <app-icon-delete @open-modal="$emit('delete-click', item.id)" />
+      </div>
+    </template>
   </v-data-table>
 </template>
