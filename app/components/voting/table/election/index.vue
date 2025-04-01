@@ -42,7 +42,10 @@
         <app-icon-details
           :to="{ name: 'voting-id', params: { id: item.id } }"
         />
-        <app-icon-delete @open-modal="$emit('delete-click', item.id)" />
+        <app-icon-delete
+          tooltip="Excluir"
+          @open-modal="$emit('delete-click', item.id)"
+        />
       </div>
     </template>
   </v-data-table>
