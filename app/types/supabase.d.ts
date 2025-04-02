@@ -101,6 +101,30 @@ export type Database = {
           },
         ]
       }
+      election: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       expense_category: {
         Row: {
           created_at: string
@@ -724,6 +748,7 @@ export type Database = {
         Returns: {
           purchasing_demand_product: string
           supplier_id: string
+          supplier_name: string
           offer_value: number
         }[]
       }
