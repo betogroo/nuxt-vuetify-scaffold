@@ -3,7 +3,7 @@
 
   interface Props {
     to: To
-    tooltip: string
+    tooltip?: string
   }
 
   withDefaults(defineProps<Props>(), {
