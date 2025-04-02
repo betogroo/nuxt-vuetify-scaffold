@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { TableColumn } from '~/types'
-  import type { Election } from '~/types/voting'
+  import type { Election } from '~/types/election'
 
   defineProps<Props>()
 

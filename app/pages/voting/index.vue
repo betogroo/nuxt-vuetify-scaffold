@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { Election } from '~/types/voting'
+  import type { Election } from '~/types/election'
 
   definePageMeta({
     showInNavBar: true,
