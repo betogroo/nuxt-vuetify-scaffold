@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { TableColumn } from '~/types'
-  import type { Election } from '~/types/election'
+  import type { ElectionRow } from '~/types/election'
 
   defineProps<Props>()
 
@@ -9,12 +9,12 @@
   }>()
 
   interface Props {
-    items: Election[]
+    items: ElectionRow[]
   }
 
   const headers: TableColumn[] = [
     {
-      title: 'Número',
+      title: 'Identificador',
       key: 'id',
     },
     {
