@@ -41,6 +41,7 @@
       <div>
         <app-icon-details
           :to="{ name: 'voting-id', params: { id: item.id } }"
+          tooltip="Detalhes"
         />
         <app-icon-delete
           tooltip="Excluir"
