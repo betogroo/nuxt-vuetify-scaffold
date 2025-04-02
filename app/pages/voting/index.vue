@@ -6,7 +6,8 @@
     order: 4,
   })
 
-  const { elections, fetchElections } = useElection()
+  const { elections, fetchElections, deleteElectionById, isElectionDeleting } =
+    useElection()
 
   const {
     openModal: openConfirmDeleteModal,
@@ -26,9 +27,14 @@
     openConfirmDeleteModal({ id })
     console.log('Open the modal', id)
   }
-  const handleConfirmDeleteVoting = () => {
-    console.log(confirmDeleteModalProps.value.id)
-    closeConfirmDeleteModal()
+  const handleConfirmDeleteVoting = async () => {
+    try {
+      if (confirmDeleteModalProps.value.id)
+        await deleteElectionById(confirmDeleteModalProps.value.id)
+      closeConfirmDeleteModal()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleOpenInsertVotingFormModal = () => {
@@ -47,11 +53,13 @@
       link para ir aos detalhes para a votação correspondente.
       {{ elections }}
       <VotingTableElection
+        :delete-pending="isElectionDeleting"
         :items="elections"
         @delete-click="(id) => handleConfirmDeleteModal(id)"
       />
     </AppCard>
     <AppModalWithDeleteAction
+      :is-pending="isElectionDeleting.isLoading"
       :model-value="isConfirmDeleteModalActive"
       @on-cancel="closeConfirmDeleteModal"
       @on-confirm="handleConfirmDeleteVoting"

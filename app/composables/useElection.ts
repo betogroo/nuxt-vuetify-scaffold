@@ -9,6 +9,17 @@ const useElection = () => {
     fetchPending: isElectionsPending,
   } = useGenericFetch<ElectionRow>('election', electionRowsSchema)
 
+  const {
+    data: election,
+    getById: getElectionById,
+    getDataPending: isElectionPending,
+  } = useGenericGet<ElectionRow>('election', electionRowSchema)
+
+  const {
+    deleteDataById: deleteElectionById,
+    deletePending: isElectionDeleting,
+  } = useGenericDelete('election')
+
   const channel = supabase.channel('custom-update-channel')
 
   channel
@@ -20,21 +31,30 @@ const useElection = () => {
         elections.value = [...elections.value, newElection]
       },
     )
+    .on(
+      'postgres_changes',
+      {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'election',
+      },
+      (payload) => {
+        elections.value = elections.value.filter(
+          (election) => election.id! != payload.old.id,
+        )
+      },
+    )
     .subscribe()
-
-  const {
-    data: election,
-    getById: getElectionById,
-    getDataPending: isElectionPending,
-  } = useGenericGet<ElectionRow>('election', electionRowSchema)
 
   return {
     elections,
     election,
     fetchElections,
     getElectionById,
+    deleteElectionById,
     isElectionsPending,
     isElectionPending,
+    isElectionDeleting,
   }
 }
 

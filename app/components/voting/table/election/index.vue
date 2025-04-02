@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { TableColumn } from '~/types'
+  import type { PendingState, TableColumn } from '~/types'
   import type { ElectionRow } from '~/types/election'
 
   defineProps<Props>()
@@ -10,6 +10,8 @@
 
   interface Props {
     items: ElectionRow[]
+    isPending?: boolean
+    deletePending?: PendingState
   }
 
   const headers: TableColumn[] = [
@@ -44,6 +46,9 @@
           tooltip="Detalhes"
         />
         <app-icon-delete
+          :is-pending="
+            deletePending?.isLoading && deletePending.pendingItem === item.id
+          "
           tooltip="Excluir"
           @open-modal="$emit('delete-click', item.id)"
         />
