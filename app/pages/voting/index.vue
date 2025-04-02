@@ -37,7 +37,6 @@
 
   onMounted(async () => {
     await fetchElections()
-    console.log(elections)
   })
 </script>
 
