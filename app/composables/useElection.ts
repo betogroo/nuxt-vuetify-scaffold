@@ -1,5 +1,9 @@
-import { electionRowSchema, electionRowsSchema } from '~/schemas'
-import type { ElectionRow } from '~/types/election'
+import {
+  electionInsertSchema,
+  electionRowSchema,
+  electionRowsSchema,
+} from '~/schemas'
+import type { ElectionInsert, ElectionRow } from '~/types/election'
 
 const useElection = () => {
   const supabase = useSupabaseClient()
@@ -19,6 +23,12 @@ const useElection = () => {
     deleteDataById: deleteElectionById,
     deletePending: isElectionDeleting,
   } = useGenericDelete('election')
+
+  const { insert: insertElection, insertPending: isElectionInserting } =
+    useGenericInsert<ElectionInsert, ElectionRow>(
+      'election',
+      electionInsertSchema,
+    )
 
   const channel = supabase.channel('custom-update-channel')
 
@@ -52,9 +62,11 @@ const useElection = () => {
     fetchElections,
     getElectionById,
     deleteElectionById,
+    insertElection,
     isElectionsPending,
     isElectionPending,
     isElectionDeleting,
+    isElectionInserting,
   }
 }
 

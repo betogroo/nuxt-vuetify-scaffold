@@ -78,6 +78,7 @@ export * from './purchasing-demand/withMembers'
 export * from './purchasing-demand-products/row'
 export * from './purchasing-demand-products/insert'
 
-export * from './election'
+export * from './election/row'
+export * from './election/insert'
 
 export * from './user/user'

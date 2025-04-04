@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import type { ElectionInsert, ElectionRow } from '~/types'
+
   definePageMeta({
     showInNavBar: true,
     requiresAuth: true,
@@ -6,8 +8,14 @@
     order: 4,
   })
 
-  const { elections, fetchElections, deleteElectionById, isElectionDeleting } =
-    useElection()
+  const {
+    elections,
+    fetchElections,
+    deleteElectionById,
+    isElectionDeleting,
+    insertElection,
+    isElectionInserting,
+  } = useElection()
 
   const {
     openModal: openConfirmDeleteModal,
@@ -17,28 +25,44 @@
   } = useModal()
 
   const {
-    openModal: openInsertVotingFormModal,
-    isActive: isInsertVotingFormModalActive,
-    props: insertVotingFormModalProps,
-    closeModal: closeInsertVotingFormModal,
+    openModal: openInsertElectionFormModal,
+    isActive: isInsertElectionFormModalActive,
+    props: insertElectionFormModalProps,
+    closeModal: closeInsertElectionFormModal,
   } = useModal()
+
+  const submitElection = async (
+    data: ElectionInsert,
+    onSuccess: () => void,
+    onError: (message: string, error: unknown) => void,
+  ) => {
+    try {
+      const insertedData: ElectionRow = await insertElection(data)
+      if (!insertedData) throw Error('Não foi possível inserir o fornecedor')
+      onSuccess()
+      closeInsertElectionFormModal()
+    } catch (error) {
+      onError('Impossível cadastrar o fornecedor', error)
+    }
+  }
 
   const handleConfirmDeleteModal = (id: string | number) => {
     openConfirmDeleteModal({ id })
     console.log('Open the modal', id)
   }
-  const handleConfirmDeleteVoting = async () => {
+  const handleConfirmDeleteElection = async () => {
     try {
       if (confirmDeleteModalProps.value.id)
         await deleteElectionById(confirmDeleteModalProps.value.id)
+
       closeConfirmDeleteModal()
     } catch (error) {
       console.log(error)
     }
   }
 
-  const handleOpenInsertVotingFormModal = () => {
-    openInsertVotingFormModal({ title: 'Inserir Eleição' })
+  const handleOpenInsertElectionFormModal = () => {
+    openInsertElectionFormModal({ title: 'Inserir Eleição' })
   }
 
   onMounted(async () => {
@@ -49,9 +73,6 @@
 <template>
   <v-container>
     <AppCard title="Sistema de Votação">
-      Nesta página teremos uma tabela com as votações em curso. Cada uma terá o
-      link para ir aos detalhes para a votação correspondente.
-      {{ elections }}
       <VotingTableElection
         :delete-pending="isElectionDeleting"
         :items="elections"
@@ -62,15 +83,19 @@
       :is-pending="isElectionDeleting.isLoading"
       :model-value="isConfirmDeleteModalActive"
       @on-cancel="closeConfirmDeleteModal"
-      @on-confirm="handleConfirmDeleteVoting"
+      @on-confirm="handleConfirmDeleteElection"
     />
     <AppModalWithFabActivator
-      v-model="isInsertVotingFormModalActive"
-      :title="insertVotingFormModalProps.title || ''"
-      @open-modal="handleOpenInsertVotingFormModal"
+      v-model="isInsertElectionFormModalActive"
+      :title="insertElectionFormModalProps.title || ''"
+      @open-modal="handleOpenInsertElectionFormModal"
     >
-      Aqui vai o formulário
-      <v-btn @click="closeInsertVotingFormModal">Cancelar</v-btn>
+      <VotingFormElection
+        :is-pending="isElectionInserting.isLoading"
+        @on-submit="
+          (data, onSuccess, onError) => submitElection(data, onSuccess, onError)
+        "
+      />
     </AppModalWithFabActivator>
   </v-container>
 </template>
