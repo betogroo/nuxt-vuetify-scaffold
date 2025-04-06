@@ -8,11 +8,17 @@
 
   const $emit = defineEmits<{
     'on-cancel': []
-    'on-confirm': [id: string | number]
+    'on-confirm': [onSuccess: () => void]
   }>()
 
-  const onConfirm = (id: string | number) => {
-    $emit('on-confirm', id)
+  const { showToast } = useHelpers()
+
+  const onSuccess = () => {
+    showToast('success', 'Excluído com sucesso')
+  }
+
+  const onConfirm = () => {
+    $emit('on-confirm', onSuccess)
   }
 
   const isActive = defineModel<boolean>()
