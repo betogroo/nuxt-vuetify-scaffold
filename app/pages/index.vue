@@ -172,6 +172,7 @@
       </AppCard>
       <AppModalWithDeleteAction
         v-model="deleteConfirmModal"
+        :is-pending="isPending.isLoading"
         @on-cancel="handleCloseConfirmDeleteModal"
         @on-confirm="deleteData"
       />
