@@ -59,11 +59,12 @@
     closeDeleteConfirmModal()
   }
 
-  const deleteData = async () => {
+  const deleteData = async (onSuccess: () => void) => {
     try {
       if (deleteConfirmModalProps.value.id)
         await deleteUser(deleteConfirmModalProps.value.id.toString())
-      showToast('success', 'Excluído com sucesso')
+      onSuccess()
+      //showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       handleCloseConfirmDeleteModal()
     } catch (err) {

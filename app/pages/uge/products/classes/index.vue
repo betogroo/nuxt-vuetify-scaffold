@@ -50,7 +50,7 @@
     closeConfirmDeleteClassModal()
   }
 
-  const deleteClass = async () => {
+  const deleteClass = async (onSuccess: () => void) => {
     if (confirmDeleteClassModalProps.value.id) {
       try {
         const deletedClass = await deleteClassById(
@@ -58,6 +58,7 @@
         )
         if (!deletedClass) throw Error('Não foi possível excluir a classe')
         handleCancelModal()
+        onSuccess()
         await fetchProductClasses({ column: 'id' })
       } catch (error) {
         console.log(error)

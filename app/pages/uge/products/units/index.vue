@@ -50,7 +50,7 @@
     closeConfirmDeleteUnitModal()
   }
 
-  const handleDeleteItem = async () => {
+  const handleDeleteItem = async (onSuccess: () => void) => {
     if (confirmDeleteUnitModalProps.value.id)
       try {
         const deletedItem = await deleteUnitById(
@@ -59,6 +59,7 @@
         if (!deletedItem) throw Error('O item não pôde ser excluído')
         await fetchPackagingUnits({ column: 'name' })
         handleCancelModal()
+        onSuccess()
       } catch (error) {
         console.error(error)
       }

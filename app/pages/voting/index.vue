@@ -50,11 +50,11 @@
     openConfirmDeleteModal({ id })
     console.log('Open the modal', id)
   }
-  const handleConfirmDeleteElection = async () => {
+  const handleConfirmDeleteElection = async (onSuccess: () => void) => {
     try {
       if (confirmDeleteModalProps.value.id)
         await deleteElectionById(confirmDeleteModalProps.value.id)
-
+      onSuccess()
       closeConfirmDeleteModal()
     } catch (error) {
       console.log(error)

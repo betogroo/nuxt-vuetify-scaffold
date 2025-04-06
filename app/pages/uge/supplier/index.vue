@@ -38,13 +38,14 @@
     closeConfirmDeleteModal()
   }
 
-  const confirmDeleteSupplier = async () => {
+  const confirmDeleteSupplier = async (onSuccess: () => void) => {
     try {
       if (!confirmDeleteModalProps.value.id) throw Error('Id Inválido')
       const deletedSupplier = await deleteSupplierById(
         confirmDeleteModalProps.value.id,
       )
       if (!deletedSupplier) throw Error('Não foi possível excluir')
+      onSuccess()
       closeConfirmDeleteModal()
     } catch (error) {
       console.error('Erro ao tentar excluir fornecedor', error)
@@ -104,7 +105,7 @@
       v-model="isDeleteModalActive"
       :is-pending="isDeleteSupplierPending.isLoading"
       @on-cancel="handleCloseConfirmDeleteSupplierModal()"
-      @on-confirm="confirmDeleteSupplier()"
+      @on-confirm="confirmDeleteSupplier"
     />
     <div>{{ isDeleteSupplierPending }} {{ confirmDeleteModalProps }}</div>
   </v-container>
