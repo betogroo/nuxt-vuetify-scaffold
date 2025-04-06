@@ -2,9 +2,12 @@
   const { id } = useValidateParam()
 
   const { election, getElectionById } = useElection()
+  const { ballotBoxes, getBallotBoxesByElectionId } = useBallotBox()
 
   onMounted(async () => {
-    if (id) await getElectionById(id)
+    if (!id) return
+    await getElectionById(id)
+    await getBallotBoxesByElectionId({ election_id: id })
   })
 </script>
 
@@ -14,7 +17,9 @@
       v-if="election"
       :title="election?.name"
     >
-      Nesta página teremos a tabela com os candidatos, urnas, e ações da eleição
+      <AppCard title="Urnas">
+        {{ ballotBoxes }}
+      </AppCard>
     </AppCard>
   </v-container>
 </template>
