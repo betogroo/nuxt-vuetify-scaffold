@@ -32,12 +32,13 @@
     closeDeleteConfirmModal()
   }
 
-  const deleteTeacher = async () => {
+  const deleteTeacher = async (onSuccess: () => void) => {
     try {
       if (itemToDelete.value !== null) {
         const deletedTeacher = await deleteTeacherById(itemToDelete.value)
         if (!deletedTeacher) throw Error('Não foi possível excluir o professor')
         handleCloseModal()
+        onSuccess()
         await fetchTeacher({ column: 'name' })
       } else {
         throw Error('Erro')
@@ -93,6 +94,7 @@
     <section>
       <AppModalWithDeleteAction
         v-model="isDeleteConfirmModalActive"
+        :is-pending="isDeletingTeacher.isLoading"
         @on-cancel="handleCloseModal"
         @on-confirm="deleteTeacher"
       />
