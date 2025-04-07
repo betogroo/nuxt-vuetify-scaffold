@@ -72,13 +72,22 @@
 
 <template>
   <v-container>
-    <AppCard title="Sistema de Votação">
+    <AppCard
+      v-if="elections.length"
+      title="Sistema de Votação"
+    >
       <VotingTableElection
         :delete-pending="isElectionDeleting"
         :items="elections"
         @delete-click="(id) => handleConfirmDeleteModal(id)"
       />
     </AppCard>
+    <v-empty-state
+      v-else
+      image="https://vuetifyjs.b-cdn.net/docs/images/logos/v.png"
+      text="Não foram encontradas eleições. cadastradas"
+      title="Nenhuma Eleição Encontrada"
+    />
     <AppModalWithDeleteAction
       :is-pending="isElectionDeleting.isLoading"
       :model-value="isConfirmDeleteModalActive"
