@@ -12,32 +12,32 @@ export type Database = {
       ballot_box: {
         Row: {
           created_at: string
-          election_id: string | null
-          id: number
+          election_id: string
+          id: string
           name: string
           updated_at: string
         }
         Insert: {
           created_at?: string
-          election_id?: string | null
-          id?: number
+          election_id: string
+          id?: string
           name: string
           updated_at?: string
         }
         Update: {
           created_at?: string
-          election_id?: string | null
-          id?: number
+          election_id?: string
+          id?: string
           name?: string
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "ballot_box_election_id_fkey"
-            columns: ["election_id"]
+            foreignKeyName: 'ballot_box_election_id_fkey'
+            columns: ['election_id']
             isOneToOne: false
-            referencedRelation: "election"
-            referencedColumns: ["id"]
+            referencedRelation: 'election'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -66,9 +66,9 @@ export type Database = {
           id: number
           name: string
           note: string | null
-          site: Database["public"]["Enums"]["demand_site"]
-          status: Database["public"]["Enums"]["demand_status"]
-          type: Database["public"]["Enums"]["demand_type"] | null
+          site: Database['public']['Enums']['demand_site']
+          status: Database['public']['Enums']['demand_status']
+          type: Database['public']['Enums']['demand_type'] | null
           updated_at: string | null
           user_id: string
         }
@@ -78,9 +78,9 @@ export type Database = {
           id?: number
           name?: string
           note?: string | null
-          site: Database["public"]["Enums"]["demand_site"]
-          status?: Database["public"]["Enums"]["demand_status"]
-          type?: Database["public"]["Enums"]["demand_type"] | null
+          site: Database['public']['Enums']['demand_site']
+          status?: Database['public']['Enums']['demand_status']
+          type?: Database['public']['Enums']['demand_type'] | null
           updated_at?: string | null
           user_id: string
         }
@@ -90,9 +90,9 @@ export type Database = {
           id?: number
           name?: string
           note?: string | null
-          site?: Database["public"]["Enums"]["demand_site"]
-          status?: Database["public"]["Enums"]["demand_status"]
-          type?: Database["public"]["Enums"]["demand_type"] | null
+          site?: Database['public']['Enums']['demand_site']
+          status?: Database['public']['Enums']['demand_status']
+          type?: Database['public']['Enums']['demand_type'] | null
           updated_at?: string | null
           user_id?: string
         }
@@ -104,32 +104,32 @@ export type Database = {
           changed_by: string | null
           document_demand_id: number
           id: number
-          new_status: Database["public"]["Enums"]["demand_status"]
-          old_status: Database["public"]["Enums"]["demand_status"]
+          new_status: Database['public']['Enums']['demand_status']
+          old_status: Database['public']['Enums']['demand_status']
         }
         Insert: {
           changed_at?: string
           changed_by?: string | null
           document_demand_id: number
           id?: number
-          new_status: Database["public"]["Enums"]["demand_status"]
-          old_status: Database["public"]["Enums"]["demand_status"]
+          new_status: Database['public']['Enums']['demand_status']
+          old_status: Database['public']['Enums']['demand_status']
         }
         Update: {
           changed_at?: string
           changed_by?: string | null
           document_demand_id?: number
           id?: number
-          new_status?: Database["public"]["Enums"]["demand_status"]
-          old_status?: Database["public"]["Enums"]["demand_status"]
+          new_status?: Database['public']['Enums']['demand_status']
+          old_status?: Database['public']['Enums']['demand_status']
         }
         Relationships: [
           {
-            foreignKeyName: "document_status_history_document_demand_id_fkey"
-            columns: ["document_demand_id"]
+            foreignKeyName: 'document_status_history_document_demand_id_fkey'
+            columns: ['document_demand_id']
             isOneToOne: false
-            referencedRelation: "document_demand"
-            referencedColumns: ["id"]
+            referencedRelation: 'document_demand'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -139,6 +139,7 @@ export type Database = {
           date: string
           id: string
           name: string
+          status: Database['public']['Enums']['election_status']
           updated_at: string
         }
         Insert: {
@@ -146,6 +147,7 @@ export type Database = {
           date: string
           id?: string
           name: string
+          status?: Database['public']['Enums']['election_status']
           updated_at?: string
         }
         Update: {
@@ -153,6 +155,7 @@ export type Database = {
           date?: string
           id?: string
           name?: string
+          status?: Database['public']['Enums']['election_status']
           updated_at?: string
         }
         Relationships: []
@@ -202,18 +205,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "offers_purchasing_demand_product_id_fkey"
-            columns: ["purchasing_demand_product_id"]
+            foreignKeyName: 'offers_purchasing_demand_product_id_fkey'
+            columns: ['purchasing_demand_product_id']
             isOneToOne: false
-            referencedRelation: "purchasing_demand_products"
-            referencedColumns: ["id"]
+            referencedRelation: 'purchasing_demand_products'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "offers_supplier_id_fkey"
-            columns: ["supplier_id"]
+            foreignKeyName: 'offers_supplier_id_fkey'
+            columns: ['supplier_id']
             isOneToOne: false
-            referencedRelation: "suppliers"
-            referencedColumns: ["id"]
+            referencedRelation: 'suppliers'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -245,7 +248,7 @@ export type Database = {
           is_whatsapp: boolean | null
           number: string
           supplier_id: string | null
-          type: Database["public"]["Enums"]["phone_type"]
+          type: Database['public']['Enums']['phone_type']
         }
         Insert: {
           created_at?: string
@@ -253,7 +256,7 @@ export type Database = {
           is_whatsapp?: boolean | null
           number: string
           supplier_id?: string | null
-          type: Database["public"]["Enums"]["phone_type"]
+          type: Database['public']['Enums']['phone_type']
         }
         Update: {
           created_at?: string
@@ -261,15 +264,15 @@ export type Database = {
           is_whatsapp?: boolean | null
           number?: string
           supplier_id?: string | null
-          type?: Database["public"]["Enums"]["phone_type"]
+          type?: Database['public']['Enums']['phone_type']
         }
         Relationships: [
           {
-            foreignKeyName: "phones_supplier_id_fkey"
-            columns: ["supplier_id"]
+            foreignKeyName: 'phones_supplier_id_fkey'
+            columns: ['supplier_id']
             isOneToOne: false
-            referencedRelation: "suppliers"
-            referencedColumns: ["id"]
+            referencedRelation: 'suppliers'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -312,18 +315,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "product_unit_product_id_fkey"
-            columns: ["product_id"]
+            foreignKeyName: 'product_unit_product_id_fkey'
+            columns: ['product_id']
             isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
+            referencedRelation: 'products'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "product_unit_unit_id_fkey"
-            columns: ["unit_id"]
+            foreignKeyName: 'product_unit_unit_id_fkey'
+            columns: ['unit_id']
             isOneToOne: false
-            referencedRelation: "packaging_unit"
-            referencedColumns: ["id"]
+            referencedRelation: 'packaging_unit'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -360,18 +363,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "products_expense_category_id_fkey"
-            columns: ["expense_category_id"]
+            foreignKeyName: 'products_expense_category_id_fkey'
+            columns: ['expense_category_id']
             isOneToOne: false
-            referencedRelation: "expense_category"
-            referencedColumns: ["id"]
+            referencedRelation: 'expense_category'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "products_product_class_id_fkey"
-            columns: ["product_class_id"]
+            foreignKeyName: 'products_product_class_id_fkey'
+            columns: ['product_class_id']
             isOneToOne: false
-            referencedRelation: "product_classes"
-            referencedColumns: ["id"]
+            referencedRelation: 'product_classes'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -450,18 +453,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "purchasing_demand_products_products_id_fkey"
-            columns: ["products_id"]
+            foreignKeyName: 'purchasing_demand_products_products_id_fkey'
+            columns: ['products_id']
             isOneToOne: true
-            referencedRelation: "products"
-            referencedColumns: ["id"]
+            referencedRelation: 'products'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "purchasing_demand_products_purchasing_demand_id_fkey"
-            columns: ["purchasing_demand_id"]
+            foreignKeyName: 'purchasing_demand_products_purchasing_demand_id_fkey'
+            columns: ['purchasing_demand_id']
             isOneToOne: false
-            referencedRelation: "purchasing_demands"
-            referencedColumns: ["id"]
+            referencedRelation: 'purchasing_demands'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -480,7 +483,7 @@ export type Database = {
           external_process_number: string | null
           id: number
           pncp_number: string | null
-          ptres_number: Database["public"]["Enums"]["ptres_number"]
+          ptres_number: Database['public']['Enums']['ptres_number']
           siafem_number: string | null
           updated_at: string
         }
@@ -498,7 +501,7 @@ export type Database = {
           external_process_number?: string | null
           id?: number
           pncp_number?: string | null
-          ptres_number: Database["public"]["Enums"]["ptres_number"]
+          ptres_number: Database['public']['Enums']['ptres_number']
           siafem_number?: string | null
           updated_at?: string
         }
@@ -516,17 +519,17 @@ export type Database = {
           external_process_number?: string | null
           id?: number
           pncp_number?: string | null
-          ptres_number?: Database["public"]["Enums"]["ptres_number"]
+          ptres_number?: Database['public']['Enums']['ptres_number']
           siafem_number?: string | null
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "purchasing_demands_contracting_agent_id_fkey"
-            columns: ["contracting_agent_id"]
+            foreignKeyName: 'purchasing_demands_contracting_agent_id_fkey'
+            columns: ['contracting_agent_id']
             isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -563,25 +566,25 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "schedules_class_id_fkey"
-            columns: ["class_id"]
+            foreignKeyName: 'schedules_class_id_fkey'
+            columns: ['class_id']
             isOneToOne: false
-            referencedRelation: "classes"
-            referencedColumns: ["id"]
+            referencedRelation: 'classes'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "schedules_subject_id_fkey"
-            columns: ["subject_id"]
+            foreignKeyName: 'schedules_subject_id_fkey'
+            columns: ['subject_id']
             isOneToOne: false
-            referencedRelation: "subjects"
-            referencedColumns: ["id"]
+            referencedRelation: 'subjects'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "schedules_teacher_id_fkey"
-            columns: ["teacher_id"]
+            foreignKeyName: 'schedules_teacher_id_fkey'
+            columns: ['teacher_id']
             isOneToOne: false
-            referencedRelation: "teachers"
-            referencedColumns: ["id"]
+            referencedRelation: 'teachers'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -648,18 +651,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "suport_team_process_id_fkey"
-            columns: ["process_id"]
+            foreignKeyName: 'suport_team_process_id_fkey'
+            columns: ['process_id']
             isOneToOne: false
-            referencedRelation: "purchasing_demands"
-            referencedColumns: ["id"]
+            referencedRelation: 'purchasing_demands'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "suport_team_profile_id_fkey"
-            columns: ["profile_id"]
+            foreignKeyName: 'suport_team_profile_id_fkey'
+            columns: ['profile_id']
             isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -690,18 +693,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "teacher_availability_teacher_id_fkey"
-            columns: ["teacher_id"]
+            foreignKeyName: 'teacher_availability_teacher_id_fkey'
+            columns: ['teacher_id']
             isOneToOne: false
-            referencedRelation: "teachers"
-            referencedColumns: ["id"]
+            referencedRelation: 'teachers'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "teacher_availability_time_slot_id_fkey"
-            columns: ["time_slot_id"]
+            foreignKeyName: 'teacher_availability_time_slot_id_fkey'
+            columns: ['time_slot_id']
             isOneToOne: false
-            referencedRelation: "time_slots"
-            referencedColumns: ["id"]
+            referencedRelation: 'time_slots'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -774,9 +777,7 @@ export type Database = {
     }
     Functions: {
       fetch_offers_on_purchasing_demand: {
-        Args: {
-          purchasing_demand_product_id: string
-        }
+        Args: { purchasing_demand_product_id: string }
         Returns: {
           purchasing_demand_product: string
           supplier_id: string
@@ -785,9 +786,7 @@ export type Database = {
         }[]
       }
       fetch_products_demand: {
-        Args: {
-          purchasing_demand_id: number
-        }
+        Args: { purchasing_demand_id: number }
         Returns: {
           id: string
           created_at: string
@@ -806,7 +805,7 @@ export type Database = {
         Returns: {
           id: number
           created_at: string
-          ptres_number: Database["public"]["Enums"]["ptres_number"]
+          ptres_number: Database['public']['Enums']['ptres_number']
           description: string
           contracting_agent_id: string
           contracting_agent_name: string
@@ -814,18 +813,14 @@ export type Database = {
         }[]
       }
       get_available_support_team: {
-        Args: {
-          process_id: number
-        }
+        Args: { process_id: number }
         Returns: {
           id: string
           name: string
         }[]
       }
       get_available_unit: {
-        Args: {
-          product_id: string
-        }
+        Args: { product_id: string }
         Returns: {
           unit_id: number
           name: string
@@ -833,9 +828,7 @@ export type Database = {
         }[]
       }
       get_designed_support_team: {
-        Args: {
-          process_id: number
-        }
+        Args: { process_id: number }
         Returns: {
           id: string
           username: string
@@ -844,13 +837,11 @@ export type Database = {
         }[]
       }
       get_purchasing_demand: {
-        Args: {
-          demand_id: number
-        }
+        Args: { demand_id: number }
         Returns: {
           id: number
           created_at: string
-          ptres_number: Database["public"]["Enums"]["ptres_number"]
+          ptres_number: Database['public']['Enums']['ptres_number']
           description: string
           contracting_agent_id: string
           contracting_agent_name: string
@@ -859,11 +850,12 @@ export type Database = {
       }
     }
     Enums: {
-      demand_site: "1062-9" | "1342-5"
-      demand_status: "new" | "consulted" | "released" | "issued" | "error"
-      demand_type: "1cin" | "2cin" | "1v" | "2v" | "2t" | "1ve" | "2ve"
-      phone_type: "landline" | "mobile"
-      ptres_number: "180205" | "180211"
+      demand_site: '1062-9' | '1342-5'
+      demand_status: 'new' | 'consulted' | 'released' | 'issued' | 'error'
+      demand_type: '1cin' | '2cin' | '1v' | '2v' | '2t' | '1ve' | '2ve'
+      election_status: 'created' | 'started' | 'paused' | 'finished'
+      phone_type: 'landline' | 'mobile'
+      ptres_number: '180205' | '180211'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -871,99 +863,120 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type DefaultSchema = Database[Extract<keyof Database, 'public'>]
 
 export type Tables<
-  PublicTableNameOrOptions extends
-    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-        Database[PublicTableNameOrOptions["schema"]]["Views"])
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])
     : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
+      DefaultSchema['Views'])
+  ? (DefaultSchema['Tables'] &
+      DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
     : never
+  : never
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+  ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
     : never
+  : never
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+  ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
     : never
+  : never
 
 export type Enums<
-  PublicEnumNameOrOptions extends
-    | keyof PublicSchema["Enums"]
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema['Enums']
     | { schema: keyof Database },
-  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
     : never = never,
-> = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+  ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+  : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+  ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      demand_site: ['1062-9', '1342-5'],
+      demand_status: ['new', 'consulted', 'released', 'issued', 'error'],
+      demand_type: ['1cin', '2cin', '1v', '2v', '2t', '1ve', '2ve'],
+      election_status: ['created', 'started', 'paused', 'finished'],
+      phone_type: ['landline', 'mobile'],
+      ptres_number: ['180205', '180211'],
+    },
+  },
+} as const

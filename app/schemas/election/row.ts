@@ -1,11 +1,18 @@
 import { z } from 'zod'
 
+export const electionStatusSchema = z.union([
+  z.literal('created'),
+  z.literal('started'),
+  z.literal('paused'),
+  z.literal('finished'),
+])
 export const electionRowSchema = z.object({
   id: uuidSchema,
   created_at: createdAtSchema,
   updated_at: createdAtSchema,
   name: nameSchema,
   date: z.string().date(),
+  status: electionStatusSchema,
 })
 export const electionRowsSchema = z.array(electionRowSchema)
 

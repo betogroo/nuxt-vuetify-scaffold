@@ -18,7 +18,16 @@
       :title="election?.name"
     >
       <AppCard title="Urnas">
-        {{ ballotBoxes }}
+        <div class="d-flex flex-wrap justify-center">
+          <v-card
+            v-for="item in ballotBoxes"
+            :key="item.id"
+            class="pa-1 ma-1"
+            :title="item.name"
+            variant="outlined"
+            width="240"
+          />
+        </div>
       </AppCard>
     </AppCard>
   </v-container>
