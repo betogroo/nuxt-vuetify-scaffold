@@ -1,7 +1,6 @@
 import { electionRowSchema } from '~/schemas'
 
-export const electionInsertSchema = electionRowSchema.omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
+export const electionInsertSchema = electionRowSchema.pick({
+  name: true,
+  date: true,
 })
