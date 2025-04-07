@@ -21,6 +21,18 @@ const useBallotBox = () => {
         console.log(payload)
       },
     )
+    .on(
+      'postgres_changes',
+      {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'ballot_box',
+      },
+      (payload) => {
+        ballotBoxes.value =
+          ballotBoxes.value?.filter((item) => item.id !== payload.old.id) || []
+      },
+    )
     .subscribe()
   return { getBallotBoxesByElectionId, ballotBoxes }
 }
