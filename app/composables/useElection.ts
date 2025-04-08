@@ -3,34 +3,41 @@ import {
   electionRowSchema,
   electionRowsSchema,
 } from '~/schemas'
-import type { ElectionInsert, ElectionRow } from '~/types/election'
+import { electionUpdateSchema } from '~/schemas/election/update'
+import type {
+  ElectionInsert,
+  ElectionRow,
+  ElectionUpdate,
+} from '~/types/election'
+
+const {
+  data: election,
+  getById: getElectionById,
+  getDataPending: isElectionPending,
+} = useGenericGet<ElectionRow>('election', electionRowSchema)
+const {
+  data: elections,
+  fetch: fetchElections,
+  fetchPending: isElectionsPending,
+} = useGenericFetch<ElectionRow>('election', electionRowsSchema)
+
+const {
+  deleteDataById: deleteElectionById,
+  deletePending: isElectionDeleting,
+} = useGenericDelete('election')
+
+const { insert: insertElection, insertPending: isElectionInserting } =
+  useGenericInsert<ElectionInsert, ElectionRow>(
+    'election',
+    electionInsertSchema,
+  )
+const { update: updateElection, updatePending: isElectionUpdating } =
+  useGenericUpdate<ElectionUpdate>('election', electionUpdateSchema)
 
 const useElection = () => {
   const supabase = useSupabaseClient()
-  const {
-    data: elections,
-    fetch: fetchElections,
-    fetchPending: isElectionsPending,
-  } = useGenericFetch<ElectionRow>('election', electionRowsSchema)
 
-  const {
-    data: election,
-    getById: getElectionById,
-    getDataPending: isElectionPending,
-  } = useGenericGet<ElectionRow>('election', electionRowSchema)
-
-  const {
-    deleteDataById: deleteElectionById,
-    deletePending: isElectionDeleting,
-  } = useGenericDelete('election')
-
-  const { insert: insertElection, insertPending: isElectionInserting } =
-    useGenericInsert<ElectionInsert, ElectionRow>(
-      'election',
-      electionInsertSchema,
-    )
-
-  const channel = supabase.channel('custom-update-channel')
+  const channel = supabase.channel('custom-election-channel')
 
   channel
     .on(
@@ -54,7 +61,19 @@ const useElection = () => {
         )
       },
     )
-    .subscribe()
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'election' },
+      (payload) => {
+        console.log('Change received!')
+        const parsedData = electionRowSchema.parse(payload.new)
+
+        election.value = { ...parsedData }
+      },
+    )
+    .subscribe((status) => {
+      console.log(status)
+    })
 
   return {
     elections,
@@ -63,10 +82,12 @@ const useElection = () => {
     getElectionById,
     deleteElectionById,
     insertElection,
+    updateElection,
     isElectionsPending,
     isElectionPending,
     isElectionDeleting,
     isElectionInserting,
+    isElectionUpdating,
   }
 }
 
