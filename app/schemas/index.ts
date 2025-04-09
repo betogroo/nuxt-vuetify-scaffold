@@ -82,5 +82,6 @@ export * from './election/row'
 export * from './election/insert'
 
 export * from './ballot-box/row'
+export * from './ballot-box/insert'
 
 export * from './user/user'
