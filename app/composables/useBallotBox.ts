@@ -1,10 +1,20 @@
-import { ballotBoxRowSchema, ballotBoxRowsSchema } from '~/schemas'
-import type { BallotBoxRow, Database } from '~/types'
+import {
+  ballotBoxInsertSchema,
+  ballotBoxRowSchema,
+  ballotBoxRowsSchema,
+} from '~/schemas'
+import type { BallotBoxInsert, BallotBoxRow, Database } from '~/types'
 
 const useBallotBox = () => {
-  const supabase = useSupabaseClient<Database>()
   const { getWithFilters: getBallotBoxesByElectionId, data: ballotBoxes } =
     useGenericGet<BallotBoxRow[]>('ballot_box', ballotBoxRowsSchema)
+
+  const { insert: insertBallotBox, insertPending: isBallotBoxInserting } =
+    useGenericInsert<BallotBoxInsert, BallotBoxRow>(
+      'ballot_box',
+      ballotBoxInsertSchema,
+    )
+  const supabase = useSupabaseClient<Database>()
 
   const channel = supabase.channel('custom-update-channel')
   channel
@@ -34,7 +44,12 @@ const useBallotBox = () => {
       },
     )
     .subscribe()
-  return { getBallotBoxesByElectionId, ballotBoxes }
+  return {
+    getBallotBoxesByElectionId,
+    insertBallotBox,
+    ballotBoxes,
+    isBallotBoxInserting,
+  }
 }
 
 export default useBallotBox

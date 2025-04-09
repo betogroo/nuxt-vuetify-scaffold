@@ -4,7 +4,12 @@
   const { election, getElectionById, updateElection, isElectionUpdating } =
     useElection()
 
-  const { ballotBoxes, getBallotBoxesByElectionId } = useBallotBox()
+  const {
+    ballotBoxes,
+    getBallotBoxesByElectionId,
+    insertBallotBox,
+    isBallotBoxInserting,
+  } = useBallotBox()
 
   const startElection = async () => {
     if (id) await updateElection(id, { status: 'started' })
@@ -14,6 +19,19 @@
   }
   const getReport = () => {
     console.log('Report', election)
+  }
+
+  const handleInsertBallotBox = async () => {
+    const ballotBoxNumbers = ballotBoxes.value
+      ?.map((item) => parseInt(item.name.replace('Urna', '')))
+      .filter((item) => !isNaN(item))
+    const maxNumber = ballotBoxNumbers?.length
+      ? Math.max(...ballotBoxNumbers)
+      : 0
+    const nextNumber = maxNumber + 1
+    await insertBallotBox({ name: `Urna ${nextNumber}`, election_id: id! })
+
+    console.log(ballotBoxNumbers, maxNumber, nextNumber)
   }
 
   onMounted(async () => {
@@ -32,6 +50,13 @@
     >
       <v-btn
         v-if="election.status === 'created'"
+        color="primary"
+        :loading="isBallotBoxInserting.isLoading"
+        @click="handleInsertBallotBox"
+        >Adicionar Urna</v-btn
+      >
+      <v-btn
+        v-if="election.status === 'created' && ballotBoxes?.length"
         color="primary"
         :loading="isElectionUpdating.isLoading"
         @click="startElection"
