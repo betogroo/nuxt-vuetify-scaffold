@@ -133,7 +133,14 @@
           :key="item.id"
           :ballot-box="item"
         >
-          <template #menu> qui vai o menu </template>
+          <template #menu
+            ><AppDropdown
+              :activator="{
+                type: 'icon',
+                value: iconOutline['dots-horizontal'],
+              }"
+              :items="dropdownItems(item)"
+          /></template>
         </VotingCardBallotBox>
       </div>
     </AppCard>
