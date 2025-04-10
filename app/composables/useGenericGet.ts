@@ -49,6 +49,10 @@ const useGenericGet = <RowType>(
   const getWithFilters = async (
     filters: Record<string, string | number> = {},
     partialMatches: string[] = [], // Adicionado: lista de campos para busca parcial
+    orderBy: { column: string; ascending?: boolean } = {
+      column: 'id',
+      ascending: true,
+    },
   ) => {
     return setPendingState(async () => {
       let query = supabase.from(tableName).select(columns)
@@ -62,6 +66,9 @@ const useGenericGet = <RowType>(
           query = query.eq(key, value)
         }
       }
+      query = query.order(orderBy.column, {
+        ascending: orderBy.ascending ?? true,
+      })
 
       const { data: newData, error } = await query.returns<RowType>()
       if (error) throw error

@@ -37,11 +37,6 @@
     console.log(ballotBoxNumbers, maxNumber, nextNumber)
   }
 
-  onMounted(async () => {
-    await getElectionById(id!)
-    await getBallotBoxesByElectionId({ election_id: id! })
-  })
-
   const {
     openModal: openConfirmDeleteModal,
     closeModal: closeConfirmDeleteModal,
@@ -54,6 +49,12 @@
     closeConfirmDeleteModal()
   }
 
+  onMounted(async () => {
+    await getElectionById(id!)
+    await getBallotBoxesByElectionId({ election_id: id! }, [], {
+      column: 'created_at',
+    })
+  })
   const dropdownItems = (item: BallotBoxRow): DropdownItem[][] => [
     [
       {
