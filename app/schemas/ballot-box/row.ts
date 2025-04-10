@@ -30,6 +30,7 @@ export const ballotBoxRowSchema = z.object({
   name: nameSchema,
   site: z.string().min(2, 'Deve conter pelo menos dois caracteres').nullable(),
   election_id: uuidSchema,
+  ready: z.string().nullable(),
 })
 
 export const ballotBoxRowsSchema = z.array(ballotBoxRowSchema)

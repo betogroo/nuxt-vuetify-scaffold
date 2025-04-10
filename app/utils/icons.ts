@@ -1,6 +1,7 @@
 export const iconOutline = {
   archive: 'mdi-archive-outline',
   checkCircle: 'mdi-check-circle-outline',
+
   close: 'mdi-close',
   close_outline: 'mdi-close-outline',
   details: 'mdi-magnify',
@@ -14,7 +15,14 @@ export const iconOutline = {
   plus: 'mdi-plus',
   settings: 'mdi-cog-outline',
   signOut: 'mdi-logout',
+
   trash: 'mdi-delete-outline',
   return: 'mdi-arrow-left-top',
   user: 'mdi-account-outline',
+}
+
+export const icon = {
+  circle: 'mdi-circle',
+  check: 'mdi-check-circle',
+  stopCircle: 'mdi-stop-circle',
 }
