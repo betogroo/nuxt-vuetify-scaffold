@@ -27,7 +27,7 @@
           class="text-right"
           cols="3"
         >
-          <slot name="menu" />
+          <slot name="dropdown-menu" />
         </v-col>
       </v-row>
     </template>

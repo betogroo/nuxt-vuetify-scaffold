@@ -57,24 +57,15 @@
   const dropdownItems = (item: BallotBoxRow): DropdownItem[][] => [
     [
       {
-        label: 'Detalhes',
-        icon: 'mdi-redo',
+        label: 'Ir para a Urna',
+        icon: iconOutline.expand,
         action: () => push(`ballot-box/${item.id}`),
       },
-
       {
         label: 'Editar Local',
         icon: iconOutline.edit,
         action: () => console.log('Edit', item.id),
       },
-
-      {
-        label: 'Arquivar',
-        icon: iconOutline.archive,
-        action: () => console.log('Archive', item.id),
-        color: 'warning',
-      },
-
       {
         label: 'Delete',
         icon: iconOutline.trash,
@@ -133,7 +124,7 @@
           :key="item.id"
           :ballot-box="item"
         >
-          <template #menu
+          <template #dropdown-menu
             ><AppDropdown
               :activator="{
                 type: 'icon',
