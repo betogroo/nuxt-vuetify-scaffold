@@ -6,6 +6,9 @@ import {
 import type { BallotBoxInsert, BallotBoxRow, Database } from '~/types'
 
 const useBallotBox = () => {
+  const supabase = useSupabaseClient<Database>()
+  const channel = supabase.channel('custom-update-channel')
+
   const { getWithFilters: getBallotBoxesByElectionId, data: ballotBoxes } =
     useGenericGet<BallotBoxRow[]>('ballot_box', ballotBoxRowsSchema)
 
@@ -14,9 +17,6 @@ const useBallotBox = () => {
       'ballot_box',
       ballotBoxInsertSchema,
     )
-  const supabase = useSupabaseClient<Database>()
-
-  const channel = supabase.channel('custom-update-channel')
   channel
     .on(
       'postgres_changes',

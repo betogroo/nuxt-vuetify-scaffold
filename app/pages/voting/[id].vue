@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import type { BallotBoxRow, DropdownItem } from '~/types'
+  const { push } = useRouter()
+
   const { id } = useValidateParam()
 
   const { election, getElectionById, updateElection, isElectionUpdating } =
@@ -38,10 +41,57 @@
     await getElectionById(id!)
     await getBallotBoxesByElectionId({ election_id: id! })
   })
+
+  const {
+    openModal: openConfirmDeleteModal,
+    closeModal: closeConfirmDeleteModal,
+    props: confirmDeleteProps,
+    isActive: isConfirmDeleteModalActive,
+  } = useModal()
+
+  const confirmDeleteBallotBox = (id: string) => {
+    console.log('vai excluir a urna', id)
+    closeConfirmDeleteModal()
+  }
+
+  const dropdownItems = (item: BallotBoxRow): DropdownItem[][] => [
+    [
+      {
+        label: 'Detalhes',
+        icon: 'mdi-redo',
+        action: () => push(`ballot-box/${item.id}`),
+      },
+
+      {
+        label: 'Editar Local',
+        icon: iconOutline.edit,
+        action: () => console.log('Edit', item.id),
+      },
+
+      {
+        label: 'Arquivar',
+        icon: iconOutline.archive,
+        action: () => console.log('Archive', item.id),
+        color: 'warning',
+      },
+
+      {
+        label: 'Delete',
+        icon: iconOutline.trash,
+        action: () => openConfirmDeleteModal({ id: item.id }),
+        color: 'error',
+      },
+    ],
+  ]
 </script>
 
 <template>
   <v-container>
+    <AppModalWithDeleteAction
+      v-model="isConfirmDeleteModalActive"
+      @on-cancel="closeConfirmDeleteModal"
+      @on-confirm="confirmDeleteBallotBox(confirmDeleteProps.id!.toString())"
+    />
     <AppCard
       v-if="election"
       :loading="isElectionUpdating.isLoading"
@@ -75,18 +125,17 @@
         @click="getReport"
         >Gerar Relatório</v-btn
       >
-      <AppCard title="Urnas">
-        <div class="d-flex flex-wrap justify-center">
-          <v-card
-            v-for="item in ballotBoxes"
-            :key="item.id"
-            class="pa-1 ma-1"
-            :title="item.name"
-            variant="outlined"
-            width="240"
-          />
-        </div>
-      </AppCard>
+    </AppCard>
+    <AppCard title="Urnas">
+      <div class="d-flex flex-wrap justify-center">
+        <VotingCardBallotBox
+          v-for="item in ballotBoxes"
+          :key="item.id"
+          :ballot-box="item"
+        >
+          <template #menu> qui vai o menu </template>
+        </VotingCardBallotBox>
+      </div>
     </AppCard>
   </v-container>
 </template>
