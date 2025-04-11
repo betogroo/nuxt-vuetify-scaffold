@@ -10,13 +10,26 @@ import type {
   PostgrestError,
 } from '~/types'
 
+type CustomError = {
+  type: 'validation' | 'database' | 'unknown'
+  message: string
+  details?: string[]
+}
+
 const useHelpers = () => {
   //const toast = useToast()
   const { notification } = useNotificationStore()
-  type CustomError = {
-    type: 'validation' | 'database' | 'unknown'
-    message: string
-    details?: string[]
+
+  const updateArrayItemById = <T extends { id: string }>(
+    array: Ref<T[] | T[] | null>,
+    updatedItem: Partial<T> & { id: string },
+  ) => {
+    if (!array.value) return
+    const index = array.value.findIndex((item) => item.id === updatedItem.id)
+    const target = array.value[index]
+    if (target) {
+      Object.assign(target, updatedItem)
+    }
   }
 
   const getRandomUUID = (): string => uuid()
@@ -203,6 +216,7 @@ const useHelpers = () => {
     showToast,
     simulateDelayInDevelopment,
     getRandomBoolean,
+    updateArrayItemById,
   }
 }
 

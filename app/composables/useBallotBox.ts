@@ -6,6 +6,7 @@ import {
 import type { BallotBoxInsert, BallotBoxRow, Database } from '~/types'
 
 const useBallotBox = () => {
+  const { updateArrayItemById } = useHelpers()
   const supabase = useSupabaseClient<Database>()
   const channel = supabase.channel('custom-update-channel')
 
@@ -54,13 +55,14 @@ const useBallotBox = () => {
         if (ballotBoxes.value) {
           console.log(payload.old, payload.new)
           const newRecord = ballotBoxRowSchema.parse(payload.new)
-          const index = ballotBoxes.value.findIndex(
+          /*  const index = ballotBoxes.value.findIndex(
             (item) => item.id === payload.old.id,
           )
           if (index !== -1 && ballotBoxes.value[index])
             Object.assign(ballotBoxes.value[index], newRecord)
 
-          console.log(newRecord, index)
+          console.log(newRecord, index) */
+          updateArrayItemById(ballotBoxes, newRecord)
         }
       },
     )
