@@ -12,6 +12,8 @@
     getBallotBoxesByElectionId,
     insertBallotBox,
     isBallotBoxInserting,
+    updateBallotBox,
+    isBallotBoxUpdating,
   } = useBallotBox()
 
   const startElection = async () => {
@@ -22,6 +24,16 @@
   }
   const getReport = () => {
     console.log('Report', election)
+  }
+
+  const setBallotBoxReady = async (
+    ballotBox: BallotBoxRow,
+    value: string | null,
+  ) => {
+    if (!ballotBox) return
+    if (!ballotBox.ready)
+      await updateBallotBox(ballotBox.id, { ready: value }, ballotBox.id)
+    else await updateBallotBox(ballotBox.id, { ready: null }, ballotBox.id)
   }
 
   const handleInsertBallotBox = async () => {
@@ -124,6 +136,10 @@
           v-for="item in ballotBoxes"
           :key="item.id"
           :ballot-box="item"
+          :ready-pending="isBallotBoxUpdating"
+          @toggle-ready="
+            (item) => setBallotBoxReady(item, 'algo relacionado ao eleitor')
+          "
         >
           <template #dropdown-menu
             ><AppDropdown
@@ -135,6 +151,7 @@
           /></template>
         </VotingCardBallotBox>
       </div>
+      {{ isBallotBoxUpdating }}
     </AppCard>
   </v-container>
 </template>

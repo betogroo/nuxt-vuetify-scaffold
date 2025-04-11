@@ -80,8 +80,10 @@ export * from './purchasing-demand-products/insert'
 
 export * from './election/row'
 export * from './election/insert'
+export * from './election/update'
 
 export * from './ballot-box/row'
 export * from './ballot-box/insert'
+export * from './ballot-box/update'
 
 export * from './user/user'

@@ -2,8 +2,14 @@ import {
   ballotBoxInsertSchema,
   ballotBoxRowSchema,
   ballotBoxRowsSchema,
+  ballotBoxUpdateSchema,
 } from '~/schemas'
-import type { BallotBoxInsert, BallotBoxRow, Database } from '~/types'
+import type {
+  BallotBoxInsert,
+  BallotBoxRow,
+  BallotBoxUpdate,
+  Database,
+} from '~/types'
 
 const useBallotBox = () => {
   const { updateArrayItemById } = useHelpers()
@@ -18,6 +24,9 @@ const useBallotBox = () => {
       'ballot_box',
       ballotBoxInsertSchema,
     )
+
+  const { update: updateBallotBox, updatePending: isBallotBoxUpdating } =
+    useGenericUpdate<BallotBoxUpdate>('ballot_box', ballotBoxUpdateSchema)
   channel
     .on(
       'postgres_changes',
@@ -70,8 +79,10 @@ const useBallotBox = () => {
   return {
     getBallotBoxesByElectionId,
     insertBallotBox,
+    updateBallotBox,
     ballotBoxes,
     isBallotBoxInserting,
+    isBallotBoxUpdating,
   }
 }
 

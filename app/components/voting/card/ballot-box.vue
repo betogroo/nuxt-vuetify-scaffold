@@ -1,6 +1,10 @@
 <script setup lang="ts">
-  import type { BallotBoxRow } from '~/types'
+  import type { BallotBoxRow, PendingState } from '~/types'
   const props = defineProps<Props>()
+
+  const $emit = defineEmits<{
+    'toggle-ready': [ballotBox: BallotBoxRow]
+  }>()
 
   defineOptions({
     name: 'BallotBoxCard',
@@ -8,7 +12,9 @@
 
   interface Props {
     ballotBox: BallotBoxRow
+    readyPending: PendingState
   }
+
   const statusIcon = computed(() => {
     return props.ballotBox.ready ? icon.check : icon.stopCircle
   })
@@ -37,7 +43,17 @@
         <v-col
           class="text-right"
           cols="4"
-          ><v-icon>{{ statusIcon }}</v-icon>
+          ><v-btn
+            :icon="statusIcon"
+            :loading="
+              readyPending.isLoading &&
+              readyPending.pendingItem === ballotBox.id
+            "
+            :ripple="false"
+            size="24"
+            variant="text"
+            @click="$emit('toggle-ready', ballotBox)"
+          />
           <slot name="dropdown-menu" />
         </v-col>
       </v-row>
