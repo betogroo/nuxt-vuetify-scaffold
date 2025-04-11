@@ -19,6 +19,12 @@ const useBallotBox = () => {
   const { getWithFilters: getBallotBoxesByElectionId, data: ballotBoxes } =
     useGenericGet<BallotBoxRow[]>('ballot_box', ballotBoxRowsSchema)
 
+  const {
+    getById: getBallotBoxById,
+    data: ballotBox,
+    getDataPending: isBallotBoxPending,
+  } = useGenericGet<BallotBoxRow>('ballot_box', ballotBoxRowSchema)
+
   const { insert: insertBallotBox, insertPending: isBallotBoxInserting } =
     useGenericInsert<BallotBoxInsert, BallotBoxRow>(
       'ballot_box',
@@ -78,11 +84,14 @@ const useBallotBox = () => {
     .subscribe()
   return {
     getBallotBoxesByElectionId,
+    getBallotBoxById,
     insertBallotBox,
     updateBallotBox,
     ballotBoxes,
+    ballotBox,
     isBallotBoxInserting,
     isBallotBoxUpdating,
+    isBallotBoxPending,
   }
 }
 
