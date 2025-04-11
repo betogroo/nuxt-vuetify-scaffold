@@ -61,6 +61,10 @@
     closeConfirmDeleteModal()
   }
 
+  const disabledBallotBox = computed(() => {
+    return election.value?.status !== 'started'
+  })
+
   onMounted(async () => {
     await getElectionById(id!)
     await getBallotBoxesByElectionId({ election_id: id! }, [], {
@@ -136,6 +140,7 @@
           v-for="item in ballotBoxes"
           :key="item.id"
           :ballot-box="item"
+          :disabled="disabledBallotBox"
           :ready-pending="isBallotBoxUpdating"
           @toggle-ready="
             (item) => setBallotBoxReady(item, 'algo relacionado ao eleitor')

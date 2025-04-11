@@ -1,19 +1,19 @@
 <script setup lang="ts">
   import type { BallotBoxRow, PendingState } from '~/types'
-  const props = defineProps<Props>()
-
-  const $emit = defineEmits<{
-    'toggle-ready': [ballotBox: BallotBoxRow]
-  }>()
-
-  defineOptions({
-    name: 'BallotBoxCard',
-  })
-
   interface Props {
     ballotBox: BallotBoxRow
     readyPending: PendingState
+    disabled?: boolean
   }
+  const props = withDefaults(defineProps<Props>(), {
+    disabled: true,
+  })
+  const $emit = defineEmits<{
+    'toggle-ready': [ballotBox: BallotBoxRow]
+  }>()
+  defineOptions({
+    name: 'BallotBoxCard',
+  })
 
   const statusIcon = computed(() => {
     return props.ballotBox.ready ? icon.check : icon.stopCircle
@@ -27,6 +27,7 @@
   <v-card
     class="ma-1 d-flex flex-column"
     :class="`text-${color}`"
+    :disabled="disabled"
     :style="`border-color: ${color}`"
     :subtitle="ballotBox.site || ''"
     :title="ballotBox.name"
