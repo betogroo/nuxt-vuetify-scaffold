@@ -11,6 +11,10 @@
   const handleNumericButton = (value: number) => {
     content.value.push(value.toString())
   }
+
+  const handleReset = () => {
+    content.value = []
+  }
 </script>
 
 <template>
@@ -80,6 +84,7 @@
           @click="(value) => handleNumericButton(value)"
         />
       </v-sheet>
+      <VotingBallotBoxActionBtn @click="handleReset" />
     </v-card>
   </v-container>
 </template>
