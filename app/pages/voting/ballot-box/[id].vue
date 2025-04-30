@@ -12,8 +12,11 @@
 </script>
 
 <template>
-  <v-container>
-    <div v-if="!isBallotBoxPending.isLoading">{{ ballotBox }}</div>
+  <v-container v-if="ballotBox">
+    <div v-if="!isBallotBoxPending.isLoading">
+      <VotingBallotBox :ballot-box="ballotBox" />
+    </div>
     <div v-else>Loading</div>
   </v-container>
+  <div v-else>Criar componente para não encontrado</div>
 </template>
