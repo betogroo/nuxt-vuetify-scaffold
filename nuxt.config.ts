@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     'vuetify-nuxt-module',
     '@vueuse/nuxt',
+    '@vueuse/sound/nuxt',
   ],
 
   css: ['~/assets/css/main.css'],
@@ -37,6 +38,12 @@ export default defineNuxtConfig({
           density: 'compact',
         },
       },
+    },
+  },
+
+  sound: {
+    sounds: {
+      scan: true,
     },
   },
 })
