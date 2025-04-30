@@ -6,8 +6,10 @@
   }
   defineProps<Props>()
 
+  const content = ref<string>('')
+
   const handleNumericButton = (value: number) => {
-    console.log(value)
+    content.value += value
   }
 </script>
 
@@ -15,39 +17,66 @@
   <v-container>
     <div class="h1">Urna</div>
     <div>{{ ballotBox }}</div>
-    <v-sheet>
-      <VotingBallotBoxNumericBtn
-        :sound="true"
-        :value="1"
-        @click="(value) => handleNumericButton(value)"
-      />
-      <VotingBallotBoxNumericBtn
-        :sound="true"
-        :value="2"
-        @click="(value) => handleNumericButton(value)"
-      />
-      <VotingBallotBoxNumericBtn
-        :sound="true"
-        :value="3"
-        @click="(value) => handleNumericButton(value)"
-      />
-    </v-sheet>
-    <v-sheet>
-      <VotingBallotBoxNumericBtn
-        :sound="true"
-        :value="4"
-        @click="(value) => handleNumericButton(value)"
-      />
-      <VotingBallotBoxNumericBtn
-        :sound="true"
-        :value="5"
-        @click="(value) => handleNumericButton(value)"
-      />
-      <VotingBallotBoxNumericBtn
-        :sound="true"
-        :value="6"
-        @click="(value) => handleNumericButton(value)"
-      />
-    </v-sheet>
+    <VotingBallotBoxNumericDisplay :content="content" />
+    <v-card>
+      <v-sheet class="d-flex justify-center">
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="1"
+          @click="(value) => handleNumericButton(value)"
+        />
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="2"
+          @click="(value) => handleNumericButton(value)"
+        />
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="3"
+          @click="(value) => handleNumericButton(value)"
+        />
+      </v-sheet>
+      <v-sheet class="d-flex justify-center">
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="4"
+          @click="(value) => handleNumericButton(value)"
+        />
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="5"
+          @click="(value) => handleNumericButton(value)"
+        />
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="6"
+          @click="(value) => handleNumericButton(value)"
+        />
+      </v-sheet>
+      <v-sheet class="d-flex justify-center">
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="7"
+          @click="(value) => handleNumericButton(value)"
+        />
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="8"
+          @click="(value) => handleNumericButton(value)"
+        />
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="9"
+          @click="(value) => handleNumericButton(value)"
+        />
+      </v-sheet>
+      <v-sheet class="d-flex justify-center">
+        <VotingBallotBoxNumericBtn
+          :sound="true"
+          :value="0"
+          @click="(value) => handleNumericButton(value)"
+        />
+      </v-sheet>
+    </v-card>
   </v-container>
 </template>
