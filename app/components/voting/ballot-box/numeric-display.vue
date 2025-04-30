@@ -1,13 +1,11 @@
 <script setup lang="ts">
   interface Props {
-    content: string
+    content: string[]
     length?: number
   }
-  const props = withDefaults(defineProps<Props>(), {
+  withDefaults(defineProps<Props>(), {
     length: 3,
   })
-  const display = computed(() => props.content.split(''))
-  //const display = computed(() => props.content)
 </script>
 
 <template>
@@ -21,7 +19,7 @@
         height="50"
         width="50"
       >
-        {{ display[i] }}
+        {{ content[i] }}
       </v-sheet>
     </v-sheet>
   </v-container>
