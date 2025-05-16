@@ -4,10 +4,7 @@
     subtitle?: string
     loading?: boolean
   }
-  withDefaults(defineProps<Props>(), {
-    subtitle: '',
-    loading: false,
-  })
+  const { loading = false, subtitle = '' } = defineProps<Props>()
 </script>
 
 <template>
